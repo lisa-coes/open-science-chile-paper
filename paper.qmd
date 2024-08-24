@@ -1,0 +1,64 @@
+---
+title: "Ciencia social abierta en Chile: Apertura, transparencia y reproducibilidad"
+format: 
+  html: 
+    code-fold: true
+    html-math-method: katex
+  pdf: 
+    geometry: 
+      - top=30mm
+      - left=20mm
+author:
+  - name: Juan Carlos Castillo
+    email: juancastillov@uchile.cl
+    orcid: 0000-0003-1265-7854
+    affiliations:
+      - ref: 1
+      - ref: 2
+      - ref: 3
+    attributes:
+      corresponding: true
+  - name: Kevin Carrasco
+    email: kevin.carrasco@ug.uchile.cl
+    orcid: 0000-0002-9348-8361
+    affiliations:
+      - ref: 2
+affiliations: 
+  - id: 1
+    name: Universidad de Chile
+  - id: 2
+    name: Centro de estudios del conflicto y cohesión social (COES)
+  - id: 3
+    name: Núcleo milenio de desigualdades y oportunidades digitales (NUDOS)
+abstract: |
+  Este documento contiene el paper cualitativo sobre prácticas, creencias y actitudes sobre Ciencia Abierta en académicos de las Ciencias Sociales en Chile. El trabajo de campo de esta fase cualitativa fue desarrollado entre julio y octubre del 2022. En total se entrevistaron a 14 académicos/as de Ciencias Sociales, con representación de distintas disciplinas (Psicología, Sociología, Antropología, Economía) y métodos (cuantitativos y cualitativos). Siempre resguardando representatividad por género y que realizaran investigación empírica.
+keywords: 
+  - Ciencia abierta 
+  - Reproducibilidad
+  - Apertura de datos
+  - Transparencia
+link-citations: true
+linestretch: 1.15       
+mainfont: Times New Roman
+fontsize: 12pt          
+geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
+papersize: letter
+colorlinks: true
+fig-height: 4
+fig-width: 7.5
+lang: es
+bibliography: "input/bib/lisacoes.bib"
+---
+
+{{< include 01-intro.qmd >}}
+
+{{< include 02-antecedentes.qmd >}}
+
+{{< include 03-metodo.qmd >}}
+
+{{< include 04-analisis.qmd >}}
+
+{{< include 05-discusion.qmd >}}
+
+{{< include 06-conclusion.qmd >}}
+
