@@ -56,7 +56,9 @@ bibliography: "input/bib/lisacoes.bib"
 
 {{< include 03-metodo.qmd >}}
 
-{{< include 04-analisis.qmd >}}
+{{< include 04.1-analisis-cuali.qmd >}}
+
+{{< include 04.2-analisis-cuanti.qmd >}}
 
 {{< include 05-discusion.qmd >}}
 
