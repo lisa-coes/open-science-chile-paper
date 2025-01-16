@@ -5,7 +5,7 @@ editor:
     wrap: 72
 ---
 
-```{r setup-chunk, include=FALSE} 
+```{r setup-chunk, include=FALSE}
 knitr::opts_chunk$set(dev = 'png', dpi = 300, fig.width = 10, fig.height = 6,
                       message = FALSE, warning = FALSE, echo = FALSE, cache = TRUE)
 #knitr::opts_knit$set(root.dir = "../3_output/img-cais-alas")
@@ -13,6 +13,7 @@ options(scipen=999)
 options(knitr.kable.NA = '')
 getwd()
 ```
+
 ```{r load-library, include=FALSE}
 library(formr)
 library(tidyverse)
@@ -352,7 +353,6 @@ cais_v2 %>%
 
 ```
 
-
 # Estudio Cuantitativo
 
 ## Método
@@ -429,7 +429,7 @@ pre-registro de hipótesis. En general, los niveles de conocimiento
 parecen ser mayores entre investigadores jóvenes y con enfoque
 predominantemente cuantitativo.
 
-```{}
+```         
 ```
 
 Prácticas
@@ -442,29 +442,6 @@ investigadores. Este tipo de prácticas son más comunes entre
 investigadores hombres, aquellos cuyo enfoque predominante es
 cuantitativo, y quienes están en una etapa inicial o intermedia de su
 carrera académica.
-
-```{r 1-cca-sexo, echo=FALSE}
-cais_v2 %>%
-  pivot_longer(cols = c(mod02_1, starts_with("mod02_2"))) %>%
-  mutate(name = factor(name, labels = labels_cca),
-         value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
-                        labels = c("Baja", "Media", "Alta"))) %>% 
-  count(name, sexo, value) %>%
-  group_by(name, sexo) %>%
-  mutate(freq = n/sum(n)) %>%
-  filter(value == "Alta") %>% 
-  ggplot(aes(x = reorder(name, freq), y = freq, fill = sexo, 
-             label = scales::percent(freq, accuracy = .1))) + 
-  geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
-  labs(title = 'Familiaridad con conceptos de Ciencia Abierta', subtitle = "Porcetaje con alta familiaridad", 
-       caption = legend, x = "", y = "", fill = "Sexo/género") + 
-  theme(legend.position = 'right') +
-  scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  coord_flip()
-```
 
 Es interesante que, en general, los investigadores declaran mejores
 prácticas propias que las percibidas en la comunidad. De tal modo, sólo
@@ -541,8 +518,12 @@ reproducir resultados de otros investigadores han logrado una
 reproducción completa. Un 69% ha logrado reproducciones parciales.
 
 
-```{r}
-# ```{r 1-cca, echo=FALSE}
+
+
+
+
+
+```{r 1-cca, echo=FALSE}
 # El siguiente gráfico visualiza una batería, es decir, varios tems con preguntas diferentes, pero iguales valores de respuesta. Este tipo de gráficos sigue la siguiente estructura tipo:
 labels_cca <- c("Concepto Ciencia Abierta", "Acceso abierto a publicaciones", "Preregistro de hipótesis", 
                 "Apertura de datos de investigación", "Investigación reproducible", "Repositorios abiertos", 
@@ -580,7 +561,6 @@ cais_v2 %>%
   # AJUSTE DE VISUALIZACIÓN PARA ROTAR LAS COORDENADAS
   coord_flip()
 ```
-
 
 ```{r 1-cca-sexo, echo=FALSE}
 cais_v2 %>%
@@ -697,6 +677,8 @@ cais_v2 %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip()
 ```
+
+# Valoración de la Ciencia Abierta
 
 ```{r 2-vca, echo=FALSE}
 labels_valor <- c("Pre-registro de hipótesis", 
@@ -848,29 +830,52 @@ cais_v2 %>%
   coord_flip()
 ```
 
-```{r 2-vca-enfoque, echo=FALSE}
-cais_v2 %>%
-  pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
-  mutate(name = factor(name, labels = labels_valor),
-         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
-                        labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
-                        levels = 1:4)) %>% 
-  count(name, value, enfoq) %>%
-  group_by(name, enfoq) %>%
-  mutate(freq = n/sum(n)) %>%
-  filter(value == "Bastante o mucho") %>% 
-  drop_na() %>% 
-  ggplot(aes(x = reorder(name, freq), y = freq, fill = enfoq, 
-             label = scales::percent(freq, accuracy = .1))) + 
+# Prácticas en Ciencia Abierta
+
+```{r 3-prac, echo=FALSE}
+labels_comu <- c("Compartir códigos entre\ninvestigadores/as",
+                 "Utilizar repositorios abiertos en línea\npara subir información relacionada con\nlas investigaciones",
+                 "Reporte selectivo de resultados, es decir,\nsolo aquello que va en concordancia\ncon las hipótesis",
+                 "No informar estudios o variables que no\nalcanzaron significación estadística o\nalgún otro umbral estadístico deseado",
+                 "Manipular datos para validar\nlas hipótesis")
+
+labels_prop <- c("Compartir códigos entre\ninvestigadores/as",
+                 "Utilizar repositorios abiertos en línea\npara subir información relacionada con\nlas investigaciones",
+                 "Reporte selectivo de resultados, es decir,\nsolo aquello que va en concordancia\ncon las hipótesis",
+                 "No informar estudios o variables que no\nalcanzaron significación estadística o\nalgún otro umbral estadístico deseado")
+
+pr_comu <- cais_v2 %>%  
+  select(starts_with("mod03_1_")) %>% pivot_longer(cols = starts_with("mod03_1_")) %>% 
+  tibble(var = c(rep("Prácticas de la comunidad"))) %>% 
+  mutate(name = factor(name, labels = labels_comu))
+
+pr_prop <- cais_v2 %>% 
+  select(starts_with("mod03_2_")) %>%  pivot_longer(cols = c(starts_with("mod03_2_"))) %>% 
+  tibble(var = c(rep("Prácticas propias"))) %>% 
+  mutate(name = factor(name, labels = labels_prop))
+
+practicas <- rbind(pr_comu, pr_prop) %>% 
+  mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
+  mutate(var = factor(var, levels = c("Prácticas de la comunidad", "Prácticas propias"))) %>% 
+  count(name, value, var) %>%
+  group_by(name, var) %>%
+  mutate(freq = n/sum(n))
+
+practicas %>% 
+  filter(value == "Casi siempre o siempre") %>% 
+  ggplot(aes(x = reorder(name, freq), y = freq, fill = '#f1605d',
+           label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
   geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
-  labs(title = '¿Qué tan necesarias cree que son las siguientes medidas\nimpulsadas por la CA para la investigación en Ciencias Sociales?:',
-       subtitle = "Porcentaje que responde 'Bastante o mucho'", caption = legend, x = "", y = "", fill = "Enfoque de investigación") + 
-  theme(legend.position = 'right') +
-  scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = '¿Con qué frecuencia se realizan la siguientes prácticas?',  
+       subtitle = "Porcentaje que responde 'Casi siempre o siempre'", caption = legend, x = "", y = "", fill = "") + 
+  theme(legend.position = 'none') +
+  #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  coord_flip()
+  coord_flip() +
+  facet_wrap(~ var)
 ```
 
 ```{r 3-prac-sexo, echo=FALSE}
@@ -907,6 +912,8 @@ practicas_sexo %>%
   coord_flip() +
   facet_wrap(~ var)
 ```
+
+# Barreras en Ciencia Abierta:
 
 ```{r 4-bca-comp, echo=FALSE}
 
@@ -954,4 +961,367 @@ barreras %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip() +
   facet_wrap(~ var)
+```
+
+```{r 4-bca-sexo, echo=FALSE, warning=FALSE}
+
+var_label_barreras <- c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas")
+
+disen <- cais_v2 %>%  
+  select(starts_with("mod03_3_"), sexo) %>% pivot_longer(cols = starts_with("mod03_3_")) %>% 
+  tibble(var = c(rep("Diseño transparente"))) %>% 
+  mutate(name = factor(name, labels = var_label_barreras))
+
+datos <- cais_v2 %>% 
+  select(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5, sexo) %>%  pivot_longer(cols = c(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5)) %>% 
+  tibble(var = c(rep("Apertura de datos"))) %>% 
+  mutate(name = factor(name, labels = var_label_barreras))
+
+repro <- cais_v2 %>% 
+  select(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5, sexo) %>% pivot_longer(cols = c(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5)) %>% 
+  tibble(var = c(rep("Investigación reproducible"))) %>% 
+  mutate(name = factor(name, labels = var_label_barreras))
+
+publi <- cais_v2 %>% 
+  select(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5, sexo) %>% pivot_longer(cols = c(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5)) %>% 
+  tibble(var = c(rep("Publicaciones libres"))) %>% 
+  mutate(name = factor(name, labels = var_label_barreras))
+
+barreras <- rbind(disen, datos, repro, publi) %>% 
+  mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
+  mutate(var = factor(var, levels = c("Diseño transparente", "Apertura de datos", "Investigación reproducible", "Publicaciones libres"))) %>% 
+  count(name, value, var, sexo) %>%
+  group_by(name, var, sexo) %>%
+  mutate(freq = n/sum(n))
+
+barreras %>% 
+  filter(value == "Bastante o mucho") %>% 
+  ggplot(aes(x = reorder(name, sexo), y = freq, fill = sexo,
+           label = scales::percent(freq, accuracy = .1))) + 
+  geom_col(position = 'dodge2') + 
+  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
+  labs(title = '¿En qué medida considera que los siguientes factores limitan la CA?',  
+       subtitle = "Porcentaje que responde 'Bastante o mucho'", caption = legend, x = "", y = "", fill = "") + 
+  theme(legend.position = 'right') +
+  scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  coord_flip() +
+  facet_wrap(~ var)
+```
+
+
+
+
+```{r prac2, eval=FALSE, include=FALSE}
+cais_v2 %>%
+  select(mod02_3) %>% 
+  drop_na() %>% 
+  mutate(frec_ca = as_label(mod02_3)) %>% 
+  count(frec_ca) %>%
+  mutate(freq = n/sum(n)) %>%
+  ggplot(aes(x = fct_rev(frec_ca), y = freq, fill = frec_ca,
+           label = scales::percent(freq, accuracy = .1))) + 
+  geom_col(position = 'dodge2') + 
+  geom_text(position = position_dodge(width  = .9),  size = 2.5, vjust = -.5) +
+  labs(title = 'En los últimos 12 meses, ¿Con qué frecuencia ha utilizado herramientas de CA?',  
+       subtitle = "", x = "", y = "", fill = "") + 
+  theme(legend.position = 'none') +
+  scale_fill_viridis_d(option = "magma", begin = 0, end = 1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
+  guides(fill = guide_legend(reverse = TRUE)) 
+```
+
+```{r bca-all, eval=FALSE, include=FALSE}
+disen2 <- cais_v2 %>% select(starts_with("mod03_3_")) %>% pivot_longer(cols = starts_with("mod03_3_")) %>% 
+  tibble(var = c(rep("Diseño\ntransparente"))) %>% 
+  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas")))
+
+datos2 <- cais_v2 %>% select(starts_with("mod04_3_")) %>% pivot_longer(cols = starts_with("mod04_3_")) %>% 
+  tibble(var = c(rep("Apertura\nde datos"))) %>% 
+  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas",
+                                        "Temor al cuestionamiento", "Preocupación por datos sensibles")))
+
+repro2 <- cais_v2 %>% select(starts_with("mod05_6_")) %>% pivot_longer(cols = starts_with("mod05_6_")) %>% 
+  tibble(var = c(rep("Investigación\nreproducible"))) %>% 
+  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas",
+                                        "Temor al cuestionamiento")))
+
+publi2 <- cais_v2 %>% select(starts_with("mod06_6_")) %>% pivot_longer(cols = starts_with("mod06_6_")) %>% 
+  tibble(var = c(rep("Acceso abierto\na publicaciones"))) %>% 
+  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas",
+                                        "Restricciones de pago", "Falta de recursos financieros", "La falta de plataformas", "Derechos de autor")))
+
+barreras2 <- rbind(disen2, datos2, repro2, publi2) %>% 
+  mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
+  mutate(var = factor(var, levels = c("Diseño\ntransparente", "Apertura\nde datos", "Investigación\nreproducible", "Acceso abierto\na publicaciones"))) %>% 
+  count(name, value, var) %>%
+  group_by(name, var) %>%
+  mutate(freq = n/sum(n))
+
+barreras2 %>% 
+  filter(value == "Bastante o mucho") %>% 
+  ggplot(aes(x = fct_rev(name), y = freq, fill = fct_rev(var),
+           label = scales::percent(freq, accuracy = .1))) + 
+  geom_col(position = 'dodge2') + 
+  geom_text(position = position_dodge(width  = .9),  size = 2, hjust = -.1) +
+  labs(title = 'Nivel de familiaridad de los siguientes conceptos',  subtitle = "", x = "", y = "", fill = "") + 
+  theme(legend.position = 'top') +
+  scale_fill_viridis_d(option = "magma", begin = 0, end = 1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  coord_flip() +
+  facet_wrap(.~ var)
+```
+
+```{r save-dateset, eval=FALSE, include=FALSE}
+#save(lisa_cc_com, file = "../1_input/data/procesada/lisa-cc-com.RData")
+#write_xlsx(lisa_cc_com,"../1_input/data/procesada/lisa-cc-com.xlsx")
+```
+
+```{r}
+#analisis otras variables.
+# Motivaciones apertura de datos ----
+
+labels_valor <- c("Generar redes con otros/as científicos/as para estudios interdisciplinarios",
+                  "Difundir a la comunidad los resultados de una investigación financiada con recursos públicos",
+                  "Aumentar mi visibilidad en la comunidad científica")
+
+motivaciones_data <- cais_v2 %>%
+  pivot_longer(cols = c(starts_with("mod04_2_")))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value)) %>%
+  count(name, value) %>%
+  group_by(name) %>%
+  mutate(freq = n/sum(n)) %>% print()
+
+#grafico
+ggplot(motivaciones_data, aes(x = reorder(name, freq), y = freq, fill = value, label = scales::percent(freq, accuracy = 0.1))) + 
+  geom_col(position = 'dodge2') +
+  geom_text(position = position_dodge(width = 0.9), size = 2.5, hjust = -0.1) +  
+  facet_wrap(~ value) +  
+  labs(title = 'Distribución de la Motivación por Categoría', 
+       subtitle = "Porcentaje de cada categoría de motivación", 
+       caption = "Fuente: Motivaciones Data", x = "", y = "", fill = "") + 
+  theme(legend.position = 'none') +  
+  scale_fill_viridis_d(option = "magma", begin = 0.1, end = 0.7, direction = -1) + 
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  coord_flip()
+
+
+motivaciones_genero <- cais_v2 %>%
+  pivot_longer(cols = c(starts_with("mod04_2_")))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value)) %>%
+  count(name, value, sexo) %>%
+  group_by(name, sexo) %>%
+  mutate(freq = n/sum(n)) %>% print() # Generar redes parece motivar más a los hombres, mientras que aumentar la visibilidad a las mujeres
+```
+
+```{r}
+motivaciones_edad <- cais_v2 %>%
+  pivot_longer(cols = c(starts_with("mod04_2_")))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value)) %>%
+  count(name, value, edad) %>%
+  group_by(name, edad) %>%
+  mutate(freq = n/sum(n)) %>% print()
+```
+
+```{r}
+motivaciones_etapa <- cais_v2 %>%
+  pivot_longer(cols = c(starts_with("mod04_2_")))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value)) %>%
+  count(name, value, etapa) %>%
+  group_by(name, etapa) %>%
+  mutate(freq = n/sum(n)) %>% print()
+```
+
+```{r}
+motivaciones_enfoque <- cais_v2 %>%
+  pivot_longer(cols = c(starts_with("mod04_2_")))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                        labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
+                        levels = 1:3)) %>%
+  filter(!is.na(enfoq)) %>%
+  count(name, value, enfoq) %>%
+  group_by(name, enfoq) %>%
+  mutate(freq = n/sum(n)) %>% print()
+```
+
+# Crisis de reproducibilidad ----
+
+```{r}
+cais_v2 %>% 
+  mutate(mod05_3= factor(mod05_3, 
+                         labels= c("No hay crisis de reproducibilidad",
+                                            "Hay una ligera crisis de reproducibilidad",	
+                                            "Hay una importante crisis de reproducibilidad",
+                                            "No sé"),
+                         levels= 1:4)) %>%
+  group_by(mod05_3) %>% 
+  summarise(n= n()) %>%
+  mutate(freq = n / sum(n)) #Ambivalencia. Alto nivel de desconocimiento. La mitad cree que la crisis es importante pero el 29% niega que exista
+```
+
+```{r}
+cais_v2 %>% 
+  mutate(mod05_3= factor(mod05_3, 
+                         labels= c("No hay crisis de reproducibilidad",
+                                   "Hay una ligera crisis de reproducibilidad",	
+                                   "Hay una importante crisis de reproducibilidad",
+                                   "No sé"),
+                         levels= 1:4)) %>%
+  group_by(sexo, mod05_3) %>% 
+  summarise(n= n()) %>%
+  mutate(freq = n / sum(n)) #El desconocimiento y la negación de la crisis es mayor entre mujeres
+```
+
+```{r}
+cais_v2 %>% 
+  mutate(mod05_3= factor(mod05_3, 
+                         labels= c("No hay crisis de reproducibilidad",
+                                   "Hay una ligera crisis de reproducibilidad",	
+                                   "Hay una importante crisis de reproducibilidad",
+                                   "No sé"),
+                         levels= 1:4)) %>%
+  group_by(edad, mod05_3) %>% 
+  summarise(n= n()) %>%
+  mutate(freq = n / sum(n))
+```
+
+```{r}
+cais_v2 %>% 
+  mutate(mod05_3= factor(mod05_3, 
+                         labels= c("No hay crisis de reproducibilidad",
+                                   "Hay una ligera crisis de reproducibilidad",	
+                                   "Hay una importante crisis de reproducibilidad",
+                                   "No sé"),
+                         levels= 1:4)) %>%
+  group_by(etapa, mod05_3) %>% 
+  summarise(n= n()) %>%
+  mutate(freq = n / sum(n))
+```
+
+```{r}
+cais_v2 %>% 
+  mutate(mod05_3= factor(mod05_3, 
+                         labels= c("No hay crisis de reproducibilidad",
+                                   "Hay una ligera crisis de reproducibilidad",	
+                                   "Hay una importante crisis de reproducibilidad",
+                                   "No sé"),
+                         levels= 1:4)) %>%
+  group_by(enfoq, mod05_3) %>% 
+  summarise(n= n()) %>%
+  mutate(freq = n / sum(n)) # Entre investigadores cuantiativos el 82% cree que la crisis es importe. Entre investigadores cuali, el 59% no sabe. 
+```
+
+```{r}
+summary(cais_v2$mod05_4)
+```
+
+```{r}
+cais_v2 %>% 
+  group_by(mod05_4) %>%
+  summarise(n= n()) %>%
+  mutate(acum= cumsum(n/sum(n)))
+```
+
+# El 21% considera que menos del 10% de los trabajos publicados en ciencias sociales son replicables
+# El 59% cree que menos del 30% de los trabajos publicados en ciencias sociale son replicables
+# Eñ 83% considera que menos del 50% de los trabajos publicados en cienicas sociales son replicables
+
+```{r}
+# Intento de reproducibilidad
+
+labels_valor <- c("¿Ha intentado reproducir uno de sus propios resultados?",
+                  "¿Ha intentado reproducir los resultados de alguien más?")
+
+cais_v2 %>%
+  pivot_longer(cols = c(mod05_5_1, mod05_5_3))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(value,
+                        labels = c("Sí", "No", "No sé"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value)) %>%
+  count(name, value) %>%
+  group_by(name) %>%
+  mutate(freq = n/sum(n))
+
+# 58% ha intentado reproducir sus propios resultados y un 43% los resultados de otro investigador
+```
+
+```{r}
+cais_v2 %>%
+  pivot_longer(cols = c(mod05_5_1, mod05_5_3))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(value,
+                        labels = c("Sí", "No", "No sé"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value)) %>%
+  count(name, value, sexo) %>%
+  group_by(name) %>%
+  mutate(freq = n/sum(n)) 
+
+# Mayor entre hombres
+```
+
+```{r}
+cais_v2 %>%
+  pivot_longer(cols = c(mod05_5_1, mod05_5_3))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(value,
+                        labels = c("Sí", "No", "No sé"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value) & !is.na(enfoq)) %>%
+  count(name, value, enfoq) %>%
+  group_by(name) %>%
+  mutate(freq = n/sum(n)) 
+
+# Mayor entre cuantitativos 
+```
+
+```{r}
+cais_v2 %>%
+  pivot_longer(cols = c(mod05_5_1, mod05_5_3))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(value,
+                        labels = c("Sí", "No", "No sé"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value) & !is.na(enfoq)) %>%
+  count(name, value, etapa) %>%
+  group_by(name) %>%
+  mutate(freq = n/sum(n)) 
+
+# Mayor entre carreras avanzada
+```
+
+```{r}
+cais_v2 %>%
+  pivot_longer(cols = c(mod05_5_2, mod05_5_4))  %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(value,
+                        labels = c("No logrado", "Logrado parcialmente", "Logrado"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value)) %>%
+  count(name, value) %>%
+  group_by(name) %>%
+  mutate(freq = n/sum(n)) 
 ```
