@@ -6,6 +6,8 @@ author: LISA COES
 
 La investigación se basó en un diseño mixto secuencial-exploratorio. Este abordaje consiste en un método de dos etapas en que, usualmente, se inicia con un análisis cualitativo y es seguido por el desarrollo de un instrumento cuantitativo (Cresswell y Clark, 2017).
 
-La integración de ambas técnicas se justifica en que, aunque existe experiencia internacional estudiando prácticas y valoraciones hacia la Ciencia Abierta, no se encontraron investigaciones previas que abordaran esta temática entre académicos chilenos. De tal modo, el diseño aquí propuesto supuso una primera fase de exploración cualitativa que permitió tener una primera impresión de las percepciones en torno al concepto de ciencia abierta en la comunidad académica chilena. Los resultados de esta primera indagación fueron integrados al diseño del instrumento cuantitativo, aplicado en segunda instancia. A continuación, se detallarán los procedimiento seguidos en cada etapa de la investigación. 
+La integración de ambas técnicas se justifica en que, aunque existe experiencia internacional estudiando prácticas y valoraciones hacia la Ciencia Abierta, no se encontraron investigaciones previas que abordaran esta temática entre académicos chilenos. De tal modo, el diseño aquí propuesto supuso una primera fase de exploración cualitativa que permitió tener una primera impresión de las percepciones en torno al concepto de ciencia abierta en la comunidad académica chilena. Los resultados de esta primera indagación fueron integrados al diseño del instrumento cuantitativo, aplicado en segunda instancia. 
 
-> Añadir integración
+Además de informar la construcción del instrumento, la integración entre la etapa cualitativa y cuantitativa se realizó mediante la síntesis de los hallazgos de ambas fases. De tal forma, se buscó extraer conclusiones coherentes, evaluando como los datos cuantitativos son capaces de ampliar o validar los hallazgos iniciales del estudio cualitativo, generando una comprensión integral del estado de la Ciencia Abierta en las ciencias sociales chilenas. 
+
+

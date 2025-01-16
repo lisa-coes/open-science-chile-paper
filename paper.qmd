@@ -32,6 +32,7 @@ affiliations:
     name: Núcleo milenio de desigualdades y oportunidades digitales (NUDOS)
 abstract: |
   Este documento contiene el paper cualitativo sobre prácticas, creencias y actitudes sobre Ciencia Abierta en académicos de las Ciencias Sociales en Chile. El trabajo de campo de esta fase cualitativa fue desarrollado entre julio y octubre del 2022. En total se entrevistaron a 14 académicos/as de Ciencias Sociales, con representación de distintas disciplinas (Psicología, Sociología, Antropología, Economía) y métodos (cuantitativos y cualitativos). Siempre resguardando representatividad por género y que realizaran investigación empírica.
+  **Agregar una abstract de hasta 250 palabras que se enviará con anterioridad**
 keywords: 
   - Ciencia abierta 
   - Reproducibilidad
