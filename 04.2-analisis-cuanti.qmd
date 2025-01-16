@@ -21,6 +21,7 @@ library(writexl)
 library(sjlabelled)
 library(summarytools)
 library(sjmisc)
+library(summarytools)
 ```
 
 ```{r load-dataset, include=FALSE}
@@ -67,7 +68,7 @@ cais_v2 <- lisa_v2_75 %>%
          etapa = as_label(etapa0),
          enfoq = as_label(enfoq0))
   
-legend = "Fuente CAIS (2024), N = 98"
+legend = "Fuente CAIS (2024), N = 99"
 
 cais_test_annos <- cais_v2 %>% 
   select(mod01_1, mod08_1)
@@ -77,18 +78,27 @@ frq(cais_v2$etapa)
 
 ```{r setup-chunk, include=FALSE}
 ANID <- lisa_v2_75 %>% # CONODIMIENTO DE ANID
-  select(mod01_10, mod08_2, mod08_1, mod07_1, mod07_4, mod07_5) %>% 
+  select(mod01_10, mod08_2, mod08_1, mod07_4, mod07_5) %>% 
   mutate_at(vars(starts_with("mod07")), 
             ~ if_else(. == 1, "Si", 
                       if_else(. == 2, "No", 
                               if_else(. == 3, "No se", NA_character_))))
 
-frq(ANID$mod07_1) # HA ESCUCHADO SOBRE LA POLITICA DE ACCESO ABIERTO DE ANID?
+
 frq(ANID$mod07_4) # HA PUBLICADO ALGUN TRABAJO EN EL REPOSITORIO DE LA ANID?
 frq(ANID$mod07_5) # CONOCE EL PLAN DE GESTION DE DATOS DE LA POLITICA DE ACCESO ABIERTO ANID?
 
 
+ANID6 <- cais %>% 
+  select(mod01_10, mod08_2, mod08_1, mod07_1) %>%
+  mutate(
+    mod07_1 = case_when(
+      mod07_1 == 1 ~ "Sí",
+      mod07_1 == 2 ~ "No",
+      mod07_1 == 3 ~ "No sé",
+      TRUE ~ NA_character_ ))
 
+frq(ANID6$mod07_1)   # HA ESCUCHADO SOBRE LA POLITICA DE ACCESO ABIERTO DE ANID?
 
 
 ANID2 <- lisa_v2_75 %>% select(mod01_10, mod08_2, mod08_1, mod07_2, mod07_8, mod07_9) %>% #QUE TAN NECESARIA ES LA CS ABIERTA EN ANID
@@ -424,7 +434,7 @@ concepto más reconocido por los encuestados es el de acceso abierto a
 publicaciones, en línea con lo descrito en la etapa anterior, donde la
 idea de apertura se encontraba relacionada predominantemente a los
 resultados y publicaciones de la investigación. En el otro extremo, sólo
-un 33% de los encuestados mencionan estar familiarizados con el
+un 25% de los encuestados mencionan estar familiarizados con el
 pre-registro de hipótesis. En general, los niveles de conocimiento
 parecen ser mayores entre investigadores jóvenes y con enfoque
 predominantemente cuantitativo.
@@ -435,9 +445,9 @@ predominantemente cuantitativo.
 Prácticas
 
 En general, se observa una baja frecuencia de prácticas relacionadas con
-la ciencia abierta. Un 37% de los encuestados siempre o casi siempre
+la ciencia abierta. Un 32% de los encuestados siempre o casi siempre
 utiliza repositorios en línea para subir información relacionada a sus
-investigaciones, y un 21% declara compartir códigos entre
+investigaciones, y un 16% declara compartir códigos entre
 investigadores. Este tipo de prácticas son más comunes entre
 investigadores hombres, aquellos cuyo enfoque predominante es
 cuantitativo, y quienes están en una etapa inicial o intermedia de su
@@ -445,24 +455,24 @@ carrera académica.
 
 Es interesante que, en general, los investigadores declaran mejores
 prácticas propias que las percibidas en la comunidad. De tal modo, sólo
-un 16% cree que siempre o casi siempre la comunidad utiliza repositorios
+un 14% cree que siempre o casi siempre la comunidad utiliza repositorios
 en línea para subir información relacionada a sus investigaciones, y un
-6% cree que los investigadores comparten códigos con esa frecuencia.
+5% cree que los investigadores comparten códigos con esa frecuencia.
 
 Esta brecha es cierta también en lo relativo a las malas prácticas. Un
-10% de los encuestados declara que casi siempre o siempre no informa
+9% de los encuestados declara que casi siempre o siempre no informa
 estudios o variables que no alcanzaron significación estadística,
-mientras que un 51% percibe esta práctica como frecuente en la
-comunidad. Por otro lado, mientras un 6% declara reportar selectivamente
-resultados, el 47% cree que esto ocurre siempre o casi siempre entre la
+mientras que un 45% percibe esta práctica como frecuente en la
+comunidad. Por otro lado, mientras un 7% declara reportar selectivamente
+resultados, el 40% cree que esto ocurre siempre o casi siempre entre la
 comunidad. Finalmente, mientras nadie reconoce manipular datos para
-validar una hipótesis, el 6% afirma que esto ocurre siempre o casi
+validar una hipótesis, el 4% afirma que esto ocurre siempre o casi
 siempre en la comunidad.
 
 En general, la percepción de prácticas negativas en la comunidad es
-superior entre hombres que entre mujeres. Un 66% de los investigadores
+superior entre hombres que entre mujeres. Un 56% de los investigadores
 hombres cree que en la comunidad casi siempre o siempre no se informan
-resultados que no alcanzaron la significación estadística y un 59% cree
+resultados que no alcanzaron la significación estadística y un 49% cree
 que el reporte selectivo de resultado es una práctica frecuente en la
 comunidad. Esto puede estar relacionado a que los investigadores
 hombres, además, reconocen llevar a cabo estas prácticas con mayor
@@ -479,15 +489,15 @@ las principales razones que restringen la apertura de datos.
 Valoraciones
 
 En general, se valora positivamente la posibilidad de adoptar medidas de
-Ciencia Abierta en las Ciencias Sociales. El acceso abierto (90%), la
-replicación de hallazgos (74%), el reporte de resultados no
-estadísticamente significativos (81%), y la disponibilización en línea
-de datos y materiales de análisis (81%), todas muestran un alto nivel de
+Ciencia Abierta en las Ciencias Sociales. El acceso abierto (92%), la
+replicación de hallazgos (67%), el reporte de resultados no
+estadísticamente significativos (76%), y la disponibilización en línea
+de datos y materiales de análisis (72%), todas muestran un alto nivel de
 aceptación entre los encuestados.
 
 La única excepción es el pre-registro de hipótesis, que solo tiene un
-49% de evaluación positiva. Esto se explica por un mayor nivel de
-desconocimiento (17% dice no conocer la medida), además de las
+42% de evaluación positiva. Esto se explica por un mayor nivel de
+desconocimiento (17??% dice no conocer la medida), además de las
 reticencias observadas tanto en las entrevistas como en el apartado
 anterior.
 
@@ -499,29 +509,26 @@ intermedia (de 6 a 15 años) de su carrera académica, y entre mujeres.
 
 Otros indicadores que se pueden agregar
 
-Razones para abrir datos: Generar redes (86%) Mayor entre mujeres (93%)
-y entre investigadores cuantitativos (93%) Difundir a la comunidad
-científica (79%) Aumentar visibilidad (83%) Mayro entre mujeres (90%) e
-investigadores cualitativos (89%) Crisis de reproducibilidad 51% cree
-que hay una crisis importante de reproducibilidad, pero 31% no sabe si
-la hay. Entre los investigadores cuantitativos, el 82% cree que la
-crisis es importante. Entre los investigadores cualitativos el 59% no
-sabe si hay una crisis de reproducibilidad El 59% cree que el 30% o
-menos de las investigaciones en ciencias sociales son reproducibles; El
-83% cree que menos de la mitad de las investigaciones en ciencias
-sociales son reproducibles. El 58% ha intentado reproducir sus propios
-resultados y el 43% los resultados de otros investigadores. Esta
-práctica es mayor entre investigadores cuantitativos y de carrera
-avanzada El 51% de los intentos de reproducir resultados propios se han
-logrado reproducir completamente. Solo el 19% de los intentos de
-reproducir resultados de otros investigadores han logrado una
-reproducción completa. Un 69% ha logrado reproducciones parciales.
+Razones para abrir datos: Generar redes (84%) Mayor entre mujeres (95%)
+y entre investigadores cuantitativos (90%) Difundir a la comunidad
+científica (81%) Aumentar visibilidad (75%) Mayor entre mujeres (81%) e
+investigadores cuantitativos (87%) Crisis de reproducibilidad 39% cree
+que hay una crisis importante de reproducibilidad, pero 40% no sabe si
+la hay. Entre los investigadores cuantitativos, el 70% cree que la
+crisis es importante. Entre los investigadores cualitativos el 60% no
+sabe si hay una crisis de reproducibilidad.
 
+El 59% cree que el 30% o menos de las investigaciones en ciencias
+sociales son reproducibles; El 83% cree que menos de la mitad de las
+investigaciones en ciencias sociales son reproducibles.
 
-
-
-
-
+El 56% ha intentado reproducir sus propios resultados y el 40% los
+resultados de otros investigadores. Esta práctica es mayor entre
+investigadores cuantitativos y de carrera avanzada El 49% de los
+intentos de reproducir resultados propios se han logrado reproducir
+completamente. Solo el 20% de los intentos de reproducir resultados de
+otros investigadores han logrado una reproducción completa. Un 69% ha
+logrado reproducciones parciales.
 
 ```{r 1-cca, echo=FALSE}
 # El siguiente gráfico visualiza una batería, es decir, varios tems con preguntas diferentes, pero iguales valores de respuesta. Este tipo de gráficos sigue la siguiente estructura tipo:
@@ -1011,9 +1018,6 @@ barreras %>%
   facet_wrap(~ var)
 ```
 
-
-
-
 ```{r prac2, eval=FALSE, include=FALSE}
 cais_v2 %>%
   select(mod02_3) %>% 
@@ -1245,7 +1249,9 @@ cais_v2 %>%
 ```
 
 # El 21% considera que menos del 10% de los trabajos publicados en ciencias sociales son replicables
+
 # El 59% cree que menos del 30% de los trabajos publicados en ciencias sociale son replicables
+
 # Eñ 83% considera que menos del 50% de los trabajos publicados en cienicas sociales son replicables
 
 ```{r}
