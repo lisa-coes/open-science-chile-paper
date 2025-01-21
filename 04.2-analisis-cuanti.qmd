@@ -1,8 +1,5 @@
 ---
 author: LISA COES
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ```{r setup-chunk, include=FALSE}
@@ -47,26 +44,41 @@ lisa_v2_75 <- lisa_v2_all %>%
 ```
 
 ```{r select-dataset, include=FALSE}
+
+# lisa_v2_75 %>% mutate(edad= case_when(mod08_1>=28 & mod08_1<=34 ~ 1,
+#                                   mod08_1>=35 & mod08_1<=49 ~ 2,
+#                                   mod08_1>=50 ~ 3)) %>%
+#   group_by(edad) %>% count()
+
+
 cais_v2 <- lisa_v2_75 %>% 
   haven::zap_labels() %>% # eliminar las etiquetas de variables (haven_labelled) de una base de datos
   filter(mod01_6 > 1950) %>%  # filtrar datos de encuestas dudosas y de prueba
-  mutate(edad0 = factor(car::recode(mod08_1, "28:34 = 1; 35:49 = 2; 50:80 = 3")),
-         grado0 = factor(car::recode(mod01_5, "1=1; 2:3=2")),
-         etapa0 = factor(car::recode(mod01_1, "0:5 = 1; 6:15 = 2; 16:60 = 3")),
+  mutate(edad0 = factor(car::recode(mod08_1, "28:34 = 1; 35:49 = 2; 50:80 = 3"), 
+                        levels = c(1,2,3),
+                        labels = c("28 a 34 años", "35 a 49 años", "50 o más años")),
+         grado0 = factor(car::recode(mod01_5, "1=1; 2:3=2"),
+                         levels= c(1,2),
+                         labels= c("Magíster", "Doctorado")),
+         etapa0 = factor(car::recode(mod01_1, "0:5 = 1; 6:15 = 2; 16:60 = 3"),
+                         levels= c(1,2,3),
+                         labels= c("Inicial (0 a 5 años)", "Intermedia (6 a 15 años)", "Avanzada (>15 años)")),
          enfoq0 = case_when(mod01_10 == 1 ~ 1, # cuali
                             mod01_10 == 2 ~ 2, # mixto  
                             mod01_10 %in% c(3,4) ~ 3, #cuanti
-                            mod01_10 == 4 ~ NA_real_)) %>% # otra a NA 
-  set_labels(mod08_2, labels = c("Mujer", "Hombre")) %>%
-  set_labels(edad0, labels = c("28 a 34 años", "35 a 49 años", "50 o más años")) %>% 
-  set_labels(grado0, labels = c("Magíster", "Doctorado")) %>%
-  set_labels(etapa0, labels = c("Inicial (0 a 5 años)", "Intermedia (6 a 15 años)", "Avanzada (>15 años)")) %>% 
-  set_labels(enfoq0, labels = c("Cualitativo", "Mixto", "Cuantitativo")) %>% 
-  mutate(sexo = as_label(mod08_2),
+                            mod01_10 == 4 ~ NA_real_),
+         mod08_2= factor(mod08_2,
+                         levels= c(1,2),
+                         labels=c("Mujer", "Hombre")),
+         enfoq0= factor(enfoq0,
+                        levels= c(1,2,3),
+                        labels= c("Cualitativo", "Mixto", "Cuantitativo")),
+         sexo = as_label(mod08_2),
          edad = as_label(edad0),
          grado = as_label(grado0),
          etapa = as_label(etapa0),
          enfoq = as_label(enfoq0))
+
   
 legend = "Fuente CAIS (2024), N = 99"
 
@@ -74,11 +86,18 @@ cais_test_annos <- cais_v2 %>%
   select(mod01_1, mod08_1)
 
 frq(cais_v2$etapa)
+frq(cais_v2$sexo)
+frq(cais_v2$edad)
+frq(cais_v2$enfoq)
+frq(cais_v2$grado)
 ```
+
 
 # Estudio Cuantitativo
 
 ## Método
+
+> Esto es una prueba
 
 Se diseñó un cuestionario a partir de la revisión de literatura (Baker,
 2016; Chin et al., 2021; Delikoura & Kouis, 2021; Enke et al., 2012;
@@ -605,7 +624,7 @@ aceptación entre los encuestados.
 
 La única excepción es el pre-registro de hipótesis, que solo tiene un
 42% de evaluación positiva. Esto se explica por un mayor nivel de
-desconocimiento (17??% dice no conocer la medida), además de las
+desconocimiento (17% dice no conocer la medida), además de las
 reticencias observadas tanto en las entrevistas como en el apartado
 anterior.
 
