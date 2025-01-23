@@ -4,7 +4,7 @@ author: LISA COES
 
 # Metodología
 
-La investigación se basó en un diseño mixto secuencial-exploratorio. Este abordaje consiste en un método de dos etapas en que, usualmente, se inicia con un análisis cualitativo y es seguido por el desarrollo de un instrumento cuantitativo (Cresswell y Clark, 2017).
+La investigación se basó en un diseño mixto secuencial-exploratorio. Este abordaje consiste en un método de dos etapas en que, usualmente, se inicia con un análisis cualitativo y es seguido por el desarrollo de un instrumento [@creswell_mixedmethods_2018].
 
 La integración de ambas técnicas se justifica en que, aunque existe experiencia internacional estudiando prácticas y valoraciones hacia la Ciencia Abierta, no se encontraron investigaciones previas que abordaran esta temática entre académicos chilenos. De tal modo, el diseño aquí propuesto supuso una primera fase de exploración cualitativa que permitió tener una primera impresión de las percepciones en torno al concepto de ciencia abierta en la comunidad académica chilena. Los resultados de esta primera indagación fueron integrados al diseño del instrumento cuantitativo, aplicado en segunda instancia. 
 
