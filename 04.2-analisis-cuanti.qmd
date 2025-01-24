@@ -24,6 +24,7 @@ library(sjmisc)
 library(summarytools)
 library(ggrepel)
 library(gridExtra)
+library(kableExtra)
 ```
 
 ```{r load-dataset, include=FALSE}
@@ -156,7 +157,14 @@ realizó difusión de la Encuesta mediante redes sociales y en eventos
 académicos. Finalmente, se lograron 98 respuestas completas. La
 descripción de la muestra obtenida se describe a continuación
 
-> Agregar tabla
+```{r, echo=FALSE}
+cais_summary <- dfSummary(cais_v2 %>% select(edad, grado, etapa, enfoq), headings = FALSE, graph.col = FALSE)
+
+cais_summary %>% 
+  as.data.frame() %>% 
+  kable(format = "html")
+```
+
 
 Se realizó un análisis descriptivo uni y bivariado de los indicadores
 claves del cuestionario. El análisis se abocó a describir conocimientos,
@@ -1178,7 +1186,36 @@ cais_v2 %>%
   summarise(n= n()) %>%
   mutate(freq = n / sum(n)) #Ambivalencia. Alto nivel de desconocimiento.
 
-# GRAFICAR. QUIZÁS UN GRÁFICO DE DONA. 
+
+cais_v2 %>% 
+  mutate(mod05_3= factor(mod05_3, 
+                         labels= c("No hay crisis de reproducibilidad",
+                                            "Hay una ligera crisis de reproducibilidad",	
+                                            "Hay una importante crisis de reproducibilidad",
+                                            "No sé"),
+                         levels= 1:4)) %>%
+  group_by(mod05_3) %>% 
+  summarise(n= n()) %>%
+  mutate(freq = n / sum(n)) %>%
+ggplot(aes(x = 2, y = freq, fill = mod05_3)) + 
+    geom_bar(stat = "identity", width = 1, color = "white") +
+    coord_polar(theta = "y") +
+    xlim(0.5, 2.5) + # PARA EL TAMANO
+    scale_fill_brewer(palette = "Pastel1") + # REVISAR COLORES
+    labs(
+      title = "Percepción sobre la crisis de reproducibilidad",
+      subtitle = "Distribución de respuestas",
+      fill = "Responde") +
+    theme_minimal() +
+    theme(axis.text = element_blank(),
+      axis.title = element_blank(),
+      panel.grid = element_blank(),
+      plot.title = element_text(face = "bold", hjust = 0.5),
+      plot.subtitle = element_text(hjust = 0.5))
+
+#inentar agregar porcentajes
+
+# GRAFICAR. QUIZÁS UN GRÁFICO DE DONA,
 ```
 
 Además, se identificaron diferencias respecto al enfoque de investigación. La preocupación es mayor entre los investigadores cuantitativos, ya que el 70% cree que la crisis es importante. Si bien entre los investigadores cualitativos no se llega a negar la crisis, si hay un 60% que desconoce si la hay o no. 
@@ -1196,6 +1233,39 @@ cais_v2 %>%
   mutate(freq = n / sum(n)) # Entre investigadores cuantiativos el 82% cree que la crisis es importe. Entre investigadores cuali, el 59% no sabe. 
 
 # GRAFICAR. TRES GRAFICOS DE DONA, UNA POR ENFOQUE EN UN GRILLA?
+
+cais_v2 %>%
+  mutate(mod05_3 = factor(mod05_3, 
+                          labels = c("No hay crisis de reproducibilidad",
+                                     "Hay una ligera crisis de reproducibilidad", 
+                                     "Hay una importante crisis de reproducibilidad", 
+                                     "No sé"),
+                          levels = 1:4)) %>%
+  filter(!is.na(mod05_3), !is.na(enfoq0)) %>% #SACAR NA PARA QUE NO HAGA OTRO GRAFICO
+  group_by(enfoq0, mod05_3) %>% 
+  summarise(n = n(), .groups = "drop") %>% 
+  complete(enfoq0, mod05_3, fill = list(n = 0)) %>%  # PARA RELLENAR LAS DONAS(?)
+  group_by(enfoq0) %>% 
+  mutate(freq = n / sum(n)) %>% 
+  ggplot(aes(x = 2, y = freq, fill = mod05_3)) + 
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  xlim(0.5, 2.5) + 
+  scale_fill_brewer(palette = "Pastel1") + 
+  labs(
+    title = "Percepción sobre la crisis de reproducibilidad por enfoque",
+    subtitle = "Distribución de respuestas (sin NA)",
+    fill = "Responde"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) +
+  facet_grid(~enfoq0)
 ```
 
 Por otro lado, el 59% cree que el 30% o menos de las investigaciones en ciencias
@@ -1207,6 +1277,17 @@ cais_v2 %>%
   group_by(mod05_4) %>%
   summarise(n= n()) %>%
   mutate(acum= cumsum(n/sum(n)))
+
+cais_v2 %>%
+  group_by(mod05_4) %>%
+  summarise(n = n()) %>%
+  mutate(acum = cumsum(n / sum(n))) %>%
+  ggplot(aes(x = mod05_4, y = acum)) +
+  geom_line() +
+  labs(title = "Gráfico de Líneas: Acumulado de Proporciones",
+       x = "Porcentaje percibido de trabajos reproducibles (?",
+       y = "Acumulado Proporcional") +
+  theme_minimal()
 
 # GRAFICAR. NO SÉ MUY BIEN CÓMO, ¿GRÁFICO DE LINEAS CON UNA LINEA VERTICAL INDICANDO ALGUNOS UMBRALES? ¿GRAFICO DE BARRAS? SI NO, FILO NO MÁS. 
 
@@ -1271,7 +1352,7 @@ frq(ANID$mod07_4) # HA PUBLICADO ALGUN TRABAJO EN EL REPOSITORIO DE LA ANID?
 frq(ANID$mod07_5) # CONOCE EL PLAN DE GESTION DE DATOS DE LA POLITICA DE ACCESO ABIERTO ANID?
 
 
-ANID6 <- cais %>% 
+ANID6 <- cais_v2 %>% 
   select(mod01_10, mod08_2, mod08_1, mod07_1) %>%
   mutate(
     mod07_1 = case_when(
@@ -1283,7 +1364,7 @@ ANID6 <- cais %>%
 frq(ANID6$mod07_1)   # HA ESCUCHADO SOBRE LA POLITICA DE ACCESO ABIERTO DE ANID?
 
 
-ANID2 <- lisa_v2_75 %>% select(mod01_10, mod08_2, mod08_1, mod07_2, mod07_8, mod07_9) %>% #QUE TAN NECESARIA ES LA CS ABIERTA EN ANID
+ANID2 <- cais_v2 %>% select(mod01_10, mod08_2, mod08_1, mod07_2, mod07_8, mod07_9) %>% #QUE TAN NECESARIA ES LA CS ABIERTA EN ANID
   mutate_at(vars(starts_with("mod07")),
             ~ if_else(. == 1, "Nada", 
                       if_else(. == 2, "Ligeramente", 
@@ -1296,7 +1377,7 @@ frq(ANID2$mod07_8) #QUE TAN NECESARIO ES QUE LA ANID INCORPRE EL PREREGISTRO?
 frq(ANID2$mod07_9) # QUE TAN NECESARIO ES QUE INCORPORE LA REPRODUCIBILIDAD
 
 
-ANID3 <- lisa_v2_75 %>% select(mod01_10, mod08_2, mod08_1, mod07_7) %>% 
+ANID3 <- cais_v2 %>% select(mod01_10, mod08_2, mod08_1, mod07_7) %>% 
   mutate_at(vars(starts_with("mod07")), 
             ~ if_else(. == 1, "Muy en desacuerdo", 
                       if_else(. == 2, "En desacuerdo", 
@@ -1305,7 +1386,7 @@ ANID3 <- lisa_v2_75 %>% select(mod01_10, mod08_2, mod08_1, mod07_7) %>%
                                               if_else(. == 5, "Muy de acuerdo", NA_character_))))))
 frq(ANID3$mod07_7) # QUE TAN DE ACUERDO CON QUE ANID DESARROLLE E IMPLEMENTE POLITICAS DE CS ABIERTA
 
-ANID4 <- lisa_v2_75 %>% select(mod01_10, mod08_2, mod08_1, mod07_10) %>% 
+ANID4 <- cais_v2 %>% select(mod01_10, mod08_2, mod08_1, mod07_10) %>% 
   mutate_at(vars(starts_with("mod07")), 
             ~ if_else(. == 1, "Mala", 
                       if_else(. == 2, "Regular", 
@@ -1314,7 +1395,7 @@ ANID4 <- lisa_v2_75 %>% select(mod01_10, mod08_2, mod08_1, mod07_10) %>%
                                               if_else(. == 5, "Muy Buena", NA_character_))))))# CALIDAD DE LA DIFUSION DE ACCESO ABIERTO A ANID
 frq(ANID4$mod07_10) # COMO EVALUA LA DIFUSION DE LA POLITICA DE ACCESO ABIERTO DE ANID
 
-ANID5 <- cais %>% select (mod01_10, mod08_2, mod08_1, mod07_3)
+ANID5 <- cais_v2 %>% select (mod01_10, mod08_2, mod08_1, mod07_3)
 
 frq(ANID5$mod07_3)# QUE TAN FAMILIARIZADO ESTA CON EL REPOSITORIO ABIERTO DE ANID.
 
