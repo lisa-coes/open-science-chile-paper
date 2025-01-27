@@ -1,6 +1,8 @@
 # paper-mixed-methods
 Este repositorio incluye el desarrollo de un paper sobre ciencia abierta, basado en los principales resultados de un proyecto Mini-COES
 
+Paper completo [acá](https://lisa-coes.github.io/paper-mixed-methods/paper.html).
+
 El proyecto Mini-coes se dividió en dos etapas, que tienen dos resultados principales.
 
 ## Etapa cualitativa
