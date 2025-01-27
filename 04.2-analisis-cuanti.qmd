@@ -1196,7 +1196,8 @@ cais_v2 %>%
                          levels= 1:4)) %>%
   group_by(mod05_3) %>% 
   summarise(n= n()) %>%
-  mutate(freq = n / sum(n)) %>%
+   mutate(freq = n / sum(n),
+         porcentaje = paste0(round(freq * 100, 1), "%")) %>%
 ggplot(aes(x = 2, y = freq, fill = mod05_3)) + 
     geom_bar(stat = "identity", width = 1, color = "white") +
     coord_polar(theta = "y") +
@@ -1211,7 +1212,9 @@ ggplot(aes(x = 2, y = freq, fill = mod05_3)) +
       axis.title = element_blank(),
       panel.grid = element_blank(),
       plot.title = element_text(face = "bold", hjust = 0.5),
-      plot.subtitle = element_text(hjust = 0.5))
+      plot.subtitle = element_text(hjust = 0.5)) + geom_text(aes(label = porcentaje), 
+            position = position_stack(vjust = 0.5), # posicion etiqueta
+            color = "black", size = 4) # texto
 
 #inentar agregar porcentajes
 
@@ -1240,21 +1243,24 @@ cais_v2 %>%
                                      "Hay una ligera crisis de reproducibilidad", 
                                      "Hay una importante crisis de reproducibilidad", 
                                      "No sé"),
-                          levels = 1:4)) %>%
-  filter(!is.na(mod05_3), !is.na(enfoq0)) %>% #SACAR NA PARA QUE NO HAGA OTRO GRAFICO
+                          levels = 1:4), 
+         enfoq0 = factor(enfoq0,
+                          levels = c(1, 2, 3),
+                          labels = c("Cualitativo", "Mixto", "Cuantitativo"))) %>%
+  filter(!is.na(mod05_3), !is.na(enfoq0)) %>%  #Elimina valores NA
   group_by(enfoq0, mod05_3) %>% 
   summarise(n = n(), .groups = "drop") %>% 
-  complete(enfoq0, mod05_3, fill = list(n = 0)) %>%  # PARA RELLENAR LAS DONAS(?)
+  complete(enfoq0, mod05_3, fill = list(n = 0)) %>%  # rellenar vacios
   group_by(enfoq0) %>% 
-  mutate(freq = n / sum(n)) %>% 
-  ggplot(aes(x = 2, y = freq, fill = mod05_3)) + 
+  mutate(freq = n / sum(n),
+         porcentaje = paste0(round(freq * 100, 1), "%")) %>% # porcentajes
+  ggplot(aes(x = 2, y = freq, fill = mod05_3)) +
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
-  xlim(0.5, 2.5) + 
-  scale_fill_brewer(palette = "Pastel1") + 
+  scale_fill_brewer(palette = "Pastel1") + # colores
   labs(
     title = "Percepción sobre la crisis de reproducibilidad por enfoque",
-    subtitle = "Distribución de respuestas (sin NA)",
+    subtitle = "Distribución de respuestas (na borrados)",
     fill = "Responde"
   ) +
   theme_minimal() +
@@ -1265,7 +1271,12 @@ cais_v2 %>%
     plot.title = element_text(face = "bold", hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5)
   ) +
-  facet_grid(~enfoq0)
+  facet_grid(~enfoq0) + 
+  xlim(1, 2.5) +
+  geom_text(aes(label = porcentaje), 
+            position = position_stack(vjust = 0.5), # Centra las etiquetas
+            color = "black", size = 4) # Ajusta texto
+
 ```
 
 Por otro lado, el 59% cree que el 30% o menos de las investigaciones en ciencias
@@ -1326,7 +1337,34 @@ cais_v2 %>%
         name== "¿Ha intentado reproducir los resultados de alguien más?") %>%
   count(name, value) %>%
   group_by(name) %>%
-  mutate(freq = n/sum(n)) 
+  mutate(freq = n/sum(n))
+
+
+cais_v2 %>%
+  pivot_longer(cols = c(mod05_5_2, mod05_5_4)) %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(value,
+                        labels = c("No logrado", "Logrado parcialmente", "Logrado"),
+                        levels = 1:3)) %>%
+  filter(!is.na(value) &
+           name == "¿Ha intentado reproducir los resultados de alguien más?") %>%
+  count(name, value) %>%
+  group_by(name) %>%
+  mutate(freq = n / sum(n),
+         porcentaje = paste0(round(freq * 100, 1), "%")) %>% # Calcula los porcentajes
+  ggplot(aes(x = 2, y = freq, fill = value)) +
+  geom_col(width = 1, color = "white") + # Gráfico de dona
+  coord_polar(theta = "y") +
+  scale_fill_manual(values = c("#FF9999", "#FFCC99", "#99CCFF")) + # Personaliza los colores
+  theme_void() + # Elimina el fondo y los ejes
+  xlim(0.5, 2.5) + # Crea el efecto de dona
+  labs(title = "Distribución de respuestas",
+       subtitle = "¿Ha intentado reproducir los resultados de alguien más?",
+       fill = "Estado") +
+  geom_text(aes(label = porcentaje), # Mapea los porcentajes como etiquetas
+            position = position_stack(vjust = 0.5), # etiqueta centrada
+            color = "black", size = 4) # texto
+  
 
 # GRAFICAR. GRAFICO DE DONA?
 ```
