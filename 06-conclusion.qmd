@@ -4,4 +4,14 @@ author: LISA COES
 
 # Conclusión
 
+Los estudios aquí presentados apuntan que, para la comunidad de las ciencias sociales en Chile, la ciencia abierta está asociada fundamentalmente al acceso abierto a los resultados de la investigación, ya sea mediante revistas de acceso abierto o mediante otras formas de difusión. Esto viene acompañado de una serie de prácticas, así como de una valoración positivas de estas medidas, y posiciones críticas hacia las políticas de difusión y financiamiento promovidas por ANID. Pese a esto, otras dimensiones de la ciencia abierta (el diseño transparente, la apertura de datos y la transparencia del análisis), presentan menores niveles de conocimiento, menor frecuencia de prácticas y una evaluación ambivalente.
+
+Ahora bien, se observaron algunas diferencias entre grupos de investigadores, particularmente respecto al enfoque de investigación. De tal modo, investigadores con enfoque cuantitativo declararon mayores niveles de conocimiento, mayor cantidad y frecuencia de prácticas, mayor preocupación por la crisis de reproducibilidad y una mayor valoración de las medidas promovidas por la ciencia abierta. Entre investigadores cualitativos, en cambio, se observaron mayores reticencias, que van desde barreras prácticas hasta preocupaciones epistemológicas.
+
+La edad y el género también parecen incidir en el conocimiento, prácticas y valoraciones hacia la ciencia abierta. Futuras investigaciones podrían apostar a formular modelos que expliquen diferencias en las disposiciones hacia la ciencia abierta, así como distinguir entre motivaciones intrínsecas y extrínsecas para aceptar este tipo de medidas.
+
+En su conjunto, ambos estudios plantean desafíos importantes para las ciencias sociales abiertas en Chile. En primer lugar, se plantea la necesidad de revisar las políticas de financiamiento y de difusión de ANID para ir en mayor concordancia tanto con las necesidades de los investigadores como con los principios de la ciencia abierta. Así, las preocupaciones levantadas por los participantes sobre el destino que se les da a recursos públicos son de suma relevancia y no pueden ser ignoradas.
+
+En segundo lugar, los estudios ponen en relieve la necesidad de cerrar brechas de conocimientos y de incentivos que permitan una mayor apertura hacia la aplicación de medidas de ciencia abierta en otras dimensiones además de la apertura de resultados. Esto implica abrir espacios de debate metodológico y epistemológico que permitan superar los resquemores observados entre algunos grupos de investigadores, particularmente aquellos con un enfoque predominantemente cualitativo.
+
 # Referencias

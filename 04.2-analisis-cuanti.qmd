@@ -995,6 +995,7 @@ de evaluación positiva. Esto se explica por un mayor nivel de
 desconocimiento (17% dice no conocer la medida), además de las
 reticencias ya observadas en las entrevistas del estudio cualitativo.
 
+
 ```{r 2-vca, echo=FALSE}
 #| label: fig-val
 #| fig-cap: "¿Qué tan necesarias cree que son las siguientes medidas impulsadas por la CA para la investigación en Ciencias Sociales?"
@@ -1030,8 +1031,8 @@ cais_v2 %>%
 
 Salvo por el acceso abierto a publicaciones, que es valorada
 transversalmente por todos los grupos, estas medidas son apoyadas en
-mayor medida por investigadoras mujeres y por investigadores con enfoque
-cuantitativo, como se puede apreciar en la @fig-vca-grid.
+mayor medida por investigadoras mujeres y por investigadores con enfoque cuantitativo, como se puede apreciar en la @fig-vca-grid.
+
 
 ```{r 2-vca-sexo, echo=FALSE}
 #| label: fig-vca-grid
@@ -1234,7 +1235,7 @@ cais_v2 %>%
                                      "Hay una ligera crisis de reproducibilidad", 
                                      "Hay una importante crisis de reproducibilidad", 
                                      "No sé"),
-                          levels = 1:4))%>%
+                          levels = 1:4)) %>%
   filter(!is.na(mod05_3) & !is.na(enfoq)) %>%  #Elimina valores NA
   group_by(enfoq, mod05_3) %>% 
   summarise(n = n(), .groups = "drop")%>% 
@@ -1285,6 +1286,7 @@ reproducir resultados de otros investigadores (@fig-dona-2-1). De este
 porcentaje, solo el 20% de los intentos han logrado una reproducción
 completa, mientras que el 69% ha logrado reproducciones parciales
 (@fig-dona-2-2).
+
 
 ```{r intentos-reprod, include=F}
 
@@ -1566,6 +1568,22 @@ cais_v2 %>%
             color = "white", size = 4) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 ```
+
+c)  Valoraciones Política de Ciencia Abierta de la ANID
+
+En primera instancia, la Política de Ciencia Abierta de la ANID
+encuentra buena acogida entre los encuestados. Así, el 90% considera que
+está de acuerdo o muy de acuerdo con que la ANID continúe desarrollando
+políticas de ciencia abierta. Asimismo, el 84% considera bastante o muy
+necesario la implementación de políticas de accesoa abierto.
+
+Sin embargo, hay otras prácticas que encuentran una menor acogida. Así,
+tanto la obligatoriedad del prerregistro o de la reproducibilidad
+obtiene un apoyo del 50% de los encuestados.
+
+Por último, la política de difusión de la ANID es evaluada negativamente
+por la mayoría de los encuestados. Solo un 24% considera que estas
+política es buena o muy buena.
 
 ```{r modulo-anid, include=FALSE}
 ANID <- lisa_v2_75 %>% # CONODIMIENTO DE ANID
