@@ -249,10 +249,11 @@ como se expone en la @fig-cca-grid. Los encuestados entre 28 y 34 años,
 así, muestran mayores niveles de conocimiento sobre softwares libres, y
 los conceptos de investigación reproducible y ciencia abierta
 (@fig-cca-grid-1). Con todo, los investigadores entre 35 y 49 años
-muestran mayores niveles de conocimiento de los preregistro de hipótesis
-y del acceso abierto a datos. Los investigadores cuantitativos, en
-tanto, presentan mayores niveles de conocimiento de todos los conceptos,
-salvo en el acceso abierto a publicaciones (@fig-cca-grid-2).
+muestran mayores niveles de conocimiento de los preregistros de
+hipótesis y del acceso abierto a datos. Los investigadores
+cuantitativos, en tanto, presentan mayores niveles de conocimiento de
+todos los conceptos, salvo en el acceso abierto a publicaciones
+(@fig-cca-grid-2).
 
 ```{r 1-cca-sexo, echo=FALSE, include=F}
 # cais_v2 %>%
@@ -391,7 +392,7 @@ cais_v2 %>%
 
 En la misma línea, La Política de Acceso Abierto a la Información
 Científica y a Datos de Investigación muestra niveles de conocimiento de
-intermedios a bajo. En concreto, solo la mitad de los encuestado han
+intermedios a bajo. En concreto, solo la mitad de los encuestados han
 escuchado hablar sobre la política de acceso abierto de la ANID. Por
 otro lado, solo un 26% conoce el plan de gestión de datos de la política
 de acceso abierto de la ANID.
@@ -417,8 +418,6 @@ ANID6 <- cais %>%
 
 frq(ANID6$mod07_1)   # HA ESCUCHADO SOBRE LA POLITICA DE ACCESO ABIERTO DE ANID?
 
-
-# GRAFICAR
 
 ```
 
@@ -673,7 +672,7 @@ dimensiones, como se puede apreciar en la @fig-barreras. La falta de
 conocimientos también aparece como una barrera importante,
 particularmente para el diseño transparente, la apertura de datos y la
 investigación reproducible. Por último, la falta de incentivos es
-reconocida como otro aspecto que dificultan la apertura de datos.
+reconocida como otro aspecto que dificulta la apertura de datos.
 
 ```{r 4-bca-comp, echo=FALSE}
 #| label: fig-barreras
@@ -769,8 +768,7 @@ ggplot(aes(x = reorder(name, freq), y = freq, fill = value, label = scales::perc
 
 Es interesante constatar que, como se ve en la @fig-motivaciones-grid,
 difundir resultados es valorado transversalmente, hay grupos donde la
-valoración de motivaciones "egoístas" (siguiendo esta idea introducida
-en el estudio cualitativo) tienen una mayor preponderancia.
+valoración de motivaciones extrínsecas tienen una mayor preponderancia.
 Particularmente, el generar redes y aumentar la visibilidad son
 incentivos más valorados por mujeres (@fig-motivaciones-grid-1) e
 investigadores de entre 35 y 49 años (@fig-motivaciones-grid-2).
@@ -995,7 +993,7 @@ todas muestran un alto nivel de aceptación entre los encuestados. La
 única excepción es el pre-registro de hipótesis, que solo tiene un 42%
 de evaluación positiva. Esto se explica por un mayor nivel de
 desconocimiento (17% dice no conocer la medida), además de las
-reticencias observadas tanto en las entrevistas del estudio cualitativo.
+reticencias ya observadas en las entrevistas del estudio cualitativo.
 
 ```{r 2-vca, echo=FALSE}
 #| label: fig-val
@@ -1033,7 +1031,7 @@ cais_v2 %>%
 Salvo por el acceso abierto a publicaciones, que es valorada
 transversalmente por todos los grupos, estas medidas son apoyadas en
 mayor medida por investigadoras mujeres y por investigadores con enfoque
-cuantitativo.
+cuantitativo, como se puede apreciar en la @fig-vca-grid.
 
 ```{r 2-vca-sexo, echo=FALSE}
 #| label: fig-vca-grid
@@ -1177,7 +1175,9 @@ cais_v2 %>%
 
 b)  Valoraciones sobre la Crisis de Reproducibilidad
 
-Como se evidencia en la @fig-dona, el 39% de los encuestados cree que hay una crisis importante de reproducibilidad, mientras que el 40% no sabe si la hay.
+Como se evidencia en la @fig-dona, el 39% de los encuestados cree que
+hay una crisis importante de reproducibilidad, mientras que el 40% no
+sabe si la hay.
 
 ```{r crisis-reproducibilidad}
 #| label: fig-dona
@@ -1198,23 +1198,28 @@ ggplot(aes(x = 2, y = freq, fill = mod05_3)) +
     geom_bar(stat = "identity", width = 1, color = "white") +
     coord_polar(theta = "y") +
     xlim(0.5, 2.5) + # PARA EL TAMANO # REVISAR COLORES
-    labs(fill = "Respuesta") +
+    labs(fill = "") +
     theme_minimal() +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
-    theme(axis.text = element_blank(),
+    theme(legend.position = "bottom",
+      axis.text = element_blank(),
       axis.title = element_blank(),
       panel.grid = element_blank(),
       plot.title = element_text(face = "bold", hjust = 0.5),
       plot.subtitle = element_text(hjust = 0.5)) + geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), # posicion etiqueta
-            color = "white", size = 4)# texto
+            color = "white", size = 4) # texto
 
 #inentar agregar porcentajes
 
 # GRAFICAR. QUIZÁS UN GRÁFICO DE DONA,
 ```
 
-Además, se identificaron diferencias respecto al enfoque de investigación (ver @fig-dona-grid). La preocupación es mayor entre los investigadores cuantitativos, ya que el 70% cree que la crisis es importante. Si bien entre los investigadores cualitativos no se llega a negar la crisis, sí hay un 60% que desconoce si la hay o no.
+Además, se identificaron diferencias respecto al enfoque de
+investigación (ver @fig-dona-grid). La preocupación es mayor entre los
+investigadores cuantitativos, ya que el 70% cree que la crisis es
+importante. Si bien entre los investigadores cualitativos no se llega a
+negar la crisis, sí hay un 60% que desconoce si la hay o no.
 
 ```{r crisis-enfoque}
 #| label: fig-dona-grid
@@ -1241,9 +1246,9 @@ cais_v2 %>%
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
   scale_fill_brewer(palette = "Pastel1") + # colores
-  labs(fill = "Responde") +
+  labs(fill = "") +
   theme_minimal() +
-  theme(
+  theme(legend.position = "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
@@ -1259,20 +1264,27 @@ scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 ```
 
-Por otro lado, el 59% cree que el 30% o menos de las investigaciones en ciencias sociales son reproducibles; el 83% cree que menos de la mitad de las investigaciones en ciencias sociales son reproducibles, como se muestra en @tbl-tablaacum.
+Por otro lado, el 59% cree que el 30% o menos de las investigaciones en
+ciencias sociales son reproducibles; el 83% cree que menos de la mitad
+de las investigaciones en ciencias sociales son reproducibles, como se
+muestra en @tbl-tablaacum.
 
 ```{r, percecpcion-repro, include=T}
 #| label: tbl-tablaacum
-#| tbl-cap: "Tabla de percepción acumulada sobre la reproducibilidad"
+#| tbl-cap: "Percepción de porcentaje de investigaciones reproducibles en Ciencias Sociales"
 cais_v2 %>% 
   group_by(mod05_4) %>%
   summarise(n = n()) %>%
    mutate(acum = round(cumsum(n / sum(n)) * 100, 2)) %>%
-  kable(col.names = c("Respuesta", "Frecuencia", "Acum (%)"))
+  kable(col.names = c("Investigaciones \nReproducibles", "Frecuencia", "Acum (%)"))
 
 ```
 
-Esto va en línea con que el 40% de los encuestados ha intentado reproducir resultados de otros investigadores (@fig-dona-2-1). De este porcentaje, solo el 20% de los intentos han logrado una reproducción completa, mientras que el 69% ha logrado reproducciones parciales (@fig-dona-2-2).
+Esto va en línea con que el 40% de los encuestados ha intentado
+reproducir resultados de otros investigadores (@fig-dona-2-1). De este
+porcentaje, solo el 20% de los intentos han logrado una reproducción
+completa, mientras que el 69% ha logrado reproducciones parciales
+(@fig-dona-2-2).
 
 ```{r intentos-reprod, include=F}
 
@@ -1295,9 +1307,9 @@ cais_v2 %>%
 
 ```{r, include=T}
 #| label: fig-dona-2
-#| fig-cap: "----"
+#| fig-cap: "Prácticas asociadas a la reproducibilidad"
 #| fig-subcap:
-#| - "¿Ha intentado reproducir los resultados de alguien más?"
+#| - "¿Ha intentado reproducir resultados de alguien más?"
 #| - "De haberlo intentado, ¿En cuál de estas etapas quedó?"
 
 cais_v2 %>% 
@@ -1313,14 +1325,15 @@ cais_v2 %>%
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
   xlim(0.5, 2.5) +  # Ajusta el tamaño
-  labs(fill = "Respuesta") +
+  labs(fill = "") +
   theme_minimal() +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
   theme(axis.text = element_blank(),
         axis.title = element_blank(),
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5)) + 
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "bottom") + 
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5),  # Centra las etiquetas
             color = "white", size = 4) 
@@ -1342,14 +1355,15 @@ cais_v2 %>%
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
   xlim(0.5, 2.5) +  # Ajusta el tamaño
-  labs(fill = "Respuesta") +
+  labs(fill = "") +
   theme_minimal() +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
   theme(axis.text = element_blank(),
         axis.title = element_blank(),
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5)) + 
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "bottom") + 
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5),  # Centra las etiquetas
             color = "white", size = 4) 
@@ -1358,12 +1372,18 @@ cais_v2 %>%
 # GRAFICAR. GRAFICO DE DONA?
 ```
 
-c)  Valoraciones Política de Ciencia Abierta de la ANID
+c)  Valoraciones Política de Ciencia Abierta de ANID
 
-En primera instancia, la Política de Ciencia Abierta de la ANID encuentra buena acogida entre los encuestados. Así, el 90% considera que está de acuerdo o muy de acuerdo con que la ANID continúe desarrollando políticas de ciencia abierta, como se muestra en @fig-vanid-grid-2-2. Asimismo, el 84% considera bastante o muy necesario la implementación de políticas de acceso abierto, como se observa en @fig-vanid-grid-1.
+En primera instancia, la Política de Ciencia Abierta de ANID encuentra
+buena acogida entre los encuestados. Así, el 90% considera que está de
+acuerdo o muy de acuerdo con que ANID continúe desarrollando políticas
+de ciencia abierta, como se muestra en @fig-vanid-grid-2-2. Asimismo, el
+84% considera bastante o muy necesario la implementación de políticas de
+acceso abierto, como se observa en @fig-vanid-grid-1.
+
 ```{r}
 #| label: fig-vanid-grid
-#| fig-cap: "------"
+#| fig-cap: "Valoración políticas de ciencia abierta ANID"
 #| fig-subcap: 
 #| - "Qué tan necesario es la implementación de políticas de acceso abierto obligatorias para investigaciones financiadas por fondos públicos?"
 #| - "¿Qué tan de acuerdo se encuentra con que la ANID continúe desarrollando e implementando políticas de acceso abierto a la producción científica?"
@@ -1384,9 +1404,9 @@ cais_v2 %>%
   ggplot(aes(x = 2, y = freq, fill = mod07_2)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(, fill = "Respuesta") +
+  labs(fill = "") +
   theme_minimal() +
-  theme(
+  theme(legend.position= "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
@@ -1416,9 +1436,9 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_7)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(, fill = "Respuesta") +
+  labs(fill = "") +
   theme_minimal() +
-  theme(
+  theme(legend.position = "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
@@ -1432,11 +1452,14 @@ cais_v2 %>%
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 ```
 
+Sin embargo, hay otras prácticas que encuentran una menor acogida. Así,
+tanto la obligatoriedad del prerregistro, como se muestra en
+@fig-vanid-grid-2-1, como la de la reproducibilidad, como se observa en
+@fig-vanid-grid-2-2, obtienen el apoyo solo del 50% de los encuestados.
 
-Sin embargo, hay otras prácticas que encuentran una menor acogida. Así, tanto la obligatoriedad del prerregistro, como se muestra en @fig-vanid-grid-2-1, como la de la reproducibilidad, como se observa en @fig-vanid-grid-2-2, obtienen el apoyo del 50% de los encuestados.
 ```{r}
 #| label: fig-vanid-grid-2
-#| fig-cap: "-----"
+#| fig-cap: "Valoración inclusión de prácticas en la Política de Acceso Abierto de ANID"
 #| fig-subcap: 
 #| - "¿Cuán necesario es que la ANID incorpore el pre-registro del diseño de investigación dentro de su Política de Acceso Abierto?"
 #| - "¿Cuán necesario es que la ANID incorpore la reproducibilidad de la investigación dentro de su Política de Acceso Abierto?"
@@ -1455,10 +1478,9 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_8)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(,
-       fill = "Respuesta") +
+  labs(fill = "") +
   theme_minimal() +
-  theme(
+  theme(legend.position = "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
@@ -1488,10 +1510,9 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_9)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(,
-       fill = "Respuesta") +
+  labs(fill = "Respuesta") +
   theme_minimal() +
-  theme(
+  theme(legend.position = "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
@@ -1506,7 +1527,10 @@ cais_v2 %>%
 
 ```
 
-Por último, la política de difusión de la ANID es evaluada negativamente por la mayoría de los encuestados. Solo un 24% considera que esta política es buena o muy buena, como se observa en @fig-vanid-2.
+Por último, la política de difusión de la ANID es evaluada negativamente
+por la mayoría de los encuestados. Solo un 24% considera que esta
+política es buena o muy buena, como se observa en @fig-vanid-2.
+
 ```{r}
 #| label: fig-vanid-2
 #| fig-cap: "¿Cómo evalúa la difusión de la Política de Acceso Abierto a la Información Científica y a Datos de Investigación por parte de la ANID?"
@@ -1542,7 +1566,6 @@ cais_v2 %>%
             color = "white", size = 4) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 ```
-
 
 ```{r modulo-anid, include=FALSE}
 ANID <- lisa_v2_75 %>% # CONODIMIENTO DE ANID
