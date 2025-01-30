@@ -45,8 +45,6 @@ linestretch: 1.15
 geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 papersize: letter
 colorlinks: true
-fig-height: 4
-fig-width: 7.5
 lang: es
 bibliography: "input/bib/lisacoes.bib"
 ---

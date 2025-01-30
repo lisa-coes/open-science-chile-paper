@@ -9,7 +9,7 @@ lang: es
 ---
 
 ```{r setup-chunk, include=FALSE}
-knitr::opts_chunk$set(dev = 'png', dpi = 300, fig.width = 10, fig.height = 6,
+knitr::opts_chunk$set(dev = 'png', dpi = 300, fig.width = 12, fig.height = 8,
                       message = FALSE, warning = FALSE, echo = FALSE, cache = TRUE)
 #knitr::opts_knit$set(root.dir = "../3_output/img-cais-alas")
 options(scipen=999)
@@ -215,7 +215,7 @@ cais_v2 %>%
          value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
                         labels = c("Baja", "Media", "Alta"))) %>% 
   # CONTABILIZA EL CRUCE DE LA BATERÍA CON SUS RESPECTIVOS VALORES
-  count(name, value) %>%
+  count(name, value, .drop=F) %>%
   # CREA NUEVA VARIABLE DE CON LA FRECUENCIA RELATIVA DE CADA VALOR RESPECTO A LA VARIABLE
   group_by(name) %>%
   mutate(freq = n/sum(n)) %>%
@@ -225,7 +225,7 @@ cais_v2 %>%
              label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
   # ESPECIFICACIONES PARA EL TEXTO DE LAS BARRAS
-  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
+  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
   # ESPECIFICACIONES PARA ETIQUETAS DE TÍTULOS, EJES Y LEYENDA (RELLENO)
   labs(
        caption = legend, x = "", y = "", fill = "") + 
@@ -240,7 +240,10 @@ cais_v2 %>%
   # AJUSTE DE VISUALIZACIÓN PARA ROTAR LAS COORDENADAS
   coord_flip() +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+        axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+        plot.caption= element_text(size=14))
 ```
 
 En general, los niveles de conocimiento parecen ser mayores entre
@@ -291,7 +294,7 @@ cais_v2 %>%
   mutate(name = factor(name, labels = labels_cca),
          value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
                         labels = c("Baja", "Media", "Alta"))) %>% 
-  count(name, edad, value) %>%
+  count(name, edad, value, .drop=F) %>%
   group_by(name, edad) %>%
   mutate(freq = n/sum(n)*100) %>%
   filter(value == "Alta") %>% 
@@ -310,7 +313,12 @@ cais_v2 %>%
 		color = ""
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	      axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14)
+	      ) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
 
 cais_v2 %>%
@@ -318,7 +326,7 @@ cais_v2 %>%
   mutate(name = factor(name, labels = labels_cca),
          value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
                         labels = c("Baja", "Media", "Alta"))) %>% 
-  count(name, enfoq, value) %>%
+  count(name, enfoq, value, .drop=F) %>%
   group_by(name, enfoq) %>%
   mutate(freq = n/sum(n)*100) %>%
   filter(value == "Alta") %>% 
@@ -335,10 +343,15 @@ cais_v2 %>%
 	labs(
 		x = "",
 		y = "",
-		color = ""
+		color = "",
+		caption = legend
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	      axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
 
  
@@ -350,7 +363,7 @@ cais_v2 %>%
   mutate(name = factor(name, labels = labels_cca),
          value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
                         labels = c("Baja", "Media", "Alta"))) %>%
-  count(name, etapa, value) %>%
+  count(name, etapa, value, .drop=F) %>%
   group_by(name, etapa) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Alta") %>%
@@ -360,7 +373,8 @@ cais_v2 %>%
   geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
   labs(title = 'Familiaridad con conceptos de Ciencia Abierta', subtitle = "Porcetaje con alta familiaridad",
        caption = legend, x = "", y = "", fill = "Etapa de la carrera\nacadémica") +
-  theme(legend.position = 'right') +
+  theme(legend.position = 'right',
+        ) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   guides(fill = guide_legend(reverse = TRUE)) +
@@ -373,7 +387,7 @@ cais_v2 %>%
   mutate(name = factor(name, labels = labels_cca),
          value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
                         labels = c("Baja", "Media", "Alta"))) %>%
-  count(name, grado, value) %>%
+  count(name, grado, value, .drop=F) %>%
   group_by(name, grado) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Alta") %>%
@@ -466,14 +480,14 @@ pr_prop <- cais_v2 %>%
 pr_comu %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
-  count(name, value, var) %>%
+  count(name, value, var, .drop=F) %>%
   group_by(name, var) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Casi siempre o siempre") %>% 
   ggplot(aes(x = reorder(name, freq), y = freq, fill = '#f1605d',
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
+  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
   labs(subtitle = "Porcentaje que responde 'Casi siempre o siempre'", caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'none') +
   #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
@@ -481,19 +495,24 @@ pr_comu %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip() +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+        axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+        strip.text = element_text(size=16))
 
 pr_prop %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
-  count(name, value, var) %>%
+  count(name, value, var, .drop=F) %>%
   group_by(name, var) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Casi siempre o siempre") %>% 
   ggplot(aes(x = reorder(name, freq), y = freq, fill = '#f1605d',
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
+  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
   labs(subtitle = "Porcentaje que responde 'Casi siempre o siempre'", caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'none') +
   #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
@@ -501,7 +520,12 @@ pr_prop %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip() +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+         axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+        strip.text = element_text(size=16))
 ```
 
 Es interesante que, en general, los investigadores declaran mejores
@@ -552,7 +576,7 @@ practicas_sexo <- rbind(pr_comu_sexo, pr_prop_sexo) %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
   mutate(var = factor(var, levels = c("Prácticas de la comunidad", "Prácticas propias"))) %>% 
-  count(name, value, var, sexo) %>%
+  count(name, value, var, sexo, .drop=F) %>%
   group_by(name, var, sexo) %>%
   mutate(freq = n/sum(n)*100)
 
@@ -573,7 +597,12 @@ practicas_sexo %>%
 		color = ""
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	      axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   facet_wrap(~ var)
 
@@ -593,7 +622,7 @@ practicas_etapa <- rbind(pr_comu_etapa, pr_prop_etapa) %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
   mutate(var = factor(var, levels = c("Prácticas de la comunidad", "Prácticas propias"))) %>% 
-  count(name, value, var, etapa) %>%
+  count(name, value, var, etapa, .drop=F) %>%
   group_by(name, var, etapa) %>%
   mutate(freq = n/sum(n)*100)
 
@@ -614,7 +643,12 @@ practicas_etapa %>%
 		color = ""
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	       axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   facet_wrap(~ var)
 
@@ -636,7 +670,7 @@ practicas_enfoq <- rbind(pr_comu_enfoq, pr_prop_enfoq) %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
   mutate(var = factor(var, levels = c("Prácticas de la comunidad", "Prácticas propias"))) %>% 
-  count(name, value, var, enfoq) %>%
+  count(name, value, var, enfoq, .drop=F) %>%
   group_by(name, var, enfoq) %>%
   mutate(freq = n/sum(n)*100)
 
@@ -654,10 +688,16 @@ practicas_enfoq %>%
 	labs(
 		x = "",
 		y = "",
-		color = ""
+		color = "",
+		caption = legend
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	       axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   facet_wrap(~ var)
 
@@ -704,7 +744,7 @@ barreras <- rbind(disen, datos, repro, publi) %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
   mutate(var = factor(var, levels = c("Diseño transparente", "Apertura de datos", "Investigación reproducible", "Publicaciones libres"))) %>% 
-  count(name, value, var) %>%
+  count(name, value, var, .drop=F) %>%
   group_by(name, var) %>%
   mutate(freq = n/sum(n))
 
@@ -713,7 +753,7 @@ barreras %>%
   ggplot(aes(x = reorder(name, freq), y = freq, fill = '#f1605d',
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
+  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
   labs(subtitle = "Porcentaje que responde 'Bastante o mucho'", caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'none') +
   #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
@@ -722,7 +762,12 @@ barreras %>%
   coord_flip() +
   facet_wrap(~ var) +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+         axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16))
 ```
 
 Respecto a este último punto, se abordaron los incentivos que podrían
@@ -749,21 +794,25 @@ cais_v2 %>%
                         labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
                         levels = 1:3)) %>%
   filter(!is.na(value)) %>%
-  count(name, value) %>%
+  count(name, value, .drop=F) %>%
   group_by(name) %>%
   mutate(freq = n/sum(n)) %>%
 filter(value=="Alta motivación") %>%
 ggplot(aes(x = reorder(name, freq), y = freq, fill = value, label = scales::percent(freq, accuracy = 0.1))) + 
   geom_col(position = 'dodge2') +
-  geom_text(position = position_dodge(width = 0.9), size = 2.5, hjust = -0.1) +
+  geom_text(position = position_dodge(width = 0.9), size = 5, hjust = -0.1) +
   labs(caption = legend, x = "", y = "", fill = "") + 
-  theme(legend.position = 'none') +  
   scale_fill_viridis_d(option = "magma", begin = 0.1, end = 0.7, direction = -1) + 
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip() +
   theme_minimal()+
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+         axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16))
 ```
 
 Es interesante constatar que, como se ve en la @fig-motivaciones-grid,
@@ -789,7 +838,7 @@ cais_v2 %>%
                         labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
                         levels = 1:3)) %>%
   filter(!is.na(value)) %>%
-  count(name, value, sexo) %>%
+  count(name, value, sexo, .drop=F) %>%
   group_by(name, sexo) %>%
   mutate(freq = n/sum(n)*100) %>% 
   filter(value=="Alta motivación") %>%
@@ -808,7 +857,12 @@ cais_v2 %>%
 		color = ""
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	       axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
 
 cais_v2 %>%
@@ -818,7 +872,7 @@ cais_v2 %>%
                         labels = c("Poca motivación", "Moderadamente", "Alta motivación"),
                         levels = 1:3)) %>%
   filter(!is.na(value)) %>%
-  count(name, value, edad) %>%
+  count(name, value, edad, .drop=F) %>%
   group_by(name, edad) %>%
   mutate(freq = n/sum(n)*100) %>% 
   filter(value=="Alta motivación") %>%
@@ -834,10 +888,16 @@ cais_v2 %>%
 	labs(
 		x = "",
 		y = "",
-		color = ""
+		color = "",
+		caption = legend
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	       axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
   
 ```
@@ -870,7 +930,7 @@ barreras <- rbind(disen, datos, repro, publi) %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
   mutate(var = factor(var, levels = c("Diseño transparente", "Apertura de datos", "Investigación reproducible", "Publicaciones libres"))) %>% 
-  count(name, value, var, sexo) %>%
+  count(name, value, var, sexo, .drop=F) %>%
   group_by(name, var, sexo) %>%
   mutate(freq = n/sum(n))
 
@@ -917,7 +977,7 @@ barreras <- rbind(disen, datos, repro, publi) %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
   mutate(var = factor(var, levels = c("Diseño transparente", "Apertura de datos", "Investigación reproducible", "Publicaciones libres"))) %>% 
-  count(name, value, var, enfoq) %>%
+  count(name, value, var, enfoq, .drop=F) %>%
   group_by(name, var, enfoq) %>%
   mutate(freq = n/sum(n))
 
@@ -926,10 +986,15 @@ barreras %>%
   ggplot(aes(x = reorder(name, enfoq), y = freq, fill = enfoq,
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
+  geom_text(position = position_dodge(width  = .9),  size = 3, hjust = -.1) +
   labs(title = '¿En qué medida considera que los siguientes factores limitan la CA?',  
        subtitle = "Porcentaje que responde 'Bastante o mucho'", caption = legend, x = "", y = "", fill = "") + 
-  theme(legend.position = 'right') +
+  theme(legend.position = 'right',
+         axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
   guides(fill = guide_legend(reverse = TRUE)) +
@@ -961,7 +1026,7 @@ barreras2 <- rbind(disen2, datos2, repro2, publi2) %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
   mutate(var = factor(var, levels = c("Diseño\ntransparente", "Apertura\nde datos", "Investigación\nreproducible", "Acceso abierto\na publicaciones"))) %>% 
-  count(name, value, var) %>%
+  count(name, value, var, .drop=F) %>%
   group_by(name, var) %>%
   mutate(freq = n/sum(n))
 
@@ -995,7 +1060,6 @@ de evaluación positiva. Esto se explica por un mayor nivel de
 desconocimiento (17% dice no conocer la medida), además de las
 reticencias ya observadas en las entrevistas del estudio cualitativo.
 
-
 ```{r 2-vca, echo=FALSE}
 #| label: fig-val
 #| fig-cap: "¿Qué tan necesarias cree que son las siguientes medidas impulsadas por la CA para la investigación en Ciencias Sociales?"
@@ -1012,13 +1076,13 @@ cais_v2 %>%
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
                         labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
                         levels = 1:4)) %>% 
-  count(name, value) %>%
+  count(name, value, .drop=F) %>%
   group_by(name) %>%
   mutate(freq = n/sum(n)) %>%
   ggplot(aes(x = name, y = freq, fill = factor(value, levels = c("No la conoce", "Nada o poco", "Moderadamente", "Bastante o mucho")), 
              label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'Stack') + 
-  geom_text(position = position_stack(vjust = .5), size= 2.5, color = 'white') +
+  geom_text(position = position_stack(vjust = .5), size= 5, color = 'white') +
   labs(caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'right') +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
@@ -1026,13 +1090,18 @@ cais_v2 %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip() +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16))
 ```
 
 Salvo por el acceso abierto a publicaciones, que es valorada
 transversalmente por todos los grupos, estas medidas son apoyadas en
-mayor medida por investigadoras mujeres y por investigadores con enfoque cuantitativo, como se puede apreciar en la @fig-vca-grid.
-
+mayor medida por investigadoras mujeres y por investigadores con enfoque
+cuantitativo, como se puede apreciar en la @fig-vca-grid.
 
 ```{r 2-vca-sexo, echo=FALSE}
 #| label: fig-vca-grid
@@ -1049,7 +1118,7 @@ cais_v2 %>%
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
                         labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
                         levels = 1:4)) %>% 
-  count(name, value, sexo) %>%
+  count(name, value, sexo, .drop=F) %>%
   group_by(name, sexo) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Bastante o mucho") %>%
@@ -1068,7 +1137,12 @@ cais_v2 %>%
 		color = ""
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	       axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
 
 
@@ -1078,7 +1152,7 @@ cais_v2 %>%
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
                         labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
                         levels = 1:4)) %>% 
-  count(name, value, enfoq) %>%
+  count(name, value, enfoq, .drop=F) %>%
   group_by(name, enfoq) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Bastante o mucho" & !is.na(enfoq)) %>%
@@ -1094,10 +1168,16 @@ cais_v2 %>%
 	labs(
 		x = "",
 		y = "",
-		color = ""
+		color = "",
+		caption = legend
 	) +
 	theme_minimal() +
-	theme(legend.position = "bottom") +
+	theme(legend.position = "bottom",
+	       axis.text.x = element_text(size=16),
+        axis.text.y= element_text(size=16),
+	      legend.text= element_text(size=14),
+	      plot.caption = element_text(size=14),
+	      strip.text = element_text(size = 16)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
   
 ```
@@ -1109,7 +1189,7 @@ cais_v2 %>%
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
                         labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
                         levels = 1:4)) %>% 
-  count(name, value, edad) %>%
+  count(name, value, edad, .drop=F) %>%
   group_by(name, edad) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Bastante o mucho") %>% 
@@ -1133,7 +1213,7 @@ cais_v2 %>%
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
                         labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
                         levels = 1:4)) %>% 
-  count(name, value, etapa) %>%
+  count(name, value, etapa, .drop=F) %>%
   group_by(name, etapa) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Bastante o mucho") %>% 
@@ -1157,7 +1237,7 @@ cais_v2 %>%
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
                         labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
                         levels = 1:4)) %>% 
-  count(name, value, grado) %>%
+  count(name, value, grado, .drop=F) %>%
   group_by(name, grado) %>%
   mutate(freq = n/sum(n)) %>%
   filter(value == "Bastante o mucho") %>% 
@@ -1199,7 +1279,8 @@ ggplot(aes(x = 2, y = freq, fill = mod05_3)) +
     geom_bar(stat = "identity", width = 1, color = "white") +
     coord_polar(theta = "y") +
     xlim(0.5, 2.5) + # PARA EL TAMANO # REVISAR COLORES
-    labs(fill = "") +
+    labs(fill = "",
+         caption= "Fuente: CAIS(2024), N=49") +
     theme_minimal() +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
     theme(legend.position = "bottom",
@@ -1207,9 +1288,12 @@ ggplot(aes(x = 2, y = freq, fill = mod05_3)) +
       axis.title = element_blank(),
       panel.grid = element_blank(),
       plot.title = element_text(face = "bold", hjust = 0.5),
-      plot.subtitle = element_text(hjust = 0.5)) + geom_text(aes(label = porcentaje), 
+      plot.subtitle = element_text(hjust = 0.5),
+      legend.text = element_text(size=12),
+      plot.caption = element_text(size=14)) + 
+      geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), # posicion etiqueta
-            color = "white", size = 4) # texto
+            color = "white", size = 5) # texto
 
 #inentar agregar porcentajes
 
@@ -1247,20 +1331,23 @@ cais_v2 %>%
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
   scale_fill_brewer(palette = "Pastel1") + # colores
-  labs(fill = "") +
+  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
   theme_minimal() +
   theme(legend.position = "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5)
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.text= element_text(size=12),
+    plot.caption= element_text(size=14),
+    strip.text= element_text(size=16)
   ) +
   facet_grid(~enfoq) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), # Centra las etiquetas
-            color = "white", size = 4) + # Ajusta texto
+            color = "white", size = 5) + # Ajusta texto
 scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 ```
@@ -1287,7 +1374,6 @@ porcentaje, solo el 20% de los intentos han logrado una reproducción
 completa, mientras que el 69% ha logrado reproducciones parciales
 (@fig-dona-2-2).
 
-
 ```{r intentos-reprod, include=F}
 
 labels_valor <- c("¿Ha intentado reproducir uno de sus propios resultados?",
@@ -1300,7 +1386,7 @@ cais_v2 %>%
                         labels = c("Sí", "No", "No sé"),
                         levels = 1:3)) %>%
   filter(!is.na(value)) %>%
-  count(name, value) %>%
+  count(name, value, .drop=F) %>%
   group_by(name) %>%
   mutate(freq = n/sum(n)) %>% kable()
 
@@ -1335,10 +1421,11 @@ cais_v2 %>%
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        legend.position = "bottom") + 
+        legend.position = "bottom",
+        legend.text = element_text(size=14)) + 
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5),  # Centra las etiquetas
-            color = "white", size = 4) 
+            color = "white", size = 5) 
   
 
 
@@ -1357,7 +1444,7 @@ cais_v2 %>%
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
   xlim(0.5, 2.5) +  # Ajusta el tamaño
-  labs(fill = "") +
+  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
   theme_minimal() +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
   theme(axis.text = element_blank(),
@@ -1365,10 +1452,12 @@ cais_v2 %>%
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        legend.position = "bottom") + 
+        legend.position = "bottom",
+        legend.text = element_text(size=14),
+        plot.caption = element_text(size=14)) + 
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5),  # Centra las etiquetas
-            color = "white", size = 4) 
+            color = "white", size = 5) 
   
 
 # GRAFICAR. GRAFICO DE DONA?
@@ -1413,7 +1502,8 @@ cais_v2 %>%
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5)
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.text = element_text(size=12)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
@@ -1438,14 +1528,15 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_7)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(fill = "") +
+  labs(fill = "", caption= "Fuente CAIS (2024), N=49") +
   theme_minimal() +
   theme(legend.position = "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5)
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.text= element_text(size=12)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
@@ -1487,12 +1578,13 @@ cais_v2 %>%
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5)
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.text= element_text(size=14)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 4) +
+            color = "white", size = 5) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 #----------------------
@@ -1512,19 +1604,21 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_9)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(fill = "Respuesta") +
+  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
   theme_minimal() +
   theme(legend.position = "bottom",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5)
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.text= element_text(size=14),
+    plot.caption = element_text(size=14)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 4) +
+            color = "white", size = 5) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 ```
@@ -1552,97 +1646,21 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_10)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(,
-       fill = "Respuesta") +
+  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
   theme_minimal() +
   theme(
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5)
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.text = element_text(size=14),
+    plot.caption = element_text(size=14),
+    legend.position = "bottom"
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 4) +
+            color = "white", size = 5) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
-```
-
-c)  Valoraciones Política de Ciencia Abierta de la ANID
-
-En primera instancia, la Política de Ciencia Abierta de la ANID
-encuentra buena acogida entre los encuestados. Así, el 90% considera que
-está de acuerdo o muy de acuerdo con que la ANID continúe desarrollando
-políticas de ciencia abierta. Asimismo, el 84% considera bastante o muy
-necesario la implementación de políticas de accesoa abierto.
-
-Sin embargo, hay otras prácticas que encuentran una menor acogida. Así,
-tanto la obligatoriedad del prerregistro o de la reproducibilidad
-obtiene un apoyo del 50% de los encuestados.
-
-Por último, la política de difusión de la ANID es evaluada negativamente
-por la mayoría de los encuestados. Solo un 24% considera que estas
-política es buena o muy buena.
-
-```{r modulo-anid, include=FALSE}
-ANID <- lisa_v2_75 %>% # CONODIMIENTO DE ANID
-  select(mod01_10, mod08_2, mod08_1, mod07_4, mod07_5) %>% 
-  mutate_at(vars(starts_with("mod07")), 
-            ~ if_else(. == 1, "Si", 
-                      if_else(. == 2, "No", 
-                              if_else(. == 3, "No se", NA_character_))))
-
-
-frq(ANID$mod07_4) # HA PUBLICADO ALGUN TRABAJO EN EL REPOSITORIO DE LA ANID?
-frq(ANID$mod07_5) # CONOCE EL PLAN DE GESTION DE DATOS DE LA POLITICA DE ACCESO ABIERTO ANID?
-
-
-ANID6 <- cais_v2 %>% 
-  select(mod01_10, mod08_2, mod08_1, mod07_1) %>%
-  mutate(
-    mod07_1 = case_when(
-      mod07_1 == 1 ~ "Sí",
-      mod07_1 == 2 ~ "No",
-      mod07_1 == 3 ~ "No sé",
-      TRUE ~ NA_character_ ))
-
-frq(ANID6$mod07_1)   # HA ESCUCHADO SOBRE LA POLITICA DE ACCESO ABIERTO DE ANID?
-
-
-ANID2 <- cais_v2 %>% select(mod01_10, mod08_2, mod08_1, mod07_2, mod07_8, mod07_9) %>% #QUE TAN NECESARIA ES LA CS ABIERTA EN ANID
-  mutate_at(vars(starts_with("mod07")),
-            ~ if_else(. == 1, "Nada", 
-                      if_else(. == 2, "Ligeramente", 
-                              if_else(. == 3, "Moderadamente",
-                                      if_else(. == 4, "Bastante", 
-                                              if_else(. == 5, "Muy", NA_character_))))))
-
-frq(ANID2$mod07_2) #que tan necesario es la implementacion de politicas de accesoa bierto...
-frq(ANID2$mod07_8) #QUE TAN NECESARIO ES QUE LA ANID INCORPRE EL PREREGISTRO?
-frq(ANID2$mod07_9) # QUE TAN NECESARIO ES QUE INCORPORE LA REPRODUCIBILIDAD
-
-
-ANID3 <- cais_v2 %>% select(mod01_10, mod08_2, mod08_1, mod07_7) %>% 
-  mutate_at(vars(starts_with("mod07")), 
-            ~ if_else(. == 1, "Muy en desacuerdo", 
-                      if_else(. == 2, "En desacuerdo", 
-                              if_else(. == 3, "Ni de acuerdo ni en desacuerdo",
-                                      if_else(. == 4, "De acuerdo",
-                                              if_else(. == 5, "Muy de acuerdo", NA_character_))))))
-frq(ANID3$mod07_7) # QUE TAN DE ACUERDO CON QUE ANID DESARROLLE E IMPLEMENTE POLITICAS DE CS ABIERTA
-
-ANID4 <- cais_v2 %>% select(mod01_10, mod08_2, mod08_1, mod07_10) %>% 
-  mutate_at(vars(starts_with("mod07")), 
-            ~ if_else(. == 1, "Mala", 
-                      if_else(. == 2, "Regular", 
-                              if_else(. == 3, "Neutra",
-                                      if_else(. == 4, "Buena",
-                                              if_else(. == 5, "Muy Buena", NA_character_))))))# CALIDAD DE LA DIFUSION DE ACCESO ABIERTO A ANID
-frq(ANID4$mod07_10) # COMO EVALUA LA DIFUSION DE LA POLITICA DE ACCESO ABIERTO DE ANID
-
-ANID5 <- cais_v2 %>% select (mod01_10, mod08_2, mod08_1, mod07_3)
-
-frq(ANID5$mod07_3)# QUE TAN FAMILIARIZADO ESTA CON EL REPOSITORIO ABIERTO DE ANID.
-
 ```
