@@ -5,11 +5,10 @@ editor:
     wrap: 72
     echo: false
     include: true
-lang: es
 ---
 
 ```{r setup-chunk, include=FALSE}
-knitr::opts_chunk$set(dev = 'png', dpi = 300, fig.width = 12, fig.height = 8,
+knitr::opts_chunk$set(dev = 'png', dpi = 600, fig.width = 6, fig.height = 4,
                       message = FALSE, warning = FALSE, echo = FALSE, cache = TRUE)
 #knitr::opts_knit$set(root.dir = "../3_output/img-cais-alas")
 options(scipen=999)
@@ -54,34 +53,28 @@ lisa_v2_75 <- lisa_v2_all %>%
 
 ```{r select-dataset, include=FALSE}
 
-# lisa_v2_75 %>% mutate(edad= case_when(mod08_1>=28 & mod08_1<=34 ~ 1,
-#                                   mod08_1>=35 & mod08_1<=49 ~ 2,
-#                                   mod08_1>=50 ~ 3)) %>%
-#   group_by(edad) %>% count()
-
-
 cais_v2 <- lisa_v2_75 %>% 
   haven::zap_labels() %>% # eliminar las etiquetas de variables (haven_labelled) de una base de datos
   filter(mod01_6 > 1950) %>%  # filtrar datos de encuestas dudosas y de prueba
   mutate(edad0 = factor(car::recode(mod08_1, "28:34 = 1; 35:49 = 2; 50:80 = 3"), 
                         levels = c(1,2,3),
-                        labels = c("28 a 34 años", "35 a 49 años", "50 o más años")),
+                        labels = c("28-34", "35-49", "50+")),
          grado0 = factor(car::recode(mod01_5, "1=1; 2:3=2"),
                          levels= c(1,2),
-                         labels= c("Magíster", "Doctorado")),
+                         labels= c("Master", "PhD")),
          etapa0 = factor(car::recode(mod01_1, "0:5 = 1; 6:15 = 2; 16:60 = 3"),
                          levels= c(1,2,3),
-                         labels= c("Inicial (0 a 5 años)", "Intermedia (6 a 15 años)", "Avanzada (>15 años)")),
+                         labels= c("Early (0 to 5 years)", "Intermediate (6 to 15 years)", "Avanced (>15 years)")),
          enfoq0 = case_when(mod01_10 == 1 ~ 1, # cuali
                             mod01_10 == 2 ~ 2, # mixto  
                             mod01_10 %in% c(3,4) ~ 3, #cuanti
                             mod01_10 == 4 ~ NA_real_),
          mod08_2= factor(mod08_2,
                          levels= c(1,2),
-                         labels=c("Mujer", "Hombre")),
+                         labels=c("Women", "Men")),
          enfoq0= factor(enfoq0,
                         levels= c(1,2,3),
-                        labels= c("Cualitativo", "Mixto", "Cuantitativo")),
+                        labels= c("Qualitative", "Mixed-Methods", "Quantitative")),
          sexo = as_label(mod08_2),
          edad = as_label(edad0),
          grado = as_label(grado0),
@@ -89,123 +82,116 @@ cais_v2 <- lisa_v2_75 %>%
          enfoq = as_label(enfoq0))
 
   
-legend = "Fuente CAIS (2024), N = 98"
+legend = "Source CAIS (2024), N = 98"
 
-cais_test_annos <- cais_v2 %>% 
-  select(mod01_1, mod08_1)
-
-frq(cais_v2$etapa)
-frq(cais_v2$sexo)
-frq(cais_v2$edad)
-frq(cais_v2$enfoq)
-frq(cais_v2$grado)
+# Contar items
+# cais_v2 <- cais_v2 %>% select(4:114)
+# mod01 <- cais_v2 %>% select(starts_with("mod01"))
+# mod02 <- cais_v2 %>% select(starts_with("mod02"))
+# mod03 <- cais_v2 %>% select(starts_with("mod03"))
+# mod04 <- cais_v2 %>% select(starts_with("mod04"))
+# mod05 <- cais_v2 %>% select(starts_with("mod05"))
+# mod06 <- cais_v2 %>% select(starts_with("mod06"))
+# mod07 <- cais_v2 %>% select(starts_with("mod07"))
+# mod08 <- cais_v2 %>% select(starts_with("mod08"))
 ```
 
-# Estudio Cuantitativo
+# Quantitative Study
 
-## Método
+## Methods
 
-Se diseñó un cuestionario a partir de la revisión de literatura
-[@baker_500_2016; @delikoura_open_2021; @enke_user_2012;
+The results of the Open Science in Social Research (CAIS) survey were
+used as the basis for the quantitative study. Its questionnaire was
+designed by our research team based on the literature review
+[@baker_1500_2016; @delikoura_open_2021; @enke_user_2012;
 @gross_landscapes_2015; @hail_reproducibility_2020;
 @hodonu-wusu_malasyan_2020; @lacey_open_2020; @ljubenkovic_survey_2021;
 @lopezcardenas_percepciones_2021; @knudtson_survey_2019;
 @pardomartinez_knowledge_2018; @rodriguez_awareness_2014;
 @rowley_academics_2017; @sturmer_earlycareer_2017;
-@zhu_openaccess_2020], así como de los hallazgos de la etapa
-cualitativa.
+@zhu_openaccess_2020], as well as findings from the qualitative study.
 
-El cuestionario consistió en 91 preguntas divididas en los siguientes
-módulos:
+The questionnaire consisted of 111 questions divided into the following
+modules:
 
-1)  **Ciencia Abierta**: 18 ítems relativos al conocimiento y la
-    valoración general de los investigadores hacia la Ciencia Abierta
+1.  **Academic Career**: 14 items to describe the academic career and
+    participation in research projects of the respondents.
+2.  **General Aspects of Open Science**: 20 items about the level of
+    knowledge of the participants about open science and the tools it
+    provides.
+3.  **Research Practices, Openness and Ethics in Social Sciences:** 14
+    items assessing the frequency with which the researchers perform
+    certain practices, both positive and negative, related to the
+    research process, as well as the perception of the frequency with
+    which other researchers perform them.
+4.  **Open Data**: 17 items analyzing researchers' perceptions of the
+    openness of data.
+5.  **Reproducible Research**: 15 items exploring researchers'
+    perceptions and practices regarding the openness of analysis in
+    their research.
+6.  **Open access to publication**: 16 items exploring researchers'
+    perception and practices regarding open access to their research
+    results.
+7.  **ANID Open Access Policy**: 10 items exploring researchers'
+    knowledge of ANID's Open Access Policy for publicly funded
+    scientific information and research data.
+8.  **Sociodemographic Characterization**: 5 item on the
+    socio-demographic characteristic of the participants.
 
-2)  **Diseño Transparente**: 20 ítems que abordan prácticas propias y
-    percibidas en la comunidad sobre la transparencia en los diseños de
-    investigación. Esto incluye tanto prácticas positivas (por ejemplo,
-    *compartir códigos u otros materiales de investigación en un
-    repositorio en línea de acceso público*) como negativas (por
-    ejemplo, *creación post-hoc de hipótesis y explicaciones de datos*).
+We used FormR for the implementation of the questionnaire. FormR is an
+open source software that allows the design of complex questionnaires
+with a high degree of customization [@arslan_chain_2025;
+@arslan_formr_2020] . Since it is integrated with RStudio (R +
+RMarkdown), it facilitates collaborative work regardless of the length
+of the questionnaire. The platform allows the questionnaire to be
+self-administered, either by personal computers or by smartphones.
 
-3)  **Datos abiertos**: 19 ítems relativos a prácticas, conocimiento y
-    valoración del acceso abierto a los datos de investigación.
-
-4)  **Investigación reproducible**: 15 ítems que indagan sobre
-    conocimiento y valoración de la reproducibildiad de la investigación
-    en Ciencias Sociales y la "crisis de reproducibilidad".
-
-5)  **Acceso abierto a publicaciones**: 14 ítems que tratan sobre
-    conocimiento, prácticas y valoración de la publicación de artículos
-    en revistas Open Access.
-
-6)  **Política de Acceso Abierto de la ANID**: 10 ítems sobre
-    conocimiento y evaluación la Política de Acceso Abierto a la
-    Información Científica y a Datos de Investigación de la Agencia
-    Nacional de Investigación y Desarrollo de Chile (ANID).
-
-El cuestionario fue aplicado mediante la plataforma FormR (Arslan et
-al., 2020; Arslan, 2025). FormR es un software de código abierto que
-permite diseñar cuestionarios complejos con un gran nivel de
-personalización. Al estar integrado con RStudio (R+ RMarkdown), facilita
-el trabajo colaborativo, independiente de la extensión del cuestionario.
-La plataforma permite la autoaplicación del cuestionario, ya se mediante
-una computadora o mediante teléfono celular.
-
-Para construir la muestra, se enviaron correos de forma masiva a
-investigadores que se hubieran ganado fondos de investigación estatales,
-facultades y departamentos de distintas disciplinas de ciencias
-sociales, así como centros y núcleos de investigación. Además, se
-realizó difusión de la Encuesta mediante redes sociales y en eventos
-académicos. Finalmente, se lograron 98 respuestas completas. La
-descripción de la muestra obtenida se presenta en @tbl-resumen.
+To construct the sample, mass mailings were sent to researchers who had
+received state research funding, to faculties and departments of various
+social science disciplines, and to research centers and nuclei. In
+addition, the survey was distributed through social media and at
+academic events. In the end, 98 complete responses were received. The
+description of the sample is presented in @tbl-resumen.
 
 ```{r, echo=FALSE}
 #| label: "tbl-resumen"
-#| tbl-cap: "Resumen de variables"
-dfSummary(cais_v2 %>% select(edad, grado, etapa, enfoq), headings = FALSE, graph.col = FALSE) %>% kable() #
+#| tbl-cap: "Quantitative Sample Description"
+
+dfSummary(cais_v2 %>% select(Sex= sexo, Age= edad, Degree= grado, "Career stage"= etapa, "Research strategy"= enfoq), headings = FALSE, graph.col = FALSE, varnumbers = F) %>%
+  kable()
 
 ```
 
-Se realizó un análisis descriptivo uni y bivariado de los indicadores
-claves del cuestionario. El análisis se abocó a describir conocimientos,
-prácticas y valoraciones de los encuestados en torno a la ciencia
-abierta y los constructos descritos anteriormente. Estas variables
-fueron cruzadas por grupo etario, enfoque de investigación, etapa en la
-carrera académica, grado académico y género, con el fin de detectar
-posibles diferencias entre grupos.
+We conducted a descriptive uni- and bivariate analysis of the key
+indicators of the questionnaire. We aimed to describe the respondents'
+knowledge, practices and attitudes about open science and the constructs
+described above. These variable were crossed by age group, research
+focus, academic career stage, academic degree, and gender to detect
+possible differences between groups.
 
-## Resultados
+## Results
 
-**Conocimientos**
+### **Knowledge**
 
-Los niveles de familiaridad con conceptos relacionados a la ciencia
-abierta refrendan lo observado en las entrevistas cualitativas, como se
-observa en la @fig-cca. Así, el concepto más reconocido por los
-encuestados es el de acceso abierto a publicaciones (79%), en línea con
-lo descrito en la etapa anterior, donde la idea de apertura se
-encontraba relacionada predominantemente a los resultados y
-publicaciones de la investigación. Ideas como la apertura de datos
-(59%), el uso de software libre para el análisis (53%), y el propio
-concepto de ciencia abierta (46%) tienen niveles de conocimiento medio
-entre los encuestados. En el otro extremo, sólo un 25% de los
-encuestados mencionan estar familiarizados con el pre-registro de
-hipótesis.
-
-```{r labels-cca, echo=FALSE}
-
-# El siguiente gráfico visualiza una batería, es decir, varios tems con preguntas diferentes, pero iguales valores de respuesta. Este tipo de gráficos sigue la siguiente estructura tipo:
-labels_cca <- c("Concepto \nCiencia Abierta", 
-                "Acceso abierto \npublicaciones", 
-                "Preregistro \nde hipótesis", 
-                "Apertura datos \ninvestigación", 
-                "Investigación \nreproducible", "Repositorios \nabiertos", 
-                "Software \nlibre análisis", "Acceso \nabierto datos")
-```
+As shown in @fig-cca, the concept most recognized by the respondents is
+open access to publications (79%), in line with what was described in
+the qualitative study. Ideas such as open data (59%), the use of free
+software for analysis (53%), and the concept of open science itself
+(46%) have medium levels of knowledge among respondents. At the other
+extreme, only 25% of respondents say they are familiar with the
+pre-registration of hypotheses.
 
 ```{r cca, echo=FALSE}
 #| label: fig-cca
-#| fig-cap: "Familiaridad Conceptos de Ciencia Abierta"
+#| fig-cap: "Familiarity with Open Science concepts"
+
+# El siguiente gráfico visualiza una batería, es decir, varios tems con preguntas diferentes, pero iguales valores de respuesta. Este tipo de gráficos sigue la siguiente estructura tipo:
+labels_cca <- c("Open Science", 
+                "Publications \nopen access", 
+                "Hypotheses \npre-registration", 
+                "Open Data", 
+                "Reproducible \nresearch", "Open \nrepositories", 
+                "Open software", "Open data access")
   
 cais_v2 %>%
   # TRASPONER PARA QUE EL LA BATERÍA PASE A SER UNA VARIABLE EN SÍ MISMA
@@ -225,7 +211,7 @@ cais_v2 %>%
              label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
   # ESPECIFICACIONES PARA EL TEXTO DE LAS BARRAS
-  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
+  geom_text(position = position_dodge(width  = .9),  size=3, hjust = -.1) +
   # ESPECIFICACIONES PARA ETIQUETAS DE TÍTULOS, EJES Y LEYENDA (RELLENO)
   labs(
        caption = legend, x = "", y = "", fill = "") + 
@@ -241,53 +227,29 @@ cais_v2 %>%
   coord_flip() +
   theme_minimal() +
   theme(legend.position = "none",
-        axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-        plot.caption= element_text(size=14))
+        axis.text.x = element_text(size=10),
+        axis.text.y= element_text(size=10),
+        plot.caption= element_text(size=10))
 ```
 
-En general, los niveles de conocimiento parecen ser mayores entre
-investigadores jóvenes y con enfoque predominantemente cuantitativo,
-como se expone en la @fig-cca-grid. Los encuestados entre 28 y 34 años,
-así, muestran mayores niveles de conocimiento sobre softwares libres, y
-los conceptos de investigación reproducible y ciencia abierta
-(@fig-cca-grid-1). Con todo, los investigadores entre 35 y 49 años
-muestran mayores niveles de conocimiento de los preregistros de
-hipótesis y del acceso abierto a datos. Los investigadores
-cuantitativos, en tanto, presentan mayores niveles de conocimiento de
-todos los conceptos, salvo en el acceso abierto a publicaciones
-(@fig-cca-grid-2).
-
-```{r 1-cca-sexo, echo=FALSE, include=F}
-# cais_v2 %>%
-#   pivot_longer(cols = c(mod02_1, starts_with("mod02_2"))) %>%
-#   mutate(name = factor(name, labels = labels_cca),
-#          value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
-#                         labels = c("Baja", "Media", "Alta"))) %>%
-#   count(name, sexo, value) %>%
-#   group_by(name, sexo) %>%
-#   mutate(freq = n/sum(n)) %>%
-#   filter(value == "Alta") %>%
-#   ggplot(aes(x = reorder(name, freq), y = freq, fill = sexo,
-#              label = scales::percent(freq, accuracy = .1))) +
-#   geom_col(position = 'dodge2') +
-#   geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
-#   labs(title = 'Familiaridad con conceptos de Ciencia Abierta', subtitle = "Porcetaje con alta familiaridad",
-#        caption = legend, x = "", y = "", fill = "Sexo/género") +
-#   theme(legend.position = 'right') +
-#   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
-#   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-#   guides(fill = guide_legend(reverse = TRUE)) +
-#   coord_flip()
-```
+In general, knowledge levels seem to be higher among young researchers
+and with a predominantly quantitative focus, as shown in the
+@fig-cca-grid. Respondents between 28 and 34 years of age, thus, show
+higher levels of knowledge about free software, and the concepts of
+reproducible research and open science (@fig-cca-grid-1). However,
+researchers between 35 and 49 years of age show higher levels of
+knowledge of hypotheses preregistration and open access to data.
+Quantitative researchers, meanwhile, show higher levels of knowledge of
+all concepts except open access to publications (@fig-cca-grid-2).
 
 ```{r 1-cca-edad, echo=FALSE}
 #| label: fig-cca-grid
-#| fig-cap: "Familiaridad conceptos ciencia abierta por edad y enfoque de investigación" 
+#| fig-cap: "Familiarity with Open Science concepts by age and reseaarch strategy" 
 #| fig-subcap:
-#|   - "Familiaridad conceptos ciencia abierta por edad"
-#|   - "Familiaridad conceptos ciencia abierta por enfoque" 
-#| layout-ncol: 1
+#|   - "Familiarity with open science concepts by age"
+#|   - "Familiarity with open science concepts by research strategy" 
+#| layout-ncol: 2
+#| fig.height: 6
 
 cais_v2 %>% 
   pivot_longer(cols = c(mod02_1, starts_with("mod02_2"))) %>%
@@ -314,10 +276,10 @@ cais_v2 %>%
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	      axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14)
+	      axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15)
 	      ) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
 
@@ -348,16 +310,18 @@ cais_v2 %>%
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	      axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14)) +
+	      axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
 
  
 ```
 
-```{r 1-cca-etapa, echo=FALSE, include=FALSE}
+```{r cca-otros-cruces, echo=FALSE, include=FALSE}
+
+# Etapa
 cais_v2 %>%
   pivot_longer(cols = c(mod02_1, starts_with("mod02_2"))) %>%
   mutate(name = factor(name, labels = labels_cca),
@@ -379,9 +343,8 @@ cais_v2 %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip()
-```
 
-```{r 1-cca-grado, echo=FALSE, include=F}
+# Grado
 cais_v2 %>%
   pivot_longer(cols = c(mod02_1, starts_with("mod02_2"))) %>%
   mutate(name = factor(name, labels = labels_cca),
@@ -402,14 +365,15 @@ cais_v2 %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip()
+
+# Muestran poca variación entre grupos
 ```
 
-En la misma línea, La Política de Acceso Abierto a la Información
-Científica y a Datos de Investigación muestra niveles de conocimiento de
-intermedios a bajo. En concreto, solo la mitad de los encuestados han
-escuchado hablar sobre la política de acceso abierto de la ANID. Por
-otro lado, solo un 26% conoce el plan de gestión de datos de la política
-de acceso abierto de la ANID.
+Similarly, ANID's Open Access to Scientific Information and Research
+Data Policy shows a medium to low level of awareness. Specifically, only
+half of the respondents have heard of ANID's policy. On the other hand,
+only 26% are aware of ANID's data management plan for the open access
+policy.
 
 ```{r anid-conocimiento, include=FALSE}
 ANID <- lisa_v2_75 %>% # CONODIMIENTO DE ANID
@@ -430,51 +394,51 @@ ANID6 <- cais %>%
       mod07_1 == 3 ~ "No sé",
       TRUE ~ NA_character_ ))
 
-frq(ANID6$mod07_1)   # HA ESCUCHADO SOBRE LA POLITICA DE ACCESO ABIERTO DE ANID?
+frq(ANID6$mod07_1)
 
 
 ```
 
-**Prácticas**
+### Practices
 
-a)  Práctica propias y prácticas de la comunidad
+#### a. Own practices and Community's practices
 
-En general, se observa una baja frecuencia de prácticas relacionadas con
-la ciencia abierta, como se aprecia en @fig-prac. Un 32% de los
-encuestados siempre o casi siempre utiliza repositorios en línea para
-subir información relacionada a sus investigaciones, y un 16% declara
-compartir códigos entre investigadores (@fig-prac-2). Este tipo de
-prácticas son más comunes entre investigadores hombres, aquellos cuyo
-enfoque predominante es cuantitativo, y quienes están en una etapa
-inicial de su carrera académica.
+In general, the frequency of practices related to open science is low,
+as seen in @fig-prac. 32% of respondents always or almost always use
+online repositories to upload information related to their research, and
+16% report sharing code among researchers (@fig-prac-2). These types of
+practices are more common among male researchers, those whose primary
+research strategy is quantitative, and those who are in an early stage
+in their academic careers.
 
 ```{r 3-prac, echo=FALSE}
 #| label: fig-prac
-#| fig-cap: "¿Con qué frecuencias se realizan las siguientes prácticas?" 
+#| fig-cap: "How often are the following practices performed?" 
 #| fig-subcap:
-#|   - "Prácticas de la Comunidad"
-#|   - "Prácticas propias" 
-#| layout-ncol: 1
+#|   - "Community's practices"
+#|   - "Own Practices" 
+#| layout-ncol: 2
+#| fig.height: 6
 
-labels_comu <- c("Compartir códigos entre\ninvestigadores/as",
-                 "Utilizar repositorios abiertos en línea\npara subir información relacionada con\nlas investigaciones",
-                 "Reporte selectivo de resultados, es decir,\nsolo aquello que va en concordancia\ncon las hipótesis",
-                 "No informar estudios o variables que no\nalcanzaron significación estadística o\nalgún otro umbral estadístico deseado",
-                 "Manipular datos para validar\nlas hipótesis")
+labels_comu <- c("Share codes between \nresearchers",
+                 "Use online open repositories",
+                 "Selective report of results",
+                 "Do not report \nstudies or variables \n that did not reached \nstatistical signficance",
+                 "Manipulating data to validate \nhypothesis")
 
-labels_prop <- c("Compartir códigos entre\ninvestigadores/as",
-                 "Utilizar repositorios abiertos en línea\npara subir información relacionada con\nlas investigaciones",
-                 "Reporte selectivo de resultados, es decir,\nsolo aquello que va en concordancia\ncon las hipótesis",
-                 "No informar estudios o variables que no\nalcanzaron significación estadística o\nalgún otro umbral estadístico deseado")
+labels_prop <- c("Share codes between \nresearchers",
+                 "Use online open repositories",
+                 "Selective report of results",
+                 "Do not report \nstudies or variables \n that did not reached \nstatistical signficance")
 
 pr_comu <- cais_v2 %>%  
   select(starts_with("mod03_1_")) %>% pivot_longer(cols = starts_with("mod03_1_")) %>% 
-  tibble(var = c(rep("Prácticas de la comunidad"))) %>% 
+  tibble(var = c(rep("Community's Practices"))) %>% 
   mutate(name = factor(name, labels = labels_comu))
 
 pr_prop <- cais_v2 %>% 
   select(starts_with("mod03_2_")) %>%  pivot_longer(cols = c(starts_with("mod03_2_"))) %>% 
-  tibble(var = c(rep("Prácticas propias"))) %>% 
+  tibble(var = c(rep("Own Practices"))) %>% 
   mutate(name = factor(name, labels = labels_prop))
 
 pr_comu %>%
@@ -487,8 +451,8 @@ pr_comu %>%
   ggplot(aes(x = reorder(name, freq), y = freq, fill = '#f1605d',
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
-  labs(subtitle = "Porcentaje que responde 'Casi siempre o siempre'", caption = legend, x = "", y = "", fill = "") + 
+  geom_text(position = position_dodge(width  = .9),  size=4.5, hjust = -.1) +
+  labs(subtitle = "Percentage responding \n'Almost always or always'", caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'none') +
   #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -496,11 +460,11 @@ pr_comu %>%
   coord_flip() +
   theme_minimal() +
   theme(legend.position = "none",
-        axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-        strip.text = element_text(size=16))
+        axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15),
+        strip.text = element_text(size=15))
 
 pr_prop %>%
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
@@ -512,8 +476,8 @@ pr_prop %>%
   ggplot(aes(x = reorder(name, freq), y = freq, fill = '#f1605d',
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
-  labs(subtitle = "Porcentaje que responde 'Casi siempre o siempre'", caption = legend, x = "", y = "", fill = "") + 
+  geom_text(position = position_dodge(width  = .9),  size=4.5, hjust = -.1) +
+  labs(subtitle = "Percentage responding \n'Almost always or always'", caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'none') +
   #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -521,61 +485,60 @@ pr_prop %>%
   coord_flip() +
   theme_minimal() +
   theme(legend.position = "none",
-         axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-        strip.text = element_text(size=16))
+         axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15),
+        strip.text = element_text(size=15))
 ```
 
-Es interesante que, en general, los investigadores declaran mejores
-prácticas propias que las percibidas en la comunidad. De tal modo, sólo
-un 14% cree que siempre o casi siempre la comunidad utiliza repositorios
-en línea para subir información relacionada a sus investigaciones, y un
-5% cree que los investigadores comparten códigos con esa frecuencia
-(@fig-prac-1).
+Interestingly, researchers generally report better practices for
+themselves than for the community. For example, only 14% believe that
+the community always or almost always uses online repositories to upload
+information related to their research, and 5% believe that researchers
+share code with that frequency (@fig-prac-1).
 
-Esta brecha es cierta también en lo relativo a las malas prácticas. Un
-9% de los encuestados declara que casi siempre o siempre no informa
-estudios o variables que no alcanzaron significación estadística,
-mientras que un 45% percibe esta práctica como frecuente en la
-comunidad. Por otro lado, mientras un 7% declara reportar selectivamente
-resultados, el 40% cree que esto ocurre siempre o casi siempre entre la
-comunidad. Finalmente, mientras nadie reconoce manipular datos para
-validar una hipótesis, el 4% afirma que esto ocurre siempre o casi
-siempre en la comunidad.
+This gap also exits in the case of malpractice. 9% of the respondents
+say they almost always or always fail to report studies or variables
+that do not reach statistical significance, while 45% believe this
+practices are that common in the community. On the other hand, while 7%
+say they selectively report results, 40% believe it is always or almost
+always done in the community. Finally, while no one admits to having
+manipulated data to validate a hypothesis, 4% say this always or almost
+always happens in the community.
 
-Es curioso que al desagregar el análisis en distintos grupos, se repiten
-ciertas tendencias: Los investigadores hombres, de enfoque cuantitativo
-y de carrera inicial son, al mismo tiempo, quienes reconocen mayor
-frecuencia de prácticas propias, tanto negativas como positivas, como
-quienes perciben la mayor cantidad de prácticas negativas en la
-comunidad. Estas diferencias se pueden ver en detalle en @fig-prac-grid
+It is curious that when the analysis is broken down into different
+groups, certain trends are repeated. Male, quantitative-oriented,
+early-career researchers are at the same time those who declare the
+highest frequency of own practices, both negative and positive, as well
+as those perceive the highest number of negative practices in the
+community. These differences can be seen in detail in the @fig-prac-grid
 
 ```{r prac-grid, echo= F}
 #| label: fig-prac-grid
-#| fig-cap: "¿Con qué frecuencias se realizan las siguientes prácticas?" 
+#| fig-cap: "How often are the following practices performed?" 
 #| fig-subcap:
-#|   - "Por sexo"
-#|   - "Por etapa en la carrera académica" 
-#|   - "Por enfoque de investigación"
+#|   - "By sex"
+#|   - "By academic career stage" 
+#|   - "By research strategy"
 #| layout-ncol: 1
+#| fig.height: 3
 
 # Gráfico Sexo
 pr_comu_sexo <- cais_v2 %>%  
   select(starts_with("mod03_1_"), sexo) %>% pivot_longer(cols = starts_with("mod03_1_")) %>% 
-  tibble(var = c(rep("Prácticas de la comunidad"))) %>% 
+  tibble(var = c(rep("Community's practices"))) %>% 
   mutate(name = factor(name, labels = labels_comu))
 
 pr_prop_sexo <- cais_v2 %>% 
   select(starts_with("mod03_2_"), sexo) %>%  pivot_longer(cols = c(starts_with("mod03_2_"))) %>% 
-  tibble(var = c(rep("Prácticas propias"))) %>% 
+  tibble(var = c(rep("Own practices"))) %>% 
   mutate(name = factor(name, labels = labels_prop))
 
 practicas_sexo <- rbind(pr_comu_sexo, pr_prop_sexo) %>% 
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
-  mutate(var = factor(var, levels = c("Prácticas de la comunidad", "Prácticas propias"))) %>% 
+  mutate(var = factor(var, levels = c("Community's practices", "Own practices"))) %>% 
   count(name, value, var, sexo, .drop=F) %>%
   group_by(name, var, sexo) %>%
   mutate(freq = n/sum(n)*100)
@@ -598,11 +561,11 @@ practicas_sexo %>%
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	      axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
+	      axis.text.x = element_text(size=6),
+        axis.text.y= element_text(size=6),
+	      legend.text= element_text(size=6),
+	      plot.caption = element_text(size=6),
+	      strip.text = element_text(size = 6)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   facet_wrap(~ var)
 
@@ -610,18 +573,18 @@ practicas_sexo %>%
 
 pr_comu_etapa <- cais_v2 %>%  
   select(starts_with("mod03_1_"), etapa) %>% pivot_longer(cols = starts_with("mod03_1_")) %>% 
-  tibble(var = c(rep("Prácticas de la comunidad"))) %>% 
+  tibble(var = c(rep("Community's practices"))) %>% 
   mutate(name = factor(name, labels = labels_comu))
 
 pr_prop_etapa <- cais_v2 %>% 
   select(starts_with("mod03_2_"), etapa) %>%  pivot_longer(cols = c(starts_with("mod03_2_"))) %>% 
-  tibble(var = c(rep("Prácticas propias"))) %>% 
+  tibble(var = c(rep("Own practices"))) %>% 
   mutate(name = factor(name, labels = labels_prop))
 
 practicas_etapa <- rbind(pr_comu_etapa, pr_prop_etapa) %>% 
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
-  mutate(var = factor(var, levels = c("Prácticas de la comunidad", "Prácticas propias"))) %>% 
+  mutate(var = factor(var, levels = c("Community's practices", "Own practices"))) %>% 
   count(name, value, var, etapa, .drop=F) %>%
   group_by(name, var, etapa) %>%
   mutate(freq = n/sum(n)*100)
@@ -644,11 +607,11 @@ practicas_etapa %>%
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	       axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
+	       axis.text.x = element_text(size=6),
+        axis.text.y= element_text(size=6),
+	      legend.text= element_text(size=6),
+	      plot.caption = element_text(size=6),
+	      strip.text = element_text(size=6)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   facet_wrap(~ var)
 
@@ -657,19 +620,19 @@ practicas_etapa %>%
 pr_comu_enfoq <- cais_v2 %>%
   filter(!is.na(enfoq)) %>%
   select(starts_with("mod03_1_"), enfoq) %>% pivot_longer(cols = starts_with("mod03_1_")) %>% 
-  tibble(var = c(rep("Prácticas de la comunidad"))) %>% 
+  tibble(var = c(rep("Community's practices"))) %>% 
   mutate(name = factor(name, labels = labels_comu))
 
 pr_prop_enfoq <- cais_v2 %>%
   filter(!is.na(enfoq)) %>%
   select(starts_with("mod03_2_"), enfoq) %>%  pivot_longer(cols = c(starts_with("mod03_2_"))) %>% 
-  tibble(var = c(rep("Prácticas propias"))) %>% 
+  tibble(var = c(rep("Own practices"))) %>% 
   mutate(name = factor(name, labels = labels_prop))
 
 practicas_enfoq <- rbind(pr_comu_enfoq, pr_prop_enfoq) %>% 
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))) %>%
-  mutate(var = factor(var, levels = c("Prácticas de la comunidad", "Prácticas propias"))) %>% 
+  mutate(var = factor(var, levels = c("Community's practices", "Own practices"))) %>% 
   count(name, value, var, enfoq, .drop=F) %>%
   group_by(name, var, enfoq) %>%
   mutate(freq = n/sum(n)*100)
@@ -693,57 +656,60 @@ practicas_enfoq %>%
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	       axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
+	       axis.text.x = element_text(size=6),
+        axis.text.y= element_text(size=6),
+	      legend.text= element_text(size=6),
+	      plot.caption = element_text(size=6),
+	      strip.text = element_text(size=6)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
   facet_wrap(~ var)
 
 ```
 
-b)  Barreras para la Ciencia Abierta
+#### b. Open Science Barriers
 
-Por otro lado, se observa una alta percepción de barreras para el
-desarrollo de la ciencia abierta en todas sus dimensiones. La Falta de
-políticas es reconocida como la principal barrera en todas las
-dimensiones, como se puede apreciar en la @fig-barreras. La falta de
-conocimientos también aparece como una barrera importante,
-particularmente para el diseño transparente, la apertura de datos y la
-investigación reproducible. Por último, la falta de incentivos es
-reconocida como otro aspecto que dificulta la apertura de datos.
+There is a high perception of barriers to the development of Open
+Science in all its dimensions. Lack of policy is perceived as the main
+barrier in all dimensions, as can be seen in the @fig-barreras. Lacks of
+knowledge also appears as a major barrier especially for transparent
+design, open data and reproducible research. Finally, lack of incentives
+is recognized as another aspect that hinders data openness.
 
 ```{r 4-bca-comp, echo=FALSE}
 #| label: fig-barreras
-#| fig-cap: "¿En qué medida considera que los siguientes factores limitan la Ciencia Abierta?"
+#| fig-cap: "¿To what extent do you consider that the following factors limit Open Science?"
 
-var_label_barreras <- c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas")
+var_label_barreras <- c("Lack of knowledge",
+                        "Lack of time",
+                        "Lack of incentives",
+                        "Possibility of plagiarism",
+                        "Lack of policy")
+
 
 disen <- cais_v2 %>%  
   select(starts_with("mod03_3_")) %>% pivot_longer(cols = starts_with("mod03_3_")) %>% 
-  tibble(var = c(rep("Diseño transparente"))) %>% 
+  tibble(var = c(rep("Transparent design"))) %>% 
   mutate(name = factor(name, labels = var_label_barreras))
 
 datos <- cais_v2 %>% 
   select(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5) %>%  pivot_longer(cols = c(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5)) %>% 
-  tibble(var = c(rep("Apertura de datos"))) %>% 
+  tibble(var = c(rep("Open data"))) %>% 
   mutate(name = factor(name, labels = var_label_barreras))
 
 repro <- cais_v2 %>% 
   select(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5) %>% pivot_longer(cols = c(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5)) %>% 
-  tibble(var = c(rep("Investigación reproducible"))) %>% 
+  tibble(var = c(rep("Reproducible research"))) %>% 
   mutate(name = factor(name, labels = var_label_barreras))
 
 publi <- cais_v2 %>% 
   select(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5) %>% pivot_longer(cols = c(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5)) %>% 
-  tibble(var = c(rep("Publicaciones libres"))) %>% 
+  tibble(var = c(rep("Open publications"))) %>% 
   mutate(name = factor(name, labels = var_label_barreras))
 
 barreras <- rbind(disen, datos, repro, publi) %>% 
   mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
                         labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
-  mutate(var = factor(var, levels = c("Diseño transparente", "Apertura de datos", "Investigación reproducible", "Publicaciones libres"))) %>% 
+  mutate(var = factor(var, levels = c("Transparent design", "Open data", "Reproducible research", "Open publications"))) %>% 
   count(name, value, var, .drop=F) %>%
   group_by(name, var) %>%
   mutate(freq = n/sum(n))
@@ -753,8 +719,8 @@ barreras %>%
   ggplot(aes(x = reorder(name, freq), y = freq, fill = '#f1605d',
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 5, hjust = -.1) +
-  labs(subtitle = "Porcentaje que responde 'Bastante o mucho'", caption = legend, x = "", y = "", fill = "") + 
+  geom_text(position = position_dodge(width  = .9),  size=3, hjust = -.1) +
+  labs(subtitle = "Porcentage responding 'Quite a lot or very much'", caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'none') +
   #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -763,29 +729,29 @@ barreras %>%
   facet_wrap(~ var) +
   theme_minimal() +
   theme(legend.position = "none",
-         axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16))
+         axis.text.x = element_text(size=8),
+        axis.text.y= element_text(size=10),
+	      legend.text= element_text(size=8),
+	      plot.caption = element_text(size=10),
+	      strip.text = element_text(size=10))
 ```
 
-Respecto a este último punto, se abordaron los incentivos que podrían
-tener los investigadores para abrir sus datos. Como se aprecia en la
-@fig-motivaciones, tanto generar redes, como difundir a la comunidad
-datos financiados con recursos públicos y aumentar la visibilidad propia
-son altamente valoradas como incentivos para la apertura de datos.
+Regarding this last point, the incentives that researchers might have to
+open their data were analyzed. As can be seen in the @fig-motivaciones,
+networking, the dissemination of publicly funded data to the community,
+and the increase of one's own visibility are highly valued as incentives
+for open data.
 
 ```{r motivaciones apertura, echo=F}
 #| label: fig-motivaciones
-#| fig-cap: "Motivaciones apertura de datos"
+#| fig-cap: "Open data motivations"
 
 # analisis otras variables.
 # Motivaciones apertura de datos ----
 
-labels_motiv <- c("Generar redes",
-                  "Difundir resultados",
-                  "Aumentar visibilidad")
+labels_motiv <- c("Networking",
+                  "Results dissemination",
+                  "Increase visibility")
 
 cais_v2 %>%
   pivot_longer(cols = c(starts_with("mod04_2_")))  %>%
@@ -800,7 +766,7 @@ cais_v2 %>%
 filter(value=="Alta motivación") %>%
 ggplot(aes(x = reorder(name, freq), y = freq, fill = value, label = scales::percent(freq, accuracy = 0.1))) + 
   geom_col(position = 'dodge2') +
-  geom_text(position = position_dodge(width = 0.9), size = 5, hjust = -0.1) +
+  geom_text(position = position_dodge(width = 0.9), size=3, hjust = -0.1) +
   labs(caption = legend, x = "", y = "", fill = "") + 
   scale_fill_viridis_d(option = "magma", begin = 0.1, end = 0.7, direction = -1) + 
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
@@ -808,27 +774,29 @@ ggplot(aes(x = reorder(name, freq), y = freq, fill = value, label = scales::perc
   coord_flip() +
   theme_minimal()+
   theme(legend.position = "none",
-         axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16))
+         axis.text.x = element_text(size=10),
+        axis.text.y= element_text(size=10),
+	      legend.text= element_text(size=9),
+	      plot.caption = element_text(size=10),
+	      strip.text = element_text(size=10))
 ```
 
-Es interesante constatar que, como se ve en la @fig-motivaciones-grid,
-difundir resultados es valorado transversalmente, hay grupos donde la
-valoración de motivaciones extrínsecas tienen una mayor preponderancia.
-Particularmente, el generar redes y aumentar la visibilidad son
-incentivos más valorados por mujeres (@fig-motivaciones-grid-1) e
-investigadores de entre 35 y 49 años (@fig-motivaciones-grid-2).
+It is interesting to note that, as can be seen in the
+@fig-motivaciones-grid, while the dissemination of results is valued
+transversally, there are groups where the valuation of extrinsic
+motivations has a greater preponderance. In particular, networking and
+increasing one's own visibility are incentives more highly valued by
+women (@fig-motivaciones-grid-1) and researchers between 35 and 49 years
+of age (@fig-motivaciones-grid-2)
 
 ```{r motivaciones-grid}
 #| label: fig-motivaciones-grid
-#| fig-cap: "Motivaciones apertura de datos"
+#| fig-cap: "Open data motivations"
 #| fig-subcap:
-#|   - "Por sexo"
-#|   - "Por edad" 
-#| layout-ncol: 1
+#|   - "By sex"
+#|   - "By age" 
+#| layout-ncol: 2
+#| fig.height: 6
 
 
 cais_v2 %>%
@@ -858,11 +826,11 @@ cais_v2 %>%
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	       axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
+	       axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15),
+	      strip.text = element_text(size=15)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
 
 cais_v2 %>%
@@ -893,196 +861,53 @@ cais_v2 %>%
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	       axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
+	       axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15),
+	      strip.text = element_text(size=15)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
   
 ```
 
-```{r 4-bca-sexo, echo=FALSE, warning=FALSE, include=F}
+### Attitudes
 
-var_label_barreras <- c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas")
+#### a. Attitudes on Open Science Measures
 
-disen <- cais_v2 %>%  
-  select(starts_with("mod03_3_"), sexo) %>% pivot_longer(cols = starts_with("mod03_3_")) %>% 
-  tibble(var = c(rep("Diseño transparente"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-datos <- cais_v2 %>% 
-  select(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5, sexo) %>%  pivot_longer(cols = c(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5)) %>% 
-  tibble(var = c(rep("Apertura de datos"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-repro <- cais_v2 %>% 
-  select(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5, sexo) %>% pivot_longer(cols = c(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5)) %>% 
-  tibble(var = c(rep("Investigación reproducible"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-publi <- cais_v2 %>% 
-  select(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5, sexo) %>% pivot_longer(cols = c(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5)) %>% 
-  tibble(var = c(rep("Publicaciones libres"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-barreras <- rbind(disen, datos, repro, publi) %>% 
-  mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                        labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
-  mutate(var = factor(var, levels = c("Diseño transparente", "Apertura de datos", "Investigación reproducible", "Publicaciones libres"))) %>% 
-  count(name, value, var, sexo, .drop=F) %>%
-  group_by(name, var, sexo) %>%
-  mutate(freq = n/sum(n))
-
-barreras %>% 
-  filter(value == "Bastante o mucho") %>% 
-  ggplot(aes(x = reorder(name, sexo), y = freq, fill = sexo,
-           label = scales::percent(freq, accuracy = .1))) + 
-  geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 2.5, hjust = -.1) +
-  labs(title = '¿En qué medida considera que los siguientes factores limitan la CA?',  
-       subtitle = "Porcentaje que responde 'Bastante o mucho'", caption = legend, x = "", y = "", fill = "") + 
-  theme(legend.position = 'right') +
-  scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  coord_flip() +
-  facet_wrap(~ var)
-
-
-
-var_label_barreras <- c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas")
-
-disen <- cais_v2 %>%  
-  select(starts_with("mod03_3_"), enfoq) %>% pivot_longer(cols = starts_with("mod03_3_")) %>% 
-  tibble(var = c(rep("Diseño transparente"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-datos <- cais_v2 %>% 
-  select(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5, enfoq) %>%  pivot_longer(cols = c(mod04_3_1, mod04_3_2, mod04_3_3, mod04_3_4, mod04_3_5)) %>% 
-  tibble(var = c(rep("Apertura de datos"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-repro <- cais_v2 %>% 
-  select(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5, enfoq) %>% pivot_longer(cols = c(mod05_6_1, mod05_6_2, mod05_6_3, mod05_6_4, mod05_6_5)) %>% 
-  tibble(var = c(rep("Investigación reproducible"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-publi <- cais_v2 %>% 
-  select(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5, enfoq) %>% pivot_longer(cols = c(mod06_6_1, mod06_6_2, mod06_6_3, mod06_6_4, mod06_6_5)) %>% 
-  tibble(var = c(rep("Publicaciones libres"))) %>% 
-  mutate(name = factor(name, labels = var_label_barreras))
-
-barreras <- rbind(disen, datos, repro, publi) %>% 
-  mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                        labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
-  mutate(var = factor(var, levels = c("Diseño transparente", "Apertura de datos", "Investigación reproducible", "Publicaciones libres"))) %>% 
-  count(name, value, var, enfoq, .drop=F) %>%
-  group_by(name, var, enfoq) %>%
-  mutate(freq = n/sum(n))
-
-barreras %>% 
-  filter(value == "Bastante o mucho" & !is.na(enfoq)) %>% 
-  ggplot(aes(x = reorder(name, enfoq), y = freq, fill = enfoq,
-           label = scales::percent(freq, accuracy = .1))) + 
-  geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 3, hjust = -.1) +
-  labs(title = '¿En qué medida considera que los siguientes factores limitan la CA?',  
-       subtitle = "Porcentaje que responde 'Bastante o mucho'", caption = legend, x = "", y = "", fill = "") + 
-  theme(legend.position = 'right',
-         axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
-  scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  coord_flip() +
-  facet_wrap(~ var)
-```
-
-```{r bca-all, eval=FALSE, include=FALSE}
-disen2 <- cais_v2 %>% select(starts_with("mod03_3_")) %>% pivot_longer(cols = starts_with("mod03_3_")) %>% 
-  tibble(var = c(rep("Diseño\ntransparente"))) %>% 
-  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas")))
-
-datos2 <- cais_v2 %>% select(starts_with("mod04_3_")) %>% pivot_longer(cols = starts_with("mod04_3_")) %>% 
-  tibble(var = c(rep("Apertura\nde datos"))) %>% 
-  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas",
-                                        "Temor al cuestionamiento", "Preocupación por datos sensibles")))
-
-repro2 <- cais_v2 %>% select(starts_with("mod05_6_")) %>% pivot_longer(cols = starts_with("mod05_6_")) %>% 
-  tibble(var = c(rep("Investigación\nreproducible"))) %>% 
-  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas",
-                                        "Temor al cuestionamiento")))
-
-publi2 <- cais_v2 %>% select(starts_with("mod06_6_")) %>% pivot_longer(cols = starts_with("mod06_6_")) %>% 
-  tibble(var = c(rep("Acceso abierto\na publicaciones"))) %>% 
-  mutate(name = factor(name, labels = c("Falta de conocimiento", "Falta de tiempo ", "Falta de incentivos", "Reticencias ante el plagio", "Falta de políticas",
-                                        "Restricciones de pago", "Falta de recursos financieros", "La falta de plataformas", "Derechos de autor")))
-
-barreras2 <- rbind(disen2, datos2, repro2, publi2) %>% 
-  mutate(value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                        labels = c("Nada o un poco", "Moderadamente", "Bastante o mucho"))) %>%
-  mutate(var = factor(var, levels = c("Diseño\ntransparente", "Apertura\nde datos", "Investigación\nreproducible", "Acceso abierto\na publicaciones"))) %>% 
-  count(name, value, var, .drop=F) %>%
-  group_by(name, var) %>%
-  mutate(freq = n/sum(n))
-
-barreras2 %>% 
-  filter(value == "Bastante o mucho") %>% 
-  ggplot(aes(x = fct_rev(name), y = freq, fill = fct_rev(var),
-           label = scales::percent(freq, accuracy = .1))) + 
-  geom_col(position = 'dodge2') + 
-  geom_text(position = position_dodge(width  = .9),  size = 2, hjust = -.1) +
-  labs(title = 'Nivel de familiaridad de los siguientes conceptos',  subtitle = "", x = "", y = "", fill = "") + 
-  theme(legend.position = 'top') +
-  scale_fill_viridis_d(option = "magma", begin = 0, end = 1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  coord_flip() +
-  facet_wrap(.~ var)
-```
-
-**Valoraciones**
-
-a)  Valoraciones sobre medidas de Ciencia Abierta
-
-En general, se valora positivamente la posibilidad de adoptar medidas de
-Ciencia Abierta en las Ciencias Sociales, como se puede observar en
-@fig-val . El acceso abierto (92%), la replicación de hallazgos (67%),
-el reporte de resultados no estadísticamente significativos (76%), y la
-disponibilización en línea de datos y materiales de análisis (72%),
-todas muestran un alto nivel de aceptación entre los encuestados. La
-única excepción es el pre-registro de hipótesis, que solo tiene un 42%
-de evaluación positiva. Esto se explica por un mayor nivel de
-desconocimiento (17% dice no conocer la medida), además de las
-reticencias ya observadas en las entrevistas del estudio cualitativo.
+In general, the possibility of adopting Open Science measures in the
+social sciences is assessed positively, as can be see in @fig-val. Open
+access (92%), replication of results (67%), reporting of
+non-statistically significant results (76%), and online availability of
+data and analysis materials (72%) all show a high level of acceptance
+among respondents. The only exception is the pre-registration of
+hypothesis, which received a positive evaluation of only 42%. This is
+explained by a higher level of unfamiliarity (17% say they are not aware
+of the measure), in addition to the reluctance already observed in the
+qualitative study.
 
 ```{r 2-vca, echo=FALSE}
 #| label: fig-val
-#| fig-cap: "¿Qué tan necesarias cree que son las siguientes medidas impulsadas por la CA para la investigación en Ciencias Sociales?"
+#| fig-cap: "How necessary do you think the following Open Science measure are for social science research?"
 
-labels_valor <- c("Pre-registro de hipótesis", 
-                  "Disponibilizar en linea\nlos datos, materiales y\nprotocolos de análisis", 
-                  "Reportar resultados aunque\nestos no sean estadísticamente\nsignificativos",
-                  "Replicar y examinar los\nhallazgos publicados",
-                  "Tomar medidas para que\nlas publicaciones sean\nde acceso abierto")
+labels_valor <- c("Pre-register hypotheses",
+                  "Make data, materials \nand analysis \navailable online",
+                  "Report results even \nnot statistically significant",
+                  "Replicate and review \npublished findings",
+                  "Make publications \nopen access")
   
 cais_v2 %>%
   pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
   mutate(name = factor(name, labels = labels_valor),
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
-                        labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
+                        labels = c("Not at all \nor quite a little", "Moderately", "A lot or \nquite a lot", "Don't \nknow it"),
                         levels = 1:4)) %>% 
   count(name, value, .drop=F) %>%
   group_by(name) %>%
   mutate(freq = n/sum(n)) %>%
-  ggplot(aes(x = name, y = freq, fill = factor(value, levels = c("No la conoce", "Nada o poco", "Moderadamente", "Bastante o mucho")), 
+  ggplot(aes(x = name, y = freq, fill = factor(value, levels = c("Don't \nknow it", "Not at all \nor quite a little", "Moderately", "A lot or \nquite a lot")), 
              label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'Stack') + 
-  geom_text(position = position_stack(vjust = .5), size= 5, color = 'white') +
+  geom_text(position = position_stack(vjust = .5), size=2.5, color = 'white') +
   labs(caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'right') +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
@@ -1091,71 +916,37 @@ cais_v2 %>%
   coord_flip() +
   theme_minimal() +
   theme(legend.position = "bottom",
-        axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16))
+        axis.text.x = element_text(size=10),
+        axis.text.y= element_text(size=10),
+	      legend.text= element_text(size=9),
+	      plot.caption = element_text(size=10),
+	      strip.text = element_text(size=10))
 ```
 
-Salvo por el acceso abierto a publicaciones, que es valorada
-transversalmente por todos los grupos, estas medidas son apoyadas en
-mayor medida por investigadoras mujeres y por investigadores con enfoque
-cuantitativo, como se puede apreciar en la @fig-vca-grid.
+With the exception of open access to publications, which is valued
+transversally by all groups, these measures are more strongly supported
+by females researchers and by researchers with a quantitative approach,
+as can be seen in the @fig-vca-grid
 
 ```{r 2-vca-sexo, echo=FALSE}
 #| label: fig-vca-grid
-#| fig-cap: "¿Qué tan necesarias cree que son las siguientes medidas impulsadas por la CA para la investigación en Ciencias Sociales?, por sexo y enfoque de investigación"
+#| fig-cap: "How necessary do you think the following Open Science measure are for social science research? -- porcentage responding a lot or quite a lot "
 #| fig-subcap:
-#|   - "Por sexo"
-#|   - "Por enfoque" 
-#| layout-ncol: 1
-
-
-cais_v2 %>%
-  pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
-  mutate(name = factor(name, labels = labels_valor),
-         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
-                        labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
-                        levels = 1:4)) %>% 
-  count(name, value, sexo, .drop=F) %>%
-  group_by(name, sexo) %>%
-  mutate(freq = n/sum(n)) %>%
-  filter(value == "Bastante o mucho") %>%
-  ggplot(aes(x = freq, y = reorder(name, freq), color = sexo)) +
-  	geom_line(size = 0.8, aes(group = name), color = "gray30") +  # Añadir líneas entre puntos de la misma práctica
-	geom_point(size = 3) +  # Crear puntos para cada práctica
-	# geom_text_repel(  # Evitar solapamiento de etiquetas
-	# 	aes(label = paste0(round(freq, 1), "%")),
-	# 	size = 3,
-	# 	nudge_x = 5,  # Ajustar posición horizontal
-	# 	direction = "y"
-	# ) +
-	labs(
-		x = "",
-		y = "",
-		color = ""
-	) +
-	theme_minimal() +
-	theme(legend.position = "bottom",
-	       axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
-  scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
-
+#|   - "By research strategy"
+#|   - "By sex" 
+#| layout-ncol: 2
+#| fig.height: 6
 
 cais_v2 %>%
   pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
   mutate(name = factor(name, labels = labels_valor),
          value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
-                        labels = c("Nada o poco", "Moderadamente", "Bastante o mucho", "No la conoce"),
+                        labels = c("Not at all or quite a little", "Moderately", "A lot or quite a lot", "Don't know it"),
                         levels = 1:4)) %>% 
   count(name, value, enfoq, .drop=F) %>%
   group_by(name, enfoq) %>%
   mutate(freq = n/sum(n)) %>%
-  filter(value == "Bastante o mucho" & !is.na(enfoq)) %>%
+  filter(value == "A lot or quite a lot" & !is.na(enfoq)) %>%
   ggplot(aes(x = freq, y = reorder(name, freq), color = enfoq)) +
   	geom_line(size = 0.8, aes(group = name), color = "gray30") +  # Añadir líneas entre puntos de la misma práctica
 	geom_point(size = 3) +  # Crear puntos para cada práctica
@@ -1169,17 +960,52 @@ cais_v2 %>%
 		x = "",
 		y = "",
 		color = "",
-		caption = legend
+		caption = ""
 	) +
 	theme_minimal() +
 	theme(legend.position = "bottom",
-	       axis.text.x = element_text(size=16),
-        axis.text.y= element_text(size=16),
-	      legend.text= element_text(size=14),
-	      plot.caption = element_text(size=14),
-	      strip.text = element_text(size = 16)) +
+	       axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15),
+	      strip.text = element_text(size=15)) +
+  scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1) +
+  guides(color=guide_legend(nrow=2,byrow=TRUE))
+
+cais_v2 %>%
+  pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
+  mutate(name = factor(name, labels = labels_valor),
+         value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3; 6 = 4"),
+                        labels = c("Not at all or quite a little", "Moderately", "A lot or quite a lot", "Don't know it"),
+                        levels = 1:4)) %>% 
+  count(name, value, sexo, .drop=F) %>%
+  group_by(name, sexo) %>%
+  mutate(freq = n/sum(n)) %>%
+  filter(value == "A lot or quite a lot") %>%
+  ggplot(aes(x = freq, y = reorder(name, freq), color = sexo)) +
+  	geom_line(size = 0.8, aes(group = name), color = "gray30") +  # Añadir líneas entre puntos de la misma práctica
+	geom_point(size = 3) +  # Crear puntos para cada práctica
+	# geom_text_repel(  # Evitar solapamiento de etiquetas
+	# 	aes(label = paste0(round(freq, 1), "%")),
+	# 	size = 3,
+	# 	nudge_x = 5,  # Ajustar posición horizontal
+	# 	direction = "y"
+	# ) +
+	labs(
+		x = "",
+		y = "",
+		color = "",
+		caption= legend
+	) +
+	theme_minimal() +
+	theme(legend.position = "bottom",
+	       axis.text.x = element_text(size=15),
+        axis.text.y= element_text(size=15),
+	      legend.text= element_text(size=12),
+	      plot.caption = element_text(size=15),
+	      strip.text = element_text(size=15)) +
   scale_color_viridis_d(option = "magma", begin = .1, end = .7, direction = -1)
-  
+
 ```
 
 ```{r 2-vca-edad, echo=FALSE, include=F}
@@ -1206,7 +1032,8 @@ cais_v2 %>%
   coord_flip()
 ```
 
-```{r 2-vca-etapa, echo=FALSE, include=F}
+```{r otros-vca, echo=FALSE, include=F}
+#Etapa
 cais_v2 %>%
   pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
   mutate(name = factor(name, labels = labels_valor),
@@ -1228,9 +1055,8 @@ cais_v2 %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1.1)) +
   guides(fill = guide_legend(reverse = TRUE)) +
   coord_flip()
-```
 
-```{r 2-vca-grado, echo=FALSE, include=FALSE}
+#Grado
 cais_v2 %>%
   pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
   mutate(name = factor(name, labels = labels_valor),
@@ -1254,22 +1080,25 @@ cais_v2 %>%
   coord_flip()
 ```
 
-b)  Valoraciones sobre la Crisis de Reproducibilidad
+#### b. Attitudes about the Replication Crisis
 
-Como se evidencia en la @fig-dona, el 39% de los encuestados cree que
-hay una crisis importante de reproducibilidad, mientras que el 40% no
-sabe si la hay.
+As shown in the @fig-dona, 39% of respondents believe there is a major
+replication crisis, while 40% do not know if there is one. Concern is
+greater among quantitative researchers, as seen in @fig-dona-grid, with
+70% believing that the crisis is important. While there is no denial of
+the crisis among qualitative researchers, 60% do not know if there is a
+crisis or not.
 
 ```{r crisis-reproducibilidad}
 #| label: fig-dona
-#| fig-cap: ¿Con cuál de las siguientes afirmaciones respecto a la crisis de reproducibilidad está de acuerdo?
+#| fig-cap: With which of the following statement regarding the replication crisis do you agree?
 
 cais_v2 %>% 
   mutate(mod05_3= factor(mod05_3, 
-                         labels= c("No hay crisis de reproducibilidad",
-                                            "Hay una ligera crisis de reproducibilidad",	
-                                            "Hay una importante crisis de reproducibilidad",
-                                            "No sé"),
+                         labels= c("There is no replication crisis",
+                                   "There is a slight replication crisis",
+                                   "There is a mejor reproducibility crisis",
+                                   "Don't know"),
                          levels= 1:4)) %>%
   group_by(mod05_3) %>% 
   summarise(n= n()) %>%
@@ -1280,45 +1109,38 @@ ggplot(aes(x = 2, y = freq, fill = mod05_3)) +
     coord_polar(theta = "y") +
     xlim(0.5, 2.5) + # PARA EL TAMANO # REVISAR COLORES
     labs(fill = "",
-         caption= "Fuente: CAIS(2024), N=49") +
+         caption= "Source: CAIS(2024), N=49") +
     theme_minimal() +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
-    theme(legend.position = "bottom",
+    theme(legend.position = "right",
       axis.text = element_blank(),
       axis.title = element_blank(),
       panel.grid = element_blank(),
       plot.title = element_text(face = "bold", hjust = 0.5),
       plot.subtitle = element_text(hjust = 0.5),
-      legend.text = element_text(size=12),
-      plot.caption = element_text(size=14)) + 
+      legend.text = element_text(size=10),
+      plot.caption = element_text(size=10)) + 
       geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), # posicion etiqueta
-            color = "white", size = 5) # texto
+            color = "white", size=3) # texto
 
-#inentar agregar porcentajes
-
-# GRAFICAR. QUIZÁS UN GRÁFICO DE DONA,
 ```
-
-Además, se identificaron diferencias respecto al enfoque de
-investigación (ver @fig-dona-grid). La preocupación es mayor entre los
-investigadores cuantitativos, ya que el 70% cree que la crisis es
-importante. Si bien entre los investigadores cualitativos no se llega a
-negar la crisis, sí hay un 60% que desconoce si la hay o no.
 
 ```{r crisis-enfoque}
 #| label: fig-dona-grid
-#| fig-cap: Percepcion sobre la crisis de reproducibilidad por enfoque.
+#| fig-cap: Perception of the reproducibility crisis by research strategy.
+
+
 # Entre investigadores cuantiativos el 82% cree que la crisis es importe. Entre investigadores cuali, el 59% no sabe. 
 
 # GRAFICAR. TRES GRAFICOS DE DONA, UNA POR ENFOQUE EN UN GRILLA?
 
 cais_v2 %>%
   mutate(mod05_3 = factor(mod05_3, 
-                          labels = c("No hay crisis de reproducibilidad",
-                                     "Hay una ligera crisis de reproducibilidad", 
-                                     "Hay una importante crisis de reproducibilidad", 
-                                     "No sé"),
+                          labels = c("There is no \nreplication crisis",
+                                   "There is a slight \nreplication crisis",
+                                   "There is a mejor \nreplication crisis",
+                                   "Don't know"),
                           levels = 1:4)) %>%
   filter(!is.na(mod05_3) & !is.na(enfoq)) %>%  #Elimina valores NA
   group_by(enfoq, mod05_3) %>% 
@@ -1331,7 +1153,7 @@ cais_v2 %>%
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
   scale_fill_brewer(palette = "Pastel1") + # colores
-  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
+  labs(fill = "", caption= "Source: CAIS (2024), N=49") +
   theme_minimal() +
   theme(legend.position = "bottom",
     axis.text = element_blank(),
@@ -1339,70 +1161,51 @@ cais_v2 %>%
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5),
-    legend.text= element_text(size=12),
-    plot.caption= element_text(size=14),
-    strip.text= element_text(size=16)
+    legend.text= element_text(size=9),
+    plot.caption= element_text(size=10),
+    strip.text= element_text(size=10)
   ) +
   facet_grid(~enfoq) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), # Centra las etiquetas
-            color = "white", size = 5) + # Ajusta texto
+            color = "white", size=3) + # Ajusta texto
 scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 ```
 
-Por otro lado, el 59% cree que el 30% o menos de las investigaciones en
-ciencias sociales son reproducibles; el 83% cree que menos de la mitad
-de las investigaciones en ciencias sociales son reproducibles, como se
-muestra en @tbl-tablaacum.
+On the other hand, 59% believe that 30% or less of social science
+research is reproducible, while 83% believe that less than half of
+social science research is reproducible, as shown in @tbl-tablaacum
 
 ```{r, percecpcion-repro, include=T}
 #| label: tbl-tablaacum
-#| tbl-cap: "Percepción de porcentaje de investigaciones reproducibles en Ciencias Sociales"
+#| tbl-cap: "Perception of the percentage of reproducible research in Social Sciences"
 cais_v2 %>% 
   group_by(mod05_4) %>%
   summarise(n = n()) %>%
    mutate(acum = round(cumsum(n / sum(n)) * 100, 2)) %>%
-  kable(col.names = c("Investigaciones \nReproducibles", "Frecuencia", "Acum (%)"))
+  kable(col.names = c("Reproducible \nResearches", "Frequency", "Acum (%)"))
 
 ```
 
-Esto va en línea con que el 40% de los encuestados ha intentado
-reproducir resultados de otros investigadores (@fig-dona-2-1). De este
-porcentaje, solo el 20% de los intentos han logrado una reproducción
-completa, mientras que el 69% ha logrado reproducciones parciales
-(@fig-dona-2-2).
-
-```{r intentos-reprod, include=F}
-
-labels_valor <- c("¿Ha intentado reproducir uno de sus propios resultados?",
-                  "¿Ha intentado reproducir los resultados de alguien más?")
-
-cais_v2 %>%
-  pivot_longer(cols = c(mod05_5_1, mod05_5_3))  %>%
-  mutate(name = factor(name, labels = labels_valor),
-         value = factor(value,
-                        labels = c("Sí", "No", "No sé"),
-                        levels = 1:3)) %>%
-  filter(!is.na(value)) %>%
-  count(name, value, .drop=F) %>%
-  group_by(name) %>%
-  mutate(freq = n/sum(n)) %>% kable()
-
-# 58% ha intentado reproducir sus propios resultados y un 43% los resultados de otro investigador
-```
+This is consistent with the 40% of respondents having attempted to
+reproduce the results of other researchers (@fig-reprod-1). Of this
+percentage, only 20% of the attempts were complete reproductions, while
+69% were only partial (@fig-reprod-2)
 
 ```{r, include=T}
-#| label: fig-dona-2
-#| fig-cap: "Prácticas asociadas a la reproducibilidad"
+#| label: fig-reprod
+#| fig-cap: "Practices associated with reproducibility"
 #| fig-subcap:
-#| - "¿Ha intentado reproducir resultados de alguien más?"
-#| - "De haberlo intentado, ¿En cuál de estas etapas quedó?"
+#| - "Have you tried to reproduce someone else's results?"
+#| - "If you have tried, which of these stages did you fall into?"
+#| layout-ncol: 2
+#| fig.height: 6
 
 cais_v2 %>% 
   mutate(mod05_5_3 = factor(mod05_5_3, 
-                            labels = c("Si", "No", "No se"),
+                            labels = c("Yes", "No", "Don't know"),
                             levels = 1:3)) %>%
   drop_na(mod05_5_3) %>%  # Filtra los NA
   group_by(mod05_5_3) %>% 
@@ -1421,30 +1224,30 @@ cais_v2 %>%
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        legend.position = "bottom",
-        legend.text = element_text(size=14)) + 
+        legend.position = "right",
+        legend.text = element_text(size=15)) + 
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5),  # Centra las etiquetas
-            color = "white", size = 5) 
+            color = "white", size=4.5) 
   
 
 
 #----------------------------
 
-cais_v2 %>% 
-  mutate(mod05_5_4 = factor(mod05_5_4, 
-                            labels = c("No logrado", "Logrado parcialmente", "Logrado"),
+cais_v2 %>%
+  mutate(mod05_5_4 = factor(mod05_5_4,
+                            labels = c("Not successful", "Partially successful", "Successful"),
                             levels = 1:3)) %>%
   drop_na(mod05_5_4) %>%  # Filtra los NA
-  group_by(mod05_5_4) %>% 
+  group_by(mod05_5_4) %>%
   summarise(n = n()) %>%
   mutate(freq = n / sum(n),
          porcentaje = paste0(round(freq * 100, 1), "%")) %>%
-  ggplot(aes(x = 2, y = freq, fill = mod05_5_4)) + 
+  ggplot(aes(x = 2, y = freq, fill = mod05_5_4)) +
   geom_bar(stat = "identity", width = 1, color = "white") +
   coord_polar(theta = "y") +
   xlim(0.5, 2.5) +  # Ajusta el tamaño
-  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
+  labs(fill = "", caption= "Source: CAIS (2024), N=49") +
   theme_minimal() +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1) +
   theme(axis.text = element_blank(),
@@ -1452,40 +1255,39 @@ cais_v2 %>%
         panel.grid = element_blank(),
         plot.title = element_text(face = "bold", hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        legend.position = "bottom",
-        legend.text = element_text(size=14),
-        plot.caption = element_text(size=14)) + 
-  geom_text(aes(label = porcentaje), 
+        legend.position = "right",
+        legend.text = element_text(size=15),
+        plot.caption = element_text(size=15)) +
+  geom_text(aes(label = porcentaje),
             position = position_stack(vjust = 0.5),  # Centra las etiquetas
-            color = "white", size = 5) 
-  
-
-# GRAFICAR. GRAFICO DE DONA?
+            color = "white", size=4.5)
 ```
 
-c)  Valoraciones Política de Ciencia Abierta de ANID
+#### c. Attidues about ANID's Open Science policies
 
-En primera instancia, la Política de Ciencia Abierta de ANID encuentra
-buena acogida entre los encuestados. Así, el 90% considera que está de
-acuerdo o muy de acuerdo con que ANID continúe desarrollando políticas
-de ciencia abierta, como se muestra en @fig-vanid-grid-2-2. Asimismo, el
-84% considera bastante o muy necesario la implementación de políticas de
-acceso abierto, como se observa en @fig-vanid-grid-1.
+In the first instance, ANID's Open Science Policy is well received by
+the respondents. For example, 90% agree or strongly agree that ANID
+should continue to develop its Open Science Policy, as show in
+@fig-vanid-grid-2. Similarly, 84% consider the implementation of Open
+Access policies to be quite or very necessary, as shown in
+@fig-vanid-grid-1
 
-```{r}
+```{r, include=T}
 #| label: fig-vanid-grid
-#| fig-cap: "Valoración políticas de ciencia abierta ANID"
+#| fig-cap: "Assessment of ANID's open science policies"
 #| fig-subcap: 
-#| - "Qué tan necesario es la implementación de políticas de acceso abierto obligatorias para investigaciones financiadas por fondos públicos?"
-#| - "¿Qué tan de acuerdo se encuentra con que la ANID continúe desarrollando e implementando políticas de acceso abierto a la producción científica?"
+#| - "How necessary is the implementation of mandatory open access policies for publicly funded research?"
+#| - "How much do you agree with ANID continuing to develop and implement open access policies for scientific production?"
+#| layout-ncol: 2
+#| fig.height: 6
 
 cais_v2 %>%
   mutate(mod07_2 = factor(mod07_2,
-                          labels = c("Nada necesario",
-                                     "Ligeramente necesario",
-                                     "Moderadamente necesario",
-                                     "Bastante necesario",
-                                     "Muy necesario"),
+                          labels = c("Not necessary at all",
+                                     "Slightly necessary",
+                                     "Moderately necessary",
+                                     "Quite necessary",
+                                     "Very necessary"),
                           levels = 1:5)) %>%
   drop_na(mod07_2) %>%
   group_by(mod07_2) %>%
@@ -1497,29 +1299,29 @@ cais_v2 %>%
   coord_polar(theta = "y") +  
   labs(fill = "") +
   theme_minimal() +
-  theme(legend.position= "bottom",
+  theme(legend.position= "right",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5),
-    legend.text = element_text(size=12)
+    legend.text = element_text(size=15)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 4) +
+            color = "white", size = 4.5) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 #---------------------------------------------
 
 cais_v2 %>%
   mutate(mod07_7 = factor(mod07_7,
-                          labels = c("Muy en desacuerdo",
-                                     "En desacuerdo",
-                                     "Ni de acuerdo ni en desacuerdo",
-                                     "De acuerdo",
-                                     "Muy de acuerdo"),
+                          labels = c("Strongly Disagree",
+                                     "Disagree",
+                                     "Neither Agree nor Disagree",
+                                     "Agree",
+                                     "Strongly Agree"),
                           levels = 1:5)) %>%
   drop_na(mod07_7) %>%
   group_by(mod07_7) %>%
@@ -1528,41 +1330,45 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_7)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(fill = "", caption= "Fuente CAIS (2024), N=49") +
+  labs(fill = "", caption= "Source CAIS (2024), N=49") +
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = "right",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5),
-    legend.text= element_text(size=12)
+    legend.text= element_text(size=12),
+     plot.caption = element_text(size=15)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 4) +
+            color = "white", size = 4.5) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 ```
 
-Sin embargo, hay otras prácticas que encuentran una menor acogida. Así,
-tanto la obligatoriedad del prerregistro, como se muestra en
-@fig-vanid-grid-2-1, como la de la reproducibilidad, como se observa en
-@fig-vanid-grid-2-2, obtienen el apoyo solo del 50% de los encuestados.
+However, there are other practices that are less well received. Thus,
+both mandatory pre-registration, as shown in @fig-vanid-grid-b-1, and
+reproducibility (@fig-vanid-grid-b-2), are supported only by half of the
+respondents.
 
-```{r}
-#| label: fig-vanid-grid-2
-#| fig-cap: "Valoración inclusión de prácticas en la Política de Acceso Abierto de ANID"
+```{r, include=T}
+#| label: fig-vanid-grid-b
+#| fig-cap: "Assessment inclusion of practices in ANID's Open Access Policy"
 #| fig-subcap: 
-#| - "¿Cuán necesario es que la ANID incorpore el pre-registro del diseño de investigación dentro de su Política de Acceso Abierto?"
-#| - "¿Cuán necesario es que la ANID incorpore la reproducibilidad de la investigación dentro de su Política de Acceso Abierto?"
+#| - "How neccesary is it for ANID to incorporate pre-registration of research design within its Open Access Policy?"
+#| - "How neccesary is it for ANID to incorporate reproducibility of research within its Open Access Policy"
+#| layout-ncol: 2
+#| fig.height: 6
+
 cais_v2 %>%
   mutate(mod07_8 = factor(mod07_8,
-                          labels = c("Nada necesario",
-                                     "Ligeramente necesario",
-                                     "Moderadamente necesario",
-                                     "Bastante necesario",
-                                     "Muy necesario"),
+                          labels = c("Not necessary at all",
+                                     "Slightly necessary",
+                                     "Moderately necessary",
+                                     "Quite necessary",
+                                     "Very necessary"),
                           levels = 1:5)) %>%
   drop_na(mod07_8) %>%
   group_by(mod07_8) %>%
@@ -1573,29 +1379,29 @@ cais_v2 %>%
   coord_polar(theta = "y") +  
   labs(fill = "") +
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = "right",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5),
-    legend.text= element_text(size=14)
+    legend.text= element_text(size=12)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 5) +
+            color = "white", size=4.5) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 #----------------------
 
 cais_v2 %>%
   mutate(mod07_9 = factor(mod07_9,
-                          labels = c("Nada necesario",
-                                     "Ligeramente necesario",
-                                     "Moderadamente necesario",
-                                     "Bastante necesario",
-                                     "Muy necesario"),
+                          labels = c("Not necessary at all",
+                                     "Slightly necessary",
+                                     "Moderately necessary",
+                                     "Quite necessary",
+                                     "Very necessary"),
                           levels = 1:5)) %>%
   drop_na(mod07_9) %>%
   group_by(mod07_9) %>%
@@ -1604,40 +1410,40 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_9)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
+  labs(fill = "", caption= "Source: CAIS (2024), N=49") +
   theme_minimal() +
-  theme(legend.position = "bottom",
+  theme(legend.position = "right",
     axis.text = element_blank(),
     axis.title = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5),
-    legend.text= element_text(size=14),
-    plot.caption = element_text(size=14)
+    legend.text= element_text(size=12),
+    plot.caption = element_text(size=15)
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 5) +
+            color = "white", size=4.5) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 ```
 
-Por último, la política de difusión de la ANID es evaluada negativamente
-por la mayoría de los encuestados. Solo un 24% considera que esta
-política es buena o muy buena, como se observa en @fig-vanid-2.
+Finally, the dissemination of ANID's Open Access policy is negatively
+evaluated by the majority of respondents. Only 24% consider it to be
+good or very good, as seen in @fig-vanid-2
 
 ```{r}
 #| label: fig-vanid-2
-#| fig-cap: "¿Cómo evalúa la difusión de la Política de Acceso Abierto a la Información Científica y a Datos de Investigación por parte de la ANID?"
+#| fig-cap: "How do you evaluate the dissemination of the Open Access to Scientific Information and Research Data Policy"
 
 cais_v2 %>%
   mutate(mod07_10 = factor(mod07_10,
-                          labels = c("Mala",
-                                     "Regular",
-                                     "Neutra",
-                                     "Buena",
-                                     "Muy buena"),
+                          labels = c("Bad",
+                                     "Fair",
+                                     "Neutral",
+                                     "Good",
+                                     "Very Good"),
                           levels = 1:5)) %>%
   drop_na(mod07_10) %>%
   group_by(mod07_10) %>%
@@ -1646,7 +1452,7 @@ cais_v2 %>%
          porcentaje = paste0(round(freq * 100, 1), "%")) %>% ggplot(aes(x = 2, y = freq, fill = mod07_10)) +
   geom_bar(stat = "identity", width = 1, color = "white") + 
   coord_polar(theta = "y") +  
-  labs(fill = "", caption= "Fuente: CAIS (2024), N=49") +
+  labs(fill = "", caption= "Source: CAIS (2024), N=49") +
   theme_minimal() +
   theme(
     axis.text = element_blank(),
@@ -1654,13 +1460,13 @@ cais_v2 %>%
     panel.grid = element_blank(),
     plot.title = element_text(face = "bold", hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5),
-    legend.text = element_text(size=14),
-    plot.caption = element_text(size=14),
-    legend.position = "bottom"
+    legend.text = element_text(size=10),
+    plot.caption = element_text(size=10),
+    legend.position = "right"
   ) + 
   xlim(1, 2.5) +
   geom_text(aes(label = porcentaje), 
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 5) +
+            color = "white", size=3) +
   scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 ```

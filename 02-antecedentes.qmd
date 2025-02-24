@@ -2,7 +2,7 @@
 author: LISA COES
 ---
 
-# Antecedentes
+# Background
 
 a) Revisión ciencia abierta en general (Kevin, práctica)
 

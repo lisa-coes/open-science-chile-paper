@@ -2,12 +2,10 @@
 author: LISA COES
 ---
 
-# Metodología
+# Design
 
-La investigación se basó en un diseño mixto secuencial-exploratorio. Este abordaje consiste en un método de dos etapas en que, usualmente, se inicia con un análisis cualitativo y es seguido por el desarrollo de un instrumento [@creswell_mixedmethods_2018].
+We conducted a mixed sequential-exploratory design. This approach consist of two-stage method, usually starting with a qualitative analysis followed by the development of quantitative instrument [@creswell_designing_2018].
 
-La integración de ambas técnicas se justifica en que, aunque existe experiencia internacional estudiando prácticas y valoraciones hacia la Ciencia Abierta, no se encontraron investigaciones previas que abordaran esta temática entre académicos chilenos. De tal modo, el diseño aquí propuesto supuso una primera fase de exploración cualitativa que permitió tener una primera impresión de las percepciones en torno al concepto de ciencia abierta en la comunidad académica chilena. Los resultados de esta primera indagación fueron integrados al diseño del instrumento cuantitativo, aplicado en segunda instancia. 
+The integration of both techniques is justified by the fact that, although there is international experience in the study of practices and evaluation of Open Science, no previous research was found to address this issue among Chilean social science academics. Thus, we proposed a design that includes a first phase of qualitative exploration that allowed us to have a first impression of the knowledge, practices and attitudes about the concept of Open Science in the Chilean academic community. The result of this first study were integrated in the design of the quantitative instrument that was applied in a second study.
 
-Además de informar la construcción del instrumento, la integración entre la etapa cualitativa y cuantitativa se realizó mediante la síntesis de los hallazgos de ambas fases. De tal forma, se buscó extraer conclusiones coherentes, evaluando como los datos cuantitativos son capaces de ampliar o validar los hallazgos iniciales del estudio cualitativo, generando una comprensión integral del estado de la Ciencia Abierta en las ciencias sociales chilenas. 
-
-
+In addition to informing the construction of the instrument, the integration between the qualitative and quantitative studies was achieved by synthesizing the results of both phases. In this way, we sought to draw coherent conclusions by evaluating how the quantitative data were able to expand or validate the initial findings of the qualitative study, generating a comprehensive understanding of the state of Open Science in the Chilean social sciences.
