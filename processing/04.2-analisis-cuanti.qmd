@@ -17,7 +17,6 @@ getwd()
 ```
 
 ```{r load-library, include=FALSE}
-library(formr)
 library(tidyverse)
 library(writexl)
 library(sjlabelled)
@@ -141,24 +140,41 @@ modules:
 We used FormR for the implementation of the questionnaire. FormR is an
 open source software that allows the design of complex questionnaires
 with a high degree of customization [@arslan_chain_2025;
-@arslan_formr_2020] . Since it is integrated with RStudio (R +
-RMarkdown), it facilitates collaborative work regardless of the length
+@arslan_formr_2020]. Since it is integrated with R and RMarkdown,
+it facilitates collaborative work regardless of the length
 of the questionnaire. The platform allows the questionnaire to be
 self-administered, either by personal computers or by smartphones.
 
-To construct the sample, mass mailings were sent to researchers who had
-received state research funding, to faculties and departments of various
-social science disciplines, and to research centers and nuclei. In
+To construct the sample, mass emails were sent to researchers who had 
+received state funding for research, as well as to faculties and departments 
+across various social science disciplines, and to research centers and institutes 
+in the field of social sciences. In
 addition, the survey was distributed through social media and at
-academic events. In the end, 98 complete responses were received. The
+academic events of social sciences. In the end, 98 complete responses were received. The
 description of the sample is presented in @tbl-resumen.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, results='asis'}
 #| label: "tbl-resumen"
 #| tbl-cap: "Quantitative Sample Description"
 
-dfSummary(cais_v2 %>% select(Sex= sexo, Age= edad, Degree= grado, "Career stage"= etapa, "Research strategy"= enfoq), headings = FALSE, graph.col = FALSE, varnumbers = F) %>%
-  kable()
+df<-dfSummary(cais_v2 %>% select(Sex= sexo,
+                                   Age= edad, 
+                                   Degree= grado, 
+                                   "Career stage"= etapa, 
+                                   "Research strategy"= enfoq),
+               plain.ascii = FALSE,
+               style = "multiline",
+               tmp.img.dir = "/tmp",
+               graph.magnif = 0.75,
+               headings = F,  # encabezado
+               varnumbers = F, # num variable
+               labels.col = T, # etiquetas
+               na.col = F,    # missing
+               graph.col = F, # plot
+               valid.col = T, # n valido
+               col.widths = c(30,10,10,10))
+
+print(df)
 
 ```
 
@@ -187,11 +203,11 @@ pre-registration of hypotheses.
 
 # El siguiente gráfico visualiza una batería, es decir, varios tems con preguntas diferentes, pero iguales valores de respuesta. Este tipo de gráficos sigue la siguiente estructura tipo:
 labels_cca <- c("Open Science", 
-                "Publications \nopen access", 
-                "Hypotheses \npre-registration", 
+                "Publications in\nopen access", 
+                "Hypotheses\npre-registration", 
                 "Open Data", 
-                "Reproducible \nresearch", "Open \nrepositories", 
-                "Open software", "Open data access")
+                "Reproducible\nresearch", "Open\nrepositories", 
+                "Open software", "Open data\naccess")
   
 cais_v2 %>%
   # TRASPONER PARA QUE EL LA BATERÍA PASE A SER UNA VARIABLE EN SÍ MISMA
@@ -234,15 +250,76 @@ cais_v2 %>%
 
 In general, knowledge levels seem to be higher among young researchers
 and with a predominantly quantitative focus, as shown in the
-@fig-cca-grid. Respondents between 28 and 34 years of age, thus, show
-higher levels of knowledge about free software, and the concepts of
-reproducible research and open science (@fig-cca-grid-1). However,
-researchers between 35 and 49 years of age show higher levels of
+@tbl-cca-grid. Respondents between 28 and 34 years of age, thus, show
+higher levels of knowledge about open software, and the concepts of
+reproducible research and open science. However, researchers between 
+35 and 49 years of age show higher levels of
 knowledge of hypotheses preregistration and open access to data.
 Quantitative researchers, meanwhile, show higher levels of knowledge of
-all concepts except open access to publications (@fig-cca-grid-2).
+all concepts except open access to publications.
 
-```{r 1-cca-edad, echo=FALSE}
+```{r}
+#| label: tbl-cca-grid
+#| tbl-cap: "Familiarity with Open Science concepts by age and research strategy" 
+
+table_age <- cais_v2 %>% 
+  pivot_longer(cols = c(mod02_1, starts_with("mod02_2"))) %>%
+  mutate(
+    name = factor(name, labels = labels_cca),
+    value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
+                   labels = c("Low", "Medium", "High"))
+  ) %>%
+  count(name, edad, value, .drop = FALSE) %>%
+  group_by(name, edad) %>%
+  mutate(freq = n / sum(n) * 100) %>%
+  filter(value == "High") %>%
+  ungroup() %>%
+  select(name, edad, freq) %>%
+  pivot_wider(names_from = edad, values_from = freq)
+
+table_strategy <- cais_v2 %>% 
+  pivot_longer(cols = c(mod02_1, starts_with("mod02_2"))) %>%
+  mutate(
+    name = factor(name, labels = labels_cca),
+    value = factor(car::recode(value, "1:3 = 1; 4:5 = 2; 6:7 = 3"),
+                   labels = c("Low", "Medium", "High"))
+  ) %>%
+  count(name, enfoq, value, .drop = FALSE) %>%
+  group_by(name, enfoq) %>%
+  mutate(freq = n / sum(n) * 100) %>%
+  filter(value == "High") %>%
+  drop_na() %>%
+  ungroup() %>%
+  select(name, enfoq, freq) %>%
+  pivot_wider(names_from = enfoq, values_from = freq)
+
+# Transform percentage values to formatted strings (e.g., 66.7%)
+table_age_fmt <- table_age %>%
+  mutate(across(-name, ~ sprintf("%.1f%%", .)))
+
+table_strategy_fmt <- table_strategy %>%
+  mutate(across(-name, ~ sprintf("%.1f%%", .)))
+
+table_combined <- left_join(table_age_fmt, table_strategy_fmt, by = "name")
+
+colnames(table_combined) <- c(
+  "Open Science Concept",
+  "28–34", "35–49", "50+",
+  "Qualitative", "Mixed", "Quantitative"
+)
+
+
+kbl(table_combined, 
+    align = "l") %>% 
+    add_header_above(c(" " = 1, "Age group" = 3, "Research strategy" = 3),
+                   bold = T)%>%  
+  kable_paper("hover",full_width = F) %>%
+     column_spec(1, bold = T)
+
+```
+
+
+```{r 1-cca-edad, echo=FALSE, include=FALSE}
 #| label: fig-cca-grid
 #| fig-cap: "Familiarity with Open Science concepts by age and reseaarch strategy" 
 #| fig-subcap:
@@ -369,13 +446,16 @@ cais_v2 %>%
 # Muestran poca variación entre grupos
 ```
 
-Similarly, ANID's Open Access to Scientific Information and Research
-Data Policy shows a medium to low level of awareness. Specifically, only
-half of the respondents have heard of ANID's policy. On the other hand,
-only 26% are aware of ANID's data management plan for the open access
-policy.
+
 
 ```{r anid-conocimiento, include=FALSE}
+
+#Similarly, ANID's Open Access to Scientific Information and Research
+#Data Policy shows a medium to low level of awareness. Specifically, only
+#half of the respondents have heard of ANID's policy. On the other hand,
+#only 26% are aware of ANID's data management plan for the open access
+#policy.
+
 ANID <- lisa_v2_75 %>% # CONODIMIENTO DE ANID
   select(mod01_10, mod08_2, mod08_1, mod07_4, mod07_5) %>% 
   mutate_at(vars(starts_with("mod07")), 
@@ -508,13 +588,125 @@ manipulated data to validate a hypothesis, 4% say this always or almost
 always happens in the community.
 
 It is curious that when the analysis is broken down into different
-groups, certain trends are repeated. Male, quantitative-oriented,
-early-career researchers are at the same time those who declare the
+groups, certain trends are repeated. Male and quantitative-oriented,
+researchers are at the same time those who declare the
 highest frequency of own practices, both negative and positive, as well
 as those perceive the highest number of negative practices in the
-community. These differences can be seen in detail in the @fig-prac-grid
+community. These differences can be seen in detail in the @tbl-prac-grid
 
-```{r prac-grid, echo= F}
+```{r}
+#| label: tbl-prac-grid
+#| tbl-cap: "How often are the following practices performed?" 
+
+table_sexo <- cais_v2 %>%
+  select(starts_with("mod03_1_"), starts_with("mod03_2_"), sexo) %>%
+  pivot_longer(cols = -sexo) %>%
+  mutate(
+    var = ifelse(grepl("mod03_1_", name), "Community's practices", "Own practices"),
+    name = factor(name,
+                  levels = c(names(cais_v2 %>% select(starts_with("mod03_2_"))),
+                             names(cais_v2 %>% select(starts_with("mod03_1_")))),
+                  labels = c(labels_prop, labels_comu)),
+    value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                   labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))
+  ) %>%
+  count(name, sexo, value, var, .drop = FALSE) %>%
+  group_by(name, sexo, var) %>%
+  mutate(freq = n / sum(n) * 100) %>%
+  filter(value == "Casi siempre o siempre") %>%
+  ungroup() %>%
+  select(name, sexo, var, freq) %>%
+  pivot_wider(names_from = sexo, values_from = freq)
+
+table_enfoq <- cais_v2 %>%
+  select(starts_with("mod03_1_"), starts_with("mod03_2_"), enfoq) %>%
+  filter(!is.na(enfoq)) %>%
+  pivot_longer(cols = -enfoq) %>%
+  mutate(
+    var = ifelse(grepl("mod03_1_", name), "Community's practices", "Own practices"),
+    name = factor(name,
+                  levels = c(names(cais_v2 %>% select(starts_with("mod03_2_"))),
+                             names(cais_v2 %>% select(starts_with("mod03_1_")))),
+                  labels = c(labels_prop, labels_comu)),
+    value = factor(car::recode(value, "1:2 = 1; 3 = 2; 4:5 = 3"),
+                   labels = c("Nunca o casi nunca", "A veces", "Casi siempre o siempre"))
+  ) %>%
+  count(name, enfoq, value, var, .drop = FALSE) %>%
+  group_by(name, enfoq, var) %>%
+  mutate(freq = n / sum(n) * 100) %>%
+  filter(value == "Casi siempre o siempre") %>%
+  ungroup() %>%
+  select(name, enfoq, var, freq) %>%
+  pivot_wider(names_from = enfoq, values_from = freq)
+
+table_sexo_fmt <- table_sexo %>%
+  mutate(across(-c(name, var), ~ sprintf("%.1f%%", .)))
+
+table_enfoq_fmt <- table_enfoq %>%
+  mutate(across(-c(name, var), ~ sprintf("%.1f%%", .)))
+
+table_combined <- left_join(table_sexo_fmt, table_enfoq_fmt, by = c("name", "var"))
+
+# Preparar cada subtabla por separado
+table_own <- table_combined %>%
+  filter(var == "Own practices") %>%
+  select(-var)
+
+table_comu <- table_combined %>%
+  filter(var == "Community's practices") %>%
+  select(-var)
+
+# Insertar una fila vacía entre ambas (opcional pero mejora legibilidad)
+fila_vacia <- matrix(rep("", ncol(table_own)), nrow = 1) %>% 
+  as.data.frame()
+colnames(fila_vacia) <- colnames(table_own)
+
+# Unir en una sola tabla
+tabla_final <- bind_rows(
+  tibble::as_tibble(table_own),
+  fila_vacia,
+  tibble::as_tibble(table_comu)
+)
+
+# Cambiar nombre de columna
+colnames(tabla_final)[1] <- "Research Practice"
+
+# Crear filas separadoras con HTML bold
+own_header <- tibble(
+  `Research Practice` = "<b>Own practices</b>",
+  Women = "", Men = "", Qualitative = "", `Mixed-Methods` = "", Quantitative = ""
+)
+
+comu_header <- tibble(
+  `Research Practice` = "<b>Community's practices</b>",
+  Women = "", Men = "", Qualitative = "", `Mixed-Methods` = "", Quantitative = ""
+)
+
+# Unir tabla final
+tabla_final <- bind_rows(
+  own_header,
+  table_own %>% rename(`Research Practice` = name),
+  comu_header,
+  table_comu %>% rename(`Research Practice` = name)
+)
+
+# Renombrar columnas como deseas
+tabla_final <- tabla_final %>%
+  rename(
+    `Research Practices` = `Research Practice`,
+    Mixed = `Mixed-Methods`
+  )
+
+# Renderizar tabla
+kbl(tabla_final, align = "l", escape = FALSE) %>%
+  add_header_above(c(" " = 1, "Sex" = 2, "Research Strategy" = 3), bold = TRUE) %>%
+  kable_paper("hover", full_width = FALSE)
+
+
+
+```
+
+```{r prac-grid, echo= F, include=FALSE}
 #| label: fig-prac-grid
 #| fig-cap: "How often are the following practices performed?" 
 #| fig-subcap:
@@ -720,7 +912,7 @@ barreras %>%
            label = scales::percent(freq, accuracy = .1))) + 
   geom_col(position = 'dodge2') + 
   geom_text(position = position_dodge(width  = .9),  size=3, hjust = -.1) +
-  labs(subtitle = "Porcentage responding 'Quite a lot or very much'", caption = legend, x = "", y = "", fill = "") + 
+  labs(subtitle = "Percentage responding 'Quite a lot or very much'", caption = legend, x = "", y = "", fill = "") + 
   theme(legend.position = 'none') +
   #scale_colour_viridis_d(option = "magma", begin = 0, end = 1) +
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -781,15 +973,17 @@ ggplot(aes(x = reorder(name, freq), y = freq, fill = value, label = scales::perc
 	      strip.text = element_text(size=10))
 ```
 
-It is interesting to note that, as can be seen in the
-@fig-motivaciones-grid, while the dissemination of results is valued
-transversally, there are groups where the valuation of extrinsic
-motivations has a greater preponderance. In particular, networking and
-increasing one's own visibility are incentives more highly valued by
-women (@fig-motivaciones-grid-1) and researchers between 35 and 49 years
-of age (@fig-motivaciones-grid-2)
 
-```{r motivaciones-grid}
+```{r motivaciones-grid, include=FALSE}
+#It is interesting to note that, as can be seen in the
+#@fig-motivaciones-grid, while the dissemination of results is valued
+#transversally, there are groups where the valuation of extrinsic
+#motivations has a greater preponderance. In particular, #networking and
+#increasing one's own visibility are incentives more highly valued by
+#women (@fig-motivaciones-grid-1) and researchers between 35 and 49 years
+#of age (@fig-motivaciones-grid-2)
+
+
 #| label: fig-motivaciones-grid
 #| fig-cap: "Open data motivations"
 #| fig-subcap:
@@ -923,12 +1117,9 @@ cais_v2 %>%
 	      strip.text = element_text(size=10))
 ```
 
-With the exception of open access to publications, which is valued
-transversally by all groups, these measures are more strongly supported
-by females researchers and by researchers with a quantitative approach,
-as can be seen in the @fig-vca-grid
 
-```{r 2-vca-sexo, echo=FALSE}
+
+```{r 2-vca-sexo, echo=FALSE, include=FALSE}
 #| label: fig-vca-grid
 #| fig-cap: "How necessary do you think the following Open Science measure are for social science research? -- porcentage responding a lot or quite a lot "
 #| fig-subcap:
@@ -936,6 +1127,11 @@ as can be seen in the @fig-vca-grid
 #|   - "By sex" 
 #| layout-ncol: 2
 #| fig.height: 6
+
+#With the exception of open access to publications, which is valued
+#transversally by all groups, these measures are more strongly supported
+#by females researchers and by researchers with a quantitative approach,
+#as can be seen in the @fig-vca-grid
 
 cais_v2 %>%
   pivot_longer(cols = c(starts_with("mod02_4_"))) %>%
@@ -1174,13 +1370,16 @@ scale_fill_viridis_d(option = "magma", begin = .1, end = .7, direction = 1)
 
 ```
 
-On the other hand, 59% believe that 30% or less of social science
-research is reproducible, while 83% believe that less than half of
-social science research is reproducible, as shown in @tbl-tablaacum
 
-```{r, percecpcion-repro, include=T}
+
+```{r, percecpcion-repro, include=F}
 #| label: tbl-tablaacum
 #| tbl-cap: "Perception of the percentage of reproducible research in Social Sciences"
+
+
+#On the other hand, 59% believe that 30% or less of social science
+#research is reproducible, while 83% believe that less than half of
+#social science research is reproducible, as shown in @tbl-tablaacum
 cais_v2 %>% 
   group_by(mod05_4) %>%
   summarise(n = n()) %>%
@@ -1189,12 +1388,9 @@ cais_v2 %>%
 
 ```
 
-This is consistent with the 40% of respondents having attempted to
-reproduce the results of other researchers (@fig-reprod-1). Of this
-percentage, only 20% of the attempts were complete reproductions, while
-69% were only partial (@fig-reprod-2)
 
-```{r, include=T}
+
+```{r, include=F}
 #| label: fig-reprod
 #| fig-cap: "Practices associated with reproducibility"
 #| fig-subcap:
@@ -1203,6 +1399,10 @@ percentage, only 20% of the attempts were complete reproductions, while
 #| layout-ncol: 2
 #| fig.height: 6
 
+#This is consistent with the 40% of respondents having attempted to
+#reproduce the results of other researchers (@fig-reprod-1). Of this
+#percentage, only 20% of the attempts were complete reproductions, while
+#69% were only partial (@fig-reprod-2)
 cais_v2 %>% 
   mutate(mod05_5_3 = factor(mod05_5_3, 
                             labels = c("Yes", "No", "Don't know"),
@@ -1266,13 +1466,82 @@ cais_v2 %>%
 #### c. Attidues about ANID's Open Science policies
 
 In the first instance, ANID's Open Science Policy is well received by
-the respondents. For example, 90% agree or strongly agree that ANID
+the respondents. For example, 89.7% agree or strongly agree that ANID
 should continue to develop its Open Science Policy, as show in
-@fig-vanid-grid-2. Similarly, 84% consider the implementation of Open
-Access policies to be quite or very necessary, as shown in
-@fig-vanid-grid-1
+@tbl-anid. Similarly, 83.5% consider the implementation of Open
+Access policies to be quite or very necessary.
 
-```{r, include=T}
+```{r, echo=FALSE, results='asis'}
+#| label: "tbl-anid"
+#| tbl-cap: "Attidues about ANID's Open Science policies"
+
+cais_v2<- cais_v2 %>%
+  mutate(mod07_2 = factor(mod07_2,
+                          labels = c("Not necessary at all",
+                                     "Slightly necessary",
+                                     "Moderately necessary",
+                                     "Quite necessary",
+                                     "Very necessary"),
+                          levels = 1:5))
+
+cais_v2<- cais_v2 %>%
+  mutate(mod07_7 = factor(mod07_7,
+                          labels = c("Strongly Disagree",
+                                     "Disagree",
+                                     "Neither Agree nor Disagree",
+                                     "Agree",
+                                     "Strongly Agree"),
+                          levels = 1:5))
+
+cais_v2<- cais_v2 %>%
+  mutate(mod07_8 = factor(mod07_8,
+                          labels = c("Not necessary at all",
+                                     "Slightly necessary",
+                                     "Moderately necessary",
+                                     "Quite necessary",
+                                     "Very necessary"),
+                          levels = 1:5))
+
+cais_v2<- cais_v2 %>%
+  mutate(mod07_9 = factor(mod07_9,
+                          labels = c("Not necessary at all",
+                                     "Slightly necessary",
+                                     "Moderately necessary",
+                                     "Quite necessary",
+                                     "Very necessary"),
+                          levels = 1:5))
+
+cais_v2 <- cais_v2 %>%
+  mutate(mod07_10 = factor(mod07_10,
+                          labels = c("Bad",
+                                     "Fair",
+                                     "Neutral",
+                                     "Good",
+                                     "Very Good"),
+                          levels = 1:5))
+
+df<-dfSummary(cais_v2 %>% select("How much do you agree with ANID continuing to develop and implement open access policies for scientific production?"= mod07_7, 
+                                 "How necessary is the implementation of mandatory open access policies for publicly funded research?"= mod07_2,
+                                 "How neccesary is it for ANID to incorporate pre-registration of research design within its Open Access Policy?"= mod07_8, 
+                                 "How neccesary is it for ANID to incorporate reproducibility of research within its Open Access Policy"= mod07_9, 
+                                 "How do you evaluate the dissemination of the Open Access to Scientific Information and Research Data Policy"= mod07_10),
+               plain.ascii = FALSE,
+               style = "multiline",
+               tmp.img.dir = "/tmp",
+               graph.magnif = 0.75,
+               headings = F,  # encabezado
+               varnumbers = F, # num variable
+               labels.col = T, # etiquetas
+               na.col = F,    # missing
+               graph.col = F, # plot
+               valid.col = T, # n valido
+               col.widths = c(30,10,10,10))
+
+print(df)
+
+```
+
+```{r, include=F}
 #| label: fig-vanid-grid
 #| fig-cap: "Assessment of ANID's open science policies"
 #| fig-subcap: 
@@ -1349,11 +1618,13 @@ cais_v2 %>%
 ```
 
 However, there are other practices that are less well received. Thus,
-both mandatory pre-registration, as shown in @fig-vanid-grid-b-1, and
-reproducibility (@fig-vanid-grid-b-2), are supported only by half of the
-respondents.
+both mandatory pre-registration, as shown in @tbl-anid, and
+reproducibility, are supported only by half of the respondents.
+Finally, the dissemination of ANID's Open Access policy is negatively
+evaluated by the majority of respondents. Only 24% consider it to be
+good or very good.
 
-```{r, include=T}
+```{r, include=F}
 #| label: fig-vanid-grid-b
 #| fig-cap: "Assessment inclusion of practices in ANID's Open Access Policy"
 #| fig-subcap: 
@@ -1429,11 +1700,8 @@ cais_v2 %>%
 
 ```
 
-Finally, the dissemination of ANID's Open Access policy is negatively
-evaluated by the majority of respondents. Only 24% consider it to be
-good or very good, as seen in @fig-vanid-2
 
-```{r}
+```{r include=FALSE}
 #| label: fig-vanid-2
 #| fig-cap: "How do you evaluate the dissemination of the Open Access to Scientific Information and Research Data Policy"
 
