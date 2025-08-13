@@ -5,8 +5,7 @@
 %
 \documentclass[
   letterpaper,
-  DIV=11,
-  numbers=noendperiod]{scrartcl}
+]{article}
 
 \usepackage{amsmath,amssymb}
 \usepackage{setspace}
@@ -43,16 +42,30 @@
 \usepackage{xcolor}
 \usepackage[left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
+\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\makeatother
 
 
 \providecommand{\tightlist}{%
@@ -79,28 +92,38 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
-\setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
   % turn on hanging indent if param 1 is 1
   \ifodd #1
-  \let\oldpar\par
-  \def\par{\hangindent=\cslhangindent\oldpar}
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
   \fi
   % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}
- }%
- {}
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
 \usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage{booktabs}
@@ -117,7 +140,6 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
-\KOMAoption{captions}{tableheading}
 \makeatletter
 \@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
 \@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
@@ -133,10 +155,6 @@
 \definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
 \definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
 \definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
 \makeatother
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -174,19 +192,12 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
+\makeatother
+\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
-\makeatother
+
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
 \else
@@ -199,7 +210,8 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\usepackage{bookmark}
+
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
@@ -215,6 +227,7 @@ Data, Transparency, Mixed-methods},
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
+
 \title{Open Social Science in Chile: A mixed method research about
 Openness, Transparency and Reproducibility}
 \author{Juan Carlos Castillo \and Kevin Carrasco}
@@ -224,125 +237,290 @@ Openness, Transparency and Reproducibility}
 \maketitle
 \begin{abstract}
 In a context of growing concern for replicability, transparency, and
-access to science, we proposed to describe the levels of knowledge,
-belief, and practices of open science in the academic community of the
-social sciences in Chile. We conducted an exploratorty mixed-method
-design. The qualitative study consisted of semi-structured interviews
-with 14 academics, which were analyzed by performing a thematic
-analysis. The quantitative research consisted of a descriptive analysis
-(N=98). The questionnaire addressed issues about Open Science,
-transparent design, open data, and reproducible research. Overall, both
-studies pointed to low levels of knowledge and practices related to open
-science. In addition, despite generally positive attitudes, we noted
-particular concerns associated with the possibility of applying these
-principles in qualitative research, their perceived contradiction with
-the imperatives of academic productivity, and suspicions regarding
-researchers' motivations. Thus, we identified important challenges for
-the implementation of open science initiatives in the social sciences in
-Chile, mainly their tension with public funding policies for social
-research and with the traditional principles of qualitative research.
+access to science, in the present paper we aim to describe and analyze
+the factors associated to practices, beliefs and knowledge of open
+science in the social sciences' academic community in Chile. We
+conducted an exploratory mixed-method design, starting with a
+qualitative study where we performed a thematic analysis of
+semi-structured interviews with 14 academics. Next, for the quantitative
+study we analyzed data from an online survey (N=98) completed by social
+scientists in Chile. The questionnaire addressed issues about Open
+Science, transparent design, open data, and reproducible research.
+Overall, both studies pointed to low levels of knowledge and practices
+related to open science. In addition, despite generally positive
+attitudes, we noted particular concerns regarding the applicability of
+open science principles in social research in Chile, such as the
+limitations of opening qualitative research, the possible contradiction
+between open science demands and the imperatives of academic
+productivity, and fear of other's researchers taking advantage of open
+information.
 \end{abstract}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, sharp corners, interior hidden, breakable, enhanced, frame hidden]}{\end{tcolorbox}}\fi
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
 
 \setstretch{1.15}
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{introduction}
 
-Over the past few years, academia has experienced a number of challenges
-related to the concept of openness, which can be described in two main
-aspects. The first one refers to the so-called \emph{replication crisis}
-(\protect\hyperlink{ref-baker_1500_2016}{Baker 2016};
-\protect\hyperlink{ref-nosek_promoting_2015}{Nosek et al. 2015};
-\protect\hyperlink{ref-peng_reproducibility_2015}{Peng 2015}), referring
-to the difficulties in replicating research results due the lack of
-transparency in the research process, evidencing important variations in
-results in studies with identical data
-(\protect\hyperlink{ref-breznau_does_2021}{Breznau 2021}). This has
-resulted not only in the failure to replicate many published findings,
-but also in the discovery and reporting of false data and results
-(\protect\hyperlink{ref-chopik_relationship_2020}{Chopik et al. 2020})
-in order to publishing in high impact journals.
+In recent years, academia has faced significant challenges and barriers
+regarding openness, which can be broadly categorized into two main
+areas. The first concerns the so-called \emph{replication crisis}
+(\citeproc{ref-baker_1500_2016}{Baker 2016};
+\citeproc{ref-nosek_promoting_2015}{B. A. Nosek et al. 2015};
+\citeproc{ref-peng_reproducibility_2015}{Peng 2015}), characterized by
+difficulties in replicating research findings due to insufficient
+transparency in research processes. This lack of transparency has led to
+substantial variations in results, even when studies use identical data
+(\citeproc{ref-breznau_does_2021}{Breznau 2021}). Consequently, many
+published findings have failed to be replicated, and instances of data
+fabrication or falsification have been reported in the pursuit of
+publication in high-impact journals
+(\citeproc{ref-chopik_relationship_2020}{Chopik et al. 2020}). The
+second challenging area relates to access. Many academic communities
+have pushed back against the high costs and restrictive business models
+imposed by publishing houses, which limit access to scientific research
+outputs. Universities often pay substantial subscription fees to access
+the work of their own researchers, while the general public must pay
+again to access research funded by their taxes. Notably, some
+prestigious universities, such as UCLA, have responded by canceling
+subscriptions to publishers like Elsevier, prompting negotiations that
+have led to agreements promoting open-access practices.
 
-The second main aspect comes from openness in terms of access, whereby
-several academic communities have reacted against the high payment
-barriers and the business model imposed by publishing houses to access
-the products of scientific research: universities pay a subscription to
-access the work even of their own researchers and the general public
-must pay again to obtains products funded by their taxes. One of the
-most commented reactions has been the cancellation of subscriptions to
-Elsevier's journals by prestige universities such as UCLA, which was
-subsequently resolved through an agreement based on the adoption and
-promotion of open-access practices.
+The barriers to transparency and access are symptoms of a ``publish or
+perish'' academic culture. Such culture has been related to a tendency
+to force results (p-hacking), even going as far as manipulating and
+falsifying data to confirm proposed hypotheses
+(\citeproc{ref-head_extent_2015}{Head et al. 2015}) as well as
+establishing ad hoc hypotheses after knowing the results of a study (so
+called HARKing - Hypothesis After Results are Known)
+(\citeproc{ref-hollenbeck_harking_2017}{Hollenbeck and Wright 2017};
+\citeproc{ref-kerr_harking_1998}{Kerr 1998}). As a result, the main
+audience for science ultimately becomes the editors of high-impact
+journals, while other audiences -- such as civil society,
+decision-makers and citizens --- are left out. In order to address these
+issues, the open science movement has emerged as a response to the
+challenges of replicability, transparency, and access in science. Open
+science encompasses a set of practices that promote openness and
+collaboration throughout the research process, from the initial design
+of studies to the sharing of data and findings. It aims to make
+scientific research more accessible, transparent, and reproducible,
+thereby enhancing the credibility and reliability of scientific
+knowledge.
 
-Barriers to transparency and access are symptoms of an academic culture
-driven by the publication of indicators that are biased towards
-statistically significant results (p-hacking), leading to a tendency to
-force results, even going as far as manipulating and falsifying data to
-confirm proposed hypotheses
-(\protect\hyperlink{ref-head_extent_2015}{Head et al. 2015}),
-establishing ad hoc hyphotesis after knowing the results of a study
-(HARKing) (\protect\hyperlink{ref-hollenbeck_harking_2017}{Hollenbeck
-and Wright 2017}; \protect\hyperlink{ref-kerr_harking_1998}{Kerr 1998}).
-As a result, the main audience for science is ultimately the editors of
-high-impact journals, while other audiences -- such as civil society,
-decision-makers and citizens --- are left out.
-
-A growing number of initiatives around the world are addressing issues
-of reproducibility, transparency, and access in science, such as the
-Center for Open Science (COS), the Berkeley Initiative for Transparency
-in Social Sciences (BITSS), and the Teaching Integrity in Empirical
-Research (TIER) project. These initiatives promote openness at various
-stages of the research process, such as transparency of research designs
-through preregistration of studies, reproducibilty of analyses and data
-manipulation, and publication of preprints without paywalls. Many of
-these practices have been adopted by journals as recommendations or even
-requirements for publication, as well as promoted by governmental
-scientific institutions. All of this implies a major change in the way
-science is conceived, practiced, and taught. Moreover, it seems to be a
-necessary step to make science more relevant and closer to those outside
-of academia. In other words, it would be difficult to improve openness
-and exchange with local communities if the work within academia is
-mostly closed and non-collaborative.
-
-Like many others developments in science, the open science movement has
+The open science movement has gained momentum in recent years, with
+various initiatives and policies being implemented to promote
+transparency and accessibility in research. These efforts have been
+particularly prominent in the natural sciences, where open data
+repositories, preprint servers, and collaborative platforms have become
+increasingly common. However, the adoption of open science practices has
+been slower in the social sciences, where concerns about privacy,
+ethics, and the complexities of qualitative research have posed
+challenges to openness
+(\citeproc{ref-boulton_open_2018}{\textbf{boulton\_open\_2018?}};
+\citeproc{ref-miller_open_2019}{\textbf{miller\_open\_2019?}}). However,
+like many others developments in science, the open science movement has
 arrived slowly to Latin America, especially in social sciences. Although
-there have been some initiatives in recent years (such as the Open
-Science and Citizen Congress in Argentina 2018 or the OpenCon Latam in
-Colombia 2019), most of them are driven mainly by the natural sciences.
-In this line, Chile's National Agency for Research and Development
-(ANID) has implemented since 2021 and \textbf{Open Access Policy for
-scientific information and research data}, which aims to establish a
-standard of public access to research products that have been funded by
-ANID --- including social sciences projects. Therefore it is of
-strategic nature to develop initiatives that aim to contribute to the
-openness of sciences.
+there have been some initiatives in recent years, most of them are
+driven mainly by the natural sciences.
 
-Based on this diagnosis, we aimed to identify the knowledge, attitudes
-and practices of open science among social science academics in Chile.
-From this analysis, we expect to generate debate and proposal for both
+In Chile, the open science movement has been gaining traction, with
+various initiatives and policies being implemented to promote
+transparency and accessibility in research. However, the adoption of
+open science practices in the social sciences has been slower compared
+to the natural sciences. This is due to several factors, including
+concerns about privacy, ethics, and the complexities of qualitative
+research
+(\citeproc{ref-boulton_open_2018}{\textbf{boulton\_open\_2018?}};
+\citeproc{ref-miller_open_2019}{\textbf{miller\_open\_2019?}}). Based on
+this diagnosis, we aimed to identify the knowledge, attitudes and
+practices of open science among social science academics in Chile. From
+this analysis, we expect to generate debate and proposal for both
 academic work and science policies.
 
-\hypertarget{background}{%
-\section{Background}\label{background}}
+\section{Background}\label{background}
 
-\begin{enumerate}
-\def\labelenumi{\alph{enumi})}
-\item
-  Revisión ciencia abierta en general (Kevin, práctica)
-\item
-  Principales componentes de la ciencia abierta (JC - modelo LISA)
-\item
-  Antecedentes políticas de ciencia abierta Chile
-\end{enumerate}
+\subsection{a) Open science in the social
+sciences}\label{a-open-science-in-the-social-sciences}
 
-\hypertarget{design}{%
-\section{Design}\label{design}}
+In the social sciences, the implementation of open science practices has
+posed specific challenges and opportunities, given the types of data
+handled, the ethical commitments to participant confidentiality, and the
+interpretive methodologies characteristic of some subdisciplines.
+Initiatives such as the Open Science Framework (OSF), Dataverse, and the
+European Open Science Cloud have contributed to facilitating the
+necessary technical infrastructure, but challenges related to academic
+incentives, technical capabilities, and regulatory frameworks remain.
+
+The current state of open science in social science research is
+heterogeneous, both across disciplines and regions. Several empirical
+studies have documented a growing awareness of the importance of
+openness, albeit with varying degrees of effective implementation. For
+example, colombo\_sowing\_2024 found that while social science
+researchers recognize the value of data sharing, institutional and
+cultural barriers limit its practice. More recently,
+(\citeproc{ref-ferguson_survey_2023}{\textbf{ferguson\_survey\_2023?}})
+analyzed over 3,000 articles in the social sciences and reported low but
+increasing rates of preregistration and data availability. Similarly,
+(\citeproc{ref-polonen_open_2022}{\textbf{polonen\_open\_2022?}})
+highlights that although open access publishing is on the rise in the
+social sciences, uptake is uneven and often hindered by funding and
+policy gaps. Studies such as
+(\citeproc{ref-ferguson_survey_2023}{\textbf{ferguson\_survey\_2023?}})
+and Fecher and Friesike (\citeproc{ref-fecher_open_2014}{2014})
+emphasize that researchers' attitudes toward open science are generally
+positive, but practical adoption is constrained by concerns over data
+misuse, lack of recognition, and insufficient training. Furthermore,
+(\citeproc{ref-basak_open_2023}{\textbf{basak\_open\_2023?}}) and
+(\citeproc{ref-campbell_openscience_2023}{\textbf{campbell\_openscience\_2023?}})
+point out that the development of discipline-specific guidelines and
+support networks is crucial for advancing open science in the social
+sciences, especially in areas involving sensitive or qualitative data.
+
+\subsection{b) Main components of open science in the research
+process}\label{b-main-components-of-open-science-in-the-research-process}
+
+The open science movement is structured around several core components
+that collectively aim to enhance the transparency, accessibility, and
+reliability of scientific research. In the context of the social
+sciences, these components---transparent design, open data, reproducible
+analysis, and open publications---form the foundation for fostering a
+more collaborative and trustworthy research environment. Each element
+addresses specific challenges and opportunities, from ensuring that
+research methodologies are openly documented, to making data and
+analytical procedures accessible for verification and reuse, and
+promoting the dissemination of findings through open access channels.
+Together, these pillars support the advancement of open science
+practices and help address the unique ethical, technical, and cultural
+considerations present in social science research.
+
+\textbf{Transparent design}
+
+Transparency in research design constitutes one of the fundamental
+pillars of open science, proposing that methodological decisions made in
+research be accessible, justified, and documented from the initial
+stages of the scientific process. This practice is embodied in
+strategies such as pre-registration of hypotheses, open registration of
+protocols, and the publication of analysis plans prior to data
+collection. As recent research highlights
+(\citeproc{ref-banks_answers_2019}{Banks et al. 2019};
+\citeproc{ref-nosek_preregistration_2019}{Brian A. Nosek et al. 2019}),
+transparency in design not only strengthens the credibility of the
+knowledge produced but also acts as a deterrent to questionable research
+practices. However, the social sciences face particular challenges in
+this area, especially in qualitative or emerging approaches, where
+designs are adaptive and context-sensitive.
+
+\textbf{Open data}
+
+Open access to research data---also known as data sharing---has been one
+of the most visible components of the open science agenda. Its potential
+lies in enabling independent verification of results, the reuse of
+databases in new research, and the strengthening of a culture of
+scientific collaboration. In the social sciences, however, data sharing
+entails dealing with a tension between openness and protecting the
+confidentiality of participants, given that the data are often sensitive
+or identifiable. Despite the ethical challenges, studies such as those
+by Dallmeier-Tiessen et al.
+(\citeproc{ref-dallmeier-tiessen_highlights_2011}{2011}) show a growing
+appreciation among researchers for the value of data sharing to increase
+transparency and collaboration. Furthermore, principles such as FAIR
+(Findable, Accessible, Interoperable, and Reusable) are being
+incorporated into institutional policies and training programs, although
+challenges remain related to infrastructure, regulatory frameworks, and
+training for responsible and effective data management.
+
+\textbf{Reproducible analysis}
+
+Reproducibility refers to the ability to exactly replicate the results
+of a study using the same data and code used in the original analysis.
+This principle has been central to the discussion about the
+``reproducibility crisis'' that has affected multiple disciplines,
+including the social sciences. Research such as that by Baker
+(\citeproc{ref-baker_1500_2016}{2016}) and Hail, Lang, and Leuz
+(\citeproc{ref-hail_reproducibility_2020}{2020}) has documented
+widespread concerns about the lack of reproducibility, identifying
+causes such as lack of access to code scripts, opacity in the
+presentation of results, and the use of weak statistical procedures. In
+response, the use of platforms such as GitHub, OSF, or Dataverse has
+been promoted, where researchers can host their codes and workflows.
+However, as Knudtson et al. (\citeproc{ref-knudtson_survey_2019}{2019})
+point out, achieving reproducible social science requires not only
+technical infrastructure but also a transformation in the cultural norms
+of the academic community that values reproducibility as a criterion of
+scientific quality.
+
+\textbf{Open publications}
+
+Open access to scientific publications has been one of the most
+established dimensions of open science, with multiple policies and
+mandates from funding agencies requiring the public availability of
+research results. In the context of the social sciences, although
+numerous institutional repositories and open access journals exist,
+barriers related to publication costs (article processing charges) and
+the editorial prestige associated with fee-paying journals still
+prevail. Narayan et al. (\citeproc{ref-narayan_scholarly_2018}{2018})
+shows that there is a significant gap between the stated knowledge about
+open access and its effective implementation, particularly with regard
+to the different existing models (green, gold, hybrid). Likewise, recent
+studies in Latin America, show a high level of favorable disposition
+toward open access, but also a lack of institutional incentives and
+technical support mechanisms to facilitate its widespread adoption
+(\citeproc{ref-pardomartinez_knowledge_2018}{Pardo Martínez and Poveda
+2018}).
+
+\subsection{c) Antecedents of open science policies in
+Chile}\label{c-antecedents-of-open-science-policies-in-chile}
+
+In Chile, the development of open science policies has gained momentum
+in recent years, reflecting global trends and responding to local needs
+for greater transparency and collaboration in research. The first
+significant step was the adoption of open access mandates by major
+research funding agencies, such as the National Agency for Research and
+Development (ANID), which since 2013 has required that publications
+resulting from publicly funded projects be deposited in institutional or
+national repositories.
+
+In 2021, ANID published the ``National Policy for Open Science,''
+establishing guidelines to promote open access to publications, data,
+and other research outputs. This policy emphasizes the importance of
+data management plans, the use of interoperable repositories, and the
+adoption of FAIR principles. Additionally, the policy encourages the
+development of training programs and support structures to facilitate
+the transition toward open science practices.
+
+A notable initiative in this context is the INES Ciencia Abierta
+program, launched by ANID in 2020 to strengthen institutional capacities
+for open science. Through competitive funding, the INES Ciencia Abierta
+projects support universities and research centers in developing
+infrastructure, policies, and training for open access, data management,
+and reproducibility. These projects have enabled the creation and
+enhancement of institutional repositories, the implementation of data
+stewardship services, and the promotion of open science culture within
+participating institutions. The program also fosters collaboration and
+knowledge exchange among institutions, contributing to the consolidation
+of a national open science ecosystem.
+
+Several universities and research centers in Chile have also implemented
+their own open access and data sharing policies, creating institutional
+repositories and providing guidance for researchers. Despite these
+advances, challenges remain, including the need for greater awareness,
+technical infrastructure, and clear regulatory frameworks to address
+issues such as data privacy and intellectual property. Overall, the
+Chilean experience demonstrates a growing institutional commitment to
+open science, with ongoing efforts to align national practices with
+international standards and to foster a culture of openness and
+collaboration in the scientific community.
+
+\section{Design}\label{design}
 
 We conducted a mixed sequential-exploratory design. This approach
 consist of two-stage method, usually starting with a qualitative
 analysis followed by the development of quantitative instrument
-(\protect\hyperlink{ref-creswell_designing_2018}{Creswell and Plano
-Clark 2018}).
+(\citeproc{ref-creswell_designing_2018}{Creswell and Plano Clark 2018}).
 
 The integration of both techniques is justified by the fact that,
 although there is international experience in the study of practices and
@@ -362,11 +540,9 @@ data were able to expand or validate the initial findings of the
 qualitative study, generating a comprehensive understanding of the state
 of Open Science in the Chilean social sciences.
 
-\hypertarget{qualitative-study}{%
-\section{Qualitative Study}\label{qualitative-study}}
+\section{Qualitative Study}\label{qualitative-study}
 
-\hypertarget{methods}{%
-\subsection{Methods}\label{methods}}
+\subsection{Methods}\label{methods}
 
 We conducted a total of 13 semi-structured interviews with empirical
 social science researchers, who were selected through a simple random
@@ -391,10 +567,9 @@ randomization process to ensure the inclusion of at least one
 sociologist. The final composition of the sample is presented in
 Table~\ref{tbl-qual-sample}
 
-\hypertarget{tbl-qual-sample}{}
 \begin{longtable}[]{@{}lll@{}}
-\caption{\label{tbl-qual-sample}Qualitative Study Sample
-Description}\tabularnewline
+\caption{Qualitative Study Sample
+Description}\label{tbl-qual-sample}\tabularnewline
 \toprule\noalign{}
 Study Groups & Men & Women \\
 \midrule\noalign{}
@@ -414,10 +589,10 @@ Sociology & 1 & 2 \\
 
 Despite it was not considered as a sample inclusion criterion, the
 participants mirror the methodological diversity observed in the social
-sciences in Chile (\protect\hyperlink{ref-ramos_campo_2008}{Ramos,
-Canales, and Palestini 2008}). Specifically, six researchers
-predominantly utilize qualitative methods, five predominantly work with
-quantitative methods, and two use mixed methods.
+sciences in Chile (\citeproc{ref-ramos_campo_2008}{Ramos, Canales, and
+Palestini 2008}). Specifically, six researchers predominantly utilize
+qualitative methods, five predominantly work with quantitative methods,
+and two use mixed methods.
 
 The interviews were conducted via video call, with a duration ranging
 from forty minutes to one hour. We addressed topics such as researchers'
@@ -428,12 +603,12 @@ future.
 
 We employed a qualitative thematic analysis, as is a method that
 facilitates the identification and description of patterns of meanings
-(\protect\hyperlink{ref-braun_using_2006}{Braun and Clarke 2006}), as
-well as the set of relationships and hierarchies that are generated
-between them, organized around the concept of open science and the ideas
-associated with it, based on both semantic and latent codes
-(\protect\hyperlink{ref-boyatzis_transforming_2010}{Boyatzis 2010}). In
-this sense, this method is particularly useful for understanding
+(\citeproc{ref-braun_using_2006}{Braun and Clarke 2006}), as well as the
+set of relationships and hierarchies that are generated between them,
+organized around the concept of open science and the ideas associated
+with it, based on both semantic and latent codes
+(\citeproc{ref-boyatzis_transforming_2010}{Boyatzis 2010}). In this
+sense, this method is particularly useful for understanding
 participants' views, knowledge, experiences, and values regarding open
 science.
 
@@ -441,25 +616,22 @@ Two research team members conducted primarily the analysis, with support
 from ATLAS.ti qualitative analysis software version 9.0.5. The coding
 process was carried out simultaneously by both researchers and discussed
 in regular team meetings. This approach ensured triangulation throughout
-the analysis process
-(\protect\hyperlink{ref-nowell_thematic_2017}{Nowell et al. 2017}). In
-addition, versions of the project and its products were systematically
-archived, and the researchers' personal reflection and team discussions
-about the analysis were recorded in a reflective diary, in order to
-safeguard the auditability of the research process
-(\protect\hyperlink{ref-lewins_using_2007}{Lewins and Silver 2007}).
+the analysis process (\citeproc{ref-nowell_thematic_2017}{Nowell et al.
+2017}). In addition, versions of the project and its products were
+systematically archived, and the researchers' personal reflection and
+team discussions about the analysis were recorded in a reflective diary,
+in order to safeguard the auditability of the research process
+(\citeproc{ref-lewins_using_2007}{Lewins and Silver 2007}).
 
 Throughout the results report, we will reference specific participants
 in parentheses, indicating their discipline and their predominant
 methodological approach. For example, we will use tags such as
 \emph{Sociology, mixed-methods} or \emph{Economics, quantitative}.
 
-\hypertarget{results}{%
-\section{Results}\label{results}}
+\section{Results}\label{results}
 
-\hypertarget{open-science-a-fuzzy-concept}{%
 \subsubsection{\texorpdfstring{\textbf{Open Science: A fuzzy
-concept}}{Open Science: A fuzzy concept}}\label{open-science-a-fuzzy-concept}}
+concept}}{Open Science: A fuzzy concept}}\label{open-science-a-fuzzy-concept}
 
 Initially, the concept of open science seems to be a difficult idea to
 define, seemingly distant to the participants. Most interviewees
@@ -491,12 +663,10 @@ negative perceptions have also been observed, with some researchers
 referring to open science as a ``fever'' --- i.e.~a passing trend --- or
 as an ``overly ambitions project''.
 
-\hypertarget{open-science-attitudes-and-practices}{%
 \subsubsection{\texorpdfstring{\textbf{Open Science attitudes and
-practices}}{Open Science attitudes and practices}}\label{open-science-attitudes-and-practices}}
+practices}}{Open Science attitudes and practices}}\label{open-science-attitudes-and-practices}
 
-\hypertarget{a.-open-results}{%
-\paragraph{a. Open Results}\label{a.-open-results}}
+\paragraph{a. Open Results}\label{a.-open-results}
 
 In the interviews, the idea of openness is fundamentally linked to the
 openness of results. There is a consensus to prioritize this practices,
@@ -570,7 +740,7 @@ applications; others are sent to local open journals in Spanish, which
 are more accessible to the general public. The following quote
 illustrates this practices and its effects:
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, opacityback=0, breakable, rightrule=.15mm, left=2mm, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, colframe=quarto-callout-color-frame, rightrule=.15mm, colback=white, opacityback=0, arc=.35mm, breakable, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm]
 
 {[}\ldots{]} we published in a journal which is\ldots{} I think it is
 only SciELO {[}\ldots{]} I have published much better things, let's say,
@@ -605,8 +775,7 @@ working papers though informal mechanisms or even piracy is widespread
 among researchers and provides yet another mean of dealing with access
 problems without major consequences.
 
-\hypertarget{b.-design-transparency}{%
-\paragraph{b. Design Transparency}\label{b.-design-transparency}}
+\paragraph{b. Design Transparency}\label{b.-design-transparency}
 
 Only a few respondents reported having pre-registered their research on
 the Open Science Framework website (Psychology, quantitative; Political
@@ -650,8 +819,7 @@ methodological limitations raised, and the concerns related to
 intellectual property are the bases of the suspicion and consequent low
 extent of this practice.
 
-\hypertarget{c.-open-data}{%
-\paragraph{c.~Open Data}\label{c.-open-data}}
+\paragraph{c.~Open Data}\label{c.-open-data}
 
 Positive attitudes towards open data are mainly based on the belief that
 it is useful for the development of science. This is because it is
@@ -708,8 +876,7 @@ two of the researchers interviewed --- one qualitative and one
 quantitative --- had ever practiced open data publication beyond
 editorial requirements and sharing data directly with other researchers.
 
-\hypertarget{d.-analysis-transparency}{%
-\paragraph{d.~Analysis Transparency}\label{d.-analysis-transparency}}
+\paragraph{d.~Analysis Transparency}\label{d.-analysis-transparency}
 
 Analysis transparency is valued for its contribution to scientific
 progress and to the methodological learning of new researchers. In
@@ -748,33 +915,29 @@ such as economics, researchers have not migrate to open source software
 due to the persistence of the widespread use of programs with payment
 barriers.
 
-\hypertarget{quantitative-study}{%
-\section{Quantitative Study}\label{quantitative-study}}
+\section{Quantitative Study}\label{quantitative-study}
 
-\hypertarget{methods-1}{%
-\subsection{Methods}\label{methods-1}}
+\subsection{Methods}\label{methods-1}
 
 The results of the Open Science in Social Research (CAIS) survey were
 used as the basis for the quantitative study. Its questionnaire was
 designed by our research team based on the literature review
-(\protect\hyperlink{ref-baker_1500_2016}{Baker 2016};
-\protect\hyperlink{ref-delikoura_open_2021}{Delikoura and Kouis 2021};
-\protect\hyperlink{ref-enke_user_2012}{Enke et al. 2012};
-\protect\hyperlink{ref-gross_landscapes_2015}{Gross and Ryan 2015};
-\protect\hyperlink{ref-hail_reproducibility_2020}{Hail, Lang, and Leuz
-2020}; \protect\hyperlink{ref-hodonu-wusu_malasyan_2020}{Hodonu-wusu,
-Noorhidawati, and Abrizah 2020};
-\protect\hyperlink{ref-lacey_open_2020}{Lacey, Coates, and Herington
-2020}; \protect\hyperlink{ref-ljubenkovic_survey_2021}{Ljubenković et
-al. 2021}; \protect\hyperlink{ref-lopezcardenas_percepciones_2021}{Lopez
-Cardenas and Cubero-Castillo 2021};
-\protect\hyperlink{ref-knudtson_survey_2019}{Knudtson et al. 2019};
-\protect\hyperlink{ref-pardomartinez_knowledge_2018}{Pardo Martínez and
-Poveda 2018}; \protect\hyperlink{ref-rodriguez_awareness_2014}{Rodriguez
-2014}; \protect\hyperlink{ref-rowley_academics_2017}{Rowley et al.
-2017}; \protect\hyperlink{ref-sturmer_earlycareer_2017}{Stürmer et al.
-2017}; \protect\hyperlink{ref-zhu_openaccess_2020}{Zhu 2020}), as well
-as findings from the qualitative study.
+(\citeproc{ref-baker_1500_2016}{Baker 2016};
+\citeproc{ref-delikoura_open_2021}{Delikoura and Kouis 2021};
+\citeproc{ref-enke_user_2012}{Enke et al. 2012};
+\citeproc{ref-gross_landscapes_2015}{Gross and Ryan 2015};
+\citeproc{ref-hail_reproducibility_2020}{Hail, Lang, and Leuz 2020};
+\citeproc{ref-hodonu-wusu_malasyan_2020}{Hodonu-wusu, Noorhidawati, and
+Abrizah 2020}; \citeproc{ref-lacey_open_2020}{Lacey, Coates, and
+Herington 2020}; \citeproc{ref-ljubenkovic_survey_2021}{Ljubenković et
+al. 2021}; \citeproc{ref-lopezcardenas_percepciones_2021}{Lopez Cardenas
+and Cubero-Castillo 2021}; \citeproc{ref-knudtson_survey_2019}{Knudtson
+et al. 2019}; \citeproc{ref-pardomartinez_knowledge_2018}{Pardo Martínez
+and Poveda 2018}; \citeproc{ref-rodriguez_awareness_2014}{Rodriguez
+2014}; \citeproc{ref-rowley_academics_2017}{Rowley et al. 2017};
+\citeproc{ref-sturmer_earlycareer_2017}{Stürmer et al. 2017};
+\citeproc{ref-zhu_openaccess_2020}{Zhu 2020}), as well as findings from
+the qualitative study.
 
 The questionnaire consisted of 111 questions divided into the following
 modules:
@@ -818,29 +981,28 @@ modules:
 We used FormR for the implementation of the questionnaire. FormR is an
 open source software that allows the design of complex questionnaires
 with a high degree of customization
-(\protect\hyperlink{ref-arslan_chain_2025}{Arslan and Tata 2025};
-\protect\hyperlink{ref-arslan_formr_2020}{Arslan, Walther, and Tata
-2020}) . Since it is integrated with RStudio (R + RMarkdown), it
-facilitates collaborative work regardless of the length of the
-questionnaire. The platform allows the questionnaire to be
-self-administered, either by personal computers or by smartphones.
+(\citeproc{ref-arslan_chain_2025}{Arslan and Tata 2025};
+\citeproc{ref-arslan_formr_2020}{Arslan, Walther, and Tata 2020}). Since
+it is integrated with R and RMarkdown, it facilitates collaborative work
+regardless of the length of the questionnaire. The platform allows the
+questionnaire to be self-administered, either by personal computers or
+by smartphones.
 
-To construct the sample, mass mailings were sent to researchers who had
-received state research funding, to faculties and departments of various
-social science disciplines, and to research centers and nuclei. In
-addition, the survey was distributed through social media and at
-academic events. In the end, 98 complete responses were received. The
+To construct the sample, mass emails were sent to researchers who had
+received state funding for research, as well as to faculties and
+departments across various social science disciplines, and to research
+centers and institutes in the field of social sciences. In addition, the
+survey was distributed through social media and at academic events of
+social sciences. In the end, 98 complete responses were received. The
 description of the sample is presented in Table~\ref{tbl-resumen}.
 
-\hypertarget{tbl-resumen}{}
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1656}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.4847}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2209}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0736}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0552}}@{}}
-\caption{\label{tbl-resumen}Quantitative Sample
-Description}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2442}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3837}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2442}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1279}}@{}}
+\caption{Quantitative Sample
+Description}\label{tbl-resumen}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Variable
@@ -850,8 +1012,6 @@ Stats / Values
 Freqs (\% of Valid)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Valid
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Missing
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
@@ -864,8 +1024,6 @@ Stats / Values
 Freqs (\% of Valid)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Valid
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Missing
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -878,14 +1036,11 @@ Sex\\
 1. Women\\
 2. Men\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-\textbackslash37 (37.8\%)\\
-\textbackslash61 (62.2\%)\strut
+37 (37.8\%)\\
+61 (62.2\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-0\\
-(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Age\\
@@ -895,15 +1050,12 @@ Age\\
 2. 35-49\\
 3. 50+\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-\textbackslash12 (12.2\%)\\
-\textbackslash55 (56.1\%)\\
-\textbackslash31 (31.6\%)\strut
+12 (12.2\%)\\
+55 (56.1\%)\\
+31 (31.6\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-0\\
-(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Degree\\
@@ -912,14 +1064,11 @@ Degree\\
 1. Master\\
 2. PhD\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-\textbackslash17 (17.3\%)\\
-\textbackslash81 (82.7\%)\strut
+17 (17.3\%)\\
+81 (82.7\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-0\\
-(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Career stage\\
@@ -929,15 +1078,12 @@ Career stage\\
 2. Intermediate (6 to 15 yea\\
 3. Avanced (\textgreater15 years)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-\textbackslash12 (12.2\%)\\
-\textbackslash47 (48.0\%)\\
-\textbackslash39 (39.8\%)\strut
+12 (12.2\%)\\
+47 (48.0\%)\\
+39 (39.8\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-0\\
-(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Research strategy\\
@@ -947,15 +1093,12 @@ Research strategy\\
 2. Mixed-Methods\\
 3. Quantitative\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-\textbackslash28 (29.2\%)\\
-\textbackslash36 (37.5\%)\\
-\textbackslash32 (33.3\%)\strut
+28 (29.2\%)\\
+36 (37.5\%)\\
+32 (33.3\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 96\\
 (98.0\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-2\\
-(2.0\%)\strut
 \end{minipage} \\
 \end{longtable}
 
@@ -966,11 +1109,9 @@ described above. These variable were crossed by age group, research
 focus, academic career stage, academic degree, and gender to detect
 possible differences between groups.
 
-\hypertarget{results-1}{%
-\subsection{Results}\label{results-1}}
+\subsection{Results}\label{results-1}
 
-\hypertarget{knowledge}{%
-\subsubsection{\texorpdfstring{\textbf{Knowledge}}{Knowledge}}\label{knowledge}}
+\subsubsection{\texorpdfstring{\textbf{Knowledge}}{Knowledge}}\label{knowledge}
 
 As shown in Figure~\ref{fig-cca}, the concept most recognized by the
 respondents is open access to publications (79\%), in line with what was
@@ -980,78 +1121,70 @@ science itself (46\%) have medium levels of knowledge among respondents.
 At the other extreme, only 25\% of respondents say they are familiar
 with the pre-registration of hypotheses.
 
-\begin{figure}[H]
+\begin{figure}
 
-{\centering \includegraphics{paper_files/figure-pdf/fig-cca-1.png}
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-cca-1.png}
 
 }
 
 \caption{\label{fig-cca}Familiarity with Open Science concepts}
 
-\end{figure}
+\end{figure}%
 
 In general, knowledge levels seem to be higher among young researchers
 and with a predominantly quantitative focus, as shown in the
-Figure~\ref{fig-cca-grid}. Respondents between 28 and 34 years of age,
-thus, show higher levels of knowledge about free software, and the
-concepts of reproducible research and open science
-(Figure~\ref{fig-cca-grid-1}). However, researchers between 35 and 49
-years of age show higher levels of knowledge of hypotheses
-preregistration and open access to data. Quantitative researchers,
-meanwhile, show higher levels of knowledge of all concepts except open
-access to publications (Figure~\ref{fig-cca-grid-2}).
+Table~\ref{tbl-cca-grid}. Respondents between 28 and 34 years of age,
+thus, show higher levels of knowledge about open software, and the
+concepts of reproducible research and open science. However, researchers
+between 35 and 49 years of age show higher levels of knowledge of
+hypotheses preregistration and open access to data. Quantitative
+researchers, meanwhile, show higher levels of knowledge of all concepts
+except open access to publications.
 
-\begin{figure}
+\begin{table}
 
-\begin{minipage}[t]{0.50\linewidth}
+\caption{\label{tbl-cca-grid}Familiarity with Open Science concepts by
+age and research strategy}
 
-{\centering 
+\centering{
 
-\raisebox{-\height}{
+\centering\begingroup\fontsize{9}{11}\selectfont
 
-\includegraphics{paper_files/figure-pdf/fig-cca-grid-1.png}
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{tabular}[t]{>{}lllllll}
+\toprule
+\multicolumn{1}{c}{\textbf{ }} & \multicolumn{3}{c}{\textbf{Age group}} & \multicolumn{3}{c}{\textbf{Research strategy}} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-7}
+Open Science Concept & 28–34 & 35–49 & 50+ & Qualitative & Mixed & Quantitative\\
+\midrule
+\textbf{Open Science} & 66.7\% & 50.9\% & 29.0\% & 39.3\% & 36.1\% & 62.5\%\\
+Publications in
+\textbf{open access} & 83.3\% & 76.4\% & 80.6\% & 78.6\% & 83.3\% & 71.9\%\\
+Hypotheses
+\textbf{pre-registration} & 16.7\% & 32.7\% & 16.1\% & 3.6\% & 16.7\% & 50.0\%\\
+\textbf{Open Data} & 66.7\% & 63.6\% & 48.4\% & 53.6\% & 44.4\% & 78.1\%\\
+Reproducible
+\textbf{research} & 58.3\% & 38.2\% & 32.3\% & 25.0\% & 30.6\% & 59.4\%\\
+\addlinespace
+Open
+\textbf{repositories} & 58.3\% & 60.0\% & 54.8\% & 57.1\% & 52.8\% & 62.5\%\\
+\textbf{Open software} & 75.0\% & 54.5\% & 41.9\% & 42.9\% & 38.9\% & 75.0\%\\
+Open data
+\textbf{access} & 41.7\% & 50.9\% & 45.2\% & 50.0\% & 27.8\% & 65.6\%\\
+\bottomrule
+\end{tabular}}
+\endgroup{}
 
 }
 
-}
+\end{table}%
 
-\subcaption{\label{fig-cca-grid-1}Familiarity with open science concepts
-by age}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
+\subsubsection{Practices}\label{practices}
 
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-cca-grid-2.png}
-
-}
-
-}
-
-\subcaption{\label{fig-cca-grid-2}Familiarity with open science concepts
-by research strategy}
-\end{minipage}%
-
-\caption{\label{fig-cca-grid}Familiarity with Open Science concepts by
-age and reseaarch strategy}
-
-\end{figure}
-
-Similarly, ANID's Open Access to Scientific Information and Research
-Data Policy shows a medium to low level of awareness. Specifically, only
-half of the respondents have heard of ANID's policy. On the other hand,
-only 26\% are aware of ANID's data management plan for the open access
-policy.
-
-\hypertarget{practices}{%
-\subsubsection{Practices}\label{practices}}
-
-\hypertarget{a.-own-practices-and-communitys-practices}{%
 \paragraph{a. Own practices and Community's
-practices}\label{a.-own-practices-and-communitys-practices}}
+practices}\label{a.-own-practices-and-communitys-practices}
 
 In general, the frequency of practices related to open science is low,
 as seen in Figure~\ref{fig-prac}. 32\% of respondents always or almost
@@ -1064,40 +1197,34 @@ careers.
 
 \begin{figure}
 
-\begin{minipage}[t]{0.50\linewidth}
+\begin{minipage}{0.50\linewidth}
 
-{\centering 
-
-\raisebox{-\height}{
+\centering{
 
 \includegraphics{paper_files/figure-pdf/fig-prac-1.png}
 
 }
 
-}
-
 \subcaption{\label{fig-prac-1}Community's practices}
+
 \end{minipage}%
 %
-\begin{minipage}[t]{0.50\linewidth}
+\begin{minipage}{0.50\linewidth}
 
-{\centering 
-
-\raisebox{-\height}{
+\centering{
 
 \includegraphics{paper_files/figure-pdf/fig-prac-2.png}
 
 }
 
-}
-
 \subcaption{\label{fig-prac-2}Own Practices}
+
 \end{minipage}%
 
 \caption{\label{fig-prac}How often are the following practices
 performed?}
 
-\end{figure}
+\end{figure}%
 
 Interestingly, researchers generally report better practices for
 themselves than for the community. For example, only 14\% believe that
@@ -1115,67 +1242,59 @@ manipulated data to validate a hypothesis, 4\% say this always or almost
 always happens in the community.
 
 It is curious that when the analysis is broken down into different
-groups, certain trends are repeated. Male, quantitative-oriented,
-early-career researchers are at the same time those who declare the
-highest frequency of own practices, both negative and positive, as well
-as those perceive the highest number of negative practices in the
-community. These differences can be seen in detail in the
-Figure~\ref{fig-prac-grid}
+groups, certain trends are repeated. Male and quantitative-oriented,
+researchers are at the same time those who declare the highest frequency
+of own practices, both negative and positive, as well as those perceive
+the highest number of negative practices in the community. These
+differences can be seen in detail in the Table~\ref{tbl-prac-grid}
 
-\begin{figure}
+\begin{table}
 
-\begin{minipage}[t]{\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-prac-grid-1.png}
-
-}
-
-}
-
-\subcaption{\label{fig-prac-grid-1}By sex}
-\end{minipage}%
-\newline
-\begin{minipage}[t]{\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-prac-grid-2.png}
-
-}
-
-}
-
-\subcaption{\label{fig-prac-grid-2}By academic career stage}
-\end{minipage}%
-\newline
-\begin{minipage}[t]{\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-prac-grid-3.png}
-
-}
-
-}
-
-\subcaption{\label{fig-prac-grid-3}By research strategy}
-\end{minipage}%
-
-\caption{\label{fig-prac-grid}How often are the following practices
+\caption{\label{tbl-prac-grid}How often are the following practices
 performed?}
 
-\end{figure}
+\centering{
 
-\hypertarget{b.-open-science-barriers}{%
-\paragraph{b. Open Science Barriers}\label{b.-open-science-barriers}}
+\centering\begingroup\fontsize{9}{11}\selectfont
+
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{tabular}[t]{llllll}
+\toprule
+\multicolumn{1}{c}{\textbf{ }} & \multicolumn{2}{c}{\textbf{Sex}} & \multicolumn{3}{c}{\textbf{Research Strategy}} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-6}
+Research Practices & Women & Men & Qualitative & Mixed & Quantitative\\
+\midrule
+\cellcolor[HTML]{F0F0F0}{\textbf{Own practices}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}}\\
+Share codes between 
+researchers & 8.1\% & 21.3\% & NA\% & 8.3\% & 37.5\%\\
+Use online open repositories & 24.3\% & 37.7\% & 21.4\% & 25.0\% & 46.9\%\\
+Selective report of results & 2.7\% & 9.8\% & 3.6\% & 5.6\% & 12.5\%\\
+Do not report 
+studies or variables 
+ that did not reached 
+statistical signficance & 8.1\% & 9.8\% & 3.6\% & 11.1\% & 12.5\%\\
+\addlinespace
+\cellcolor[HTML]{F0F0F0}{\textbf{Community's practices}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}}\\
+Share codes between 
+researchers & 8.1\% & 3.3\% & 3.6\% & 5.6\% & 6.2\%\\
+Use online open repositories & 18.9\% & 11.5\% & 14.3\% & 13.9\% & 12.5\%\\
+Selective report of results & 27.0\% & 49.2\% & 17.9\% & 50.0\% & 50.0\%\\
+Do not report 
+studies or variables 
+ that did not reached 
+statistical signficance & 29.7\% & 55.7\% & 25.0\% & 55.6\% & 50.0\%\\
+\addlinespace
+Manipulating data to validate 
+hypothesis & 2.7\% & 4.9\% & 7.1\% & 2.8\% & 3.1\%\\
+\bottomrule
+\end{tabular}}
+\endgroup{}
+
+}
+
+\end{table}%
+
+\paragraph{b. Open Science Barriers}\label{b.-open-science-barriers}
 
 There is a high perception of barriers to the development of Open
 Science in all its dimensions. Lack of policy is perceived as the main
@@ -1185,16 +1304,18 @@ barrier especially for transparent design, open data and reproducible
 research. Finally, lack of incentives is recognized as another aspect
 that hinders data openness.
 
-\begin{figure}[H]
+\begin{figure}
 
-{\centering \includegraphics{paper_files/figure-pdf/fig-barreras-1.png}
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-barreras-1.png}
 
 }
 
 \caption{\label{fig-barreras}¿To what extent do you consider that the
 following factors limit Open Science?}
 
-\end{figure}
+\end{figure}%
 
 Regarding this last point, the incentives that researchers might have to
 open their data were analyzed. As can be seen in the
@@ -1202,67 +1323,22 @@ Figure~\ref{fig-motivaciones}, networking, the dissemination of publicly
 funded data to the community, and the increase of one's own visibility
 are highly valued as incentives for open data.
 
-\begin{figure}[H]
+\begin{figure}
 
-{\centering \includegraphics{paper_files/figure-pdf/fig-motivaciones-1.png}
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-motivaciones-1.png}
 
 }
 
 \caption{\label{fig-motivaciones}Open data motivations}
 
-\end{figure}
+\end{figure}%
 
-It is interesting to note that, as can be seen in the
-Figure~\ref{fig-motivaciones-grid}, while the dissemination of results
-is valued transversally, there are groups where the valuation of
-extrinsic motivations has a greater preponderance. In particular,
-networking and increasing one's own visibility are incentives more
-highly valued by women (Figure~\ref{fig-motivaciones-grid-1}) and
-researchers between 35 and 49 years of age
-(Figure~\ref{fig-motivaciones-grid-2})
+\subsubsection{Attitudes}\label{attitudes}
 
-\begin{figure}
-
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-motivaciones-grid-1.png}
-
-}
-
-}
-
-\subcaption{\label{fig-motivaciones-grid-1}By sex}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-motivaciones-grid-2.png}
-
-}
-
-}
-
-\subcaption{\label{fig-motivaciones-grid-2}By age}
-\end{minipage}%
-
-\caption{\label{fig-motivaciones-grid}Open data motivations}
-
-\end{figure}
-
-\hypertarget{attitudes}{%
-\subsubsection{Attitudes}\label{attitudes}}
-
-\hypertarget{a.-attitudes-on-open-science-measures}{%
 \paragraph{a. Attitudes on Open Science
-Measures}\label{a.-attitudes-on-open-science-measures}}
+Measures}\label{a.-attitudes-on-open-science-measures}
 
 In general, the possibility of adopting Open Science measures in the
 social sciences is assessed positively, as can be see in
@@ -1275,63 +1351,21 @@ only 42\%. This is explained by a higher level of unfamiliarity (17\%
 say they are not aware of the measure), in addition to the reluctance
 already observed in the qualitative study.
 
-\begin{figure}[H]
+\begin{figure}
 
-{\centering \includegraphics{paper_files/figure-pdf/fig-val-1.png}
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-val-1.png}
 
 }
 
 \caption{\label{fig-val}How necessary do you think the following Open
 Science measure are for social science research?}
 
-\end{figure}
+\end{figure}%
 
-With the exception of open access to publications, which is valued
-transversally by all groups, these measures are more strongly supported
-by females researchers and by researchers with a quantitative approach,
-as can be seen in the Figure~\ref{fig-vca-grid}
-
-\begin{figure}
-
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-vca-grid-1.png}
-
-}
-
-}
-
-\subcaption{\label{fig-vca-grid-1}By research strategy}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-vca-grid-2.png}
-
-}
-
-}
-
-\subcaption{\label{fig-vca-grid-2}By sex}
-\end{minipage}%
-
-\caption{\label{fig-vca-grid}How necessary do you think the following
-Open Science measure are for social science research? -- porcentage
-responding a lot or quite a lot}
-
-\end{figure}
-
-\hypertarget{b.-attitudes-about-the-replication-crisis}{%
 \paragraph{b. Attitudes about the Replication
-Crisis}\label{b.-attitudes-about-the-replication-crisis}}
+Crisis}\label{b.-attitudes-about-the-replication-crisis}
 
 As shown in the Figure~\ref{fig-dona}, 39\% of respondents believe there
 is a major replication crisis, while 40\% do not know if there is one.
@@ -1340,222 +1374,187 @@ Figure~\ref{fig-dona-grid}, with 70\% believing that the crisis is
 important. While there is no denial of the crisis among qualitative
 researchers, 60\% do not know if there is a crisis or not.
 
-\begin{figure}[H]
+\begin{figure}
 
-{\centering \includegraphics{paper_files/figure-pdf/fig-dona-1.png}
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-dona-1.png}
 
 }
 
 \caption{\label{fig-dona}With which of the following statement regarding
 the replication crisis do you agree?}
 
-\end{figure}
+\end{figure}%
 
-\begin{figure}[H]
+\begin{figure}
 
-{\centering \includegraphics{paper_files/figure-pdf/fig-dona-grid-1.png}
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-dona-grid-1.png}
 
 }
 
 \caption{\label{fig-dona-grid}Perception of the reproducibility crisis
 by research strategy.}
 
-\end{figure}
+\end{figure}%
 
-On the other hand, 59\% believe that 30\% or less of social science
-research is reproducible, while 83\% believe that less than half of
-social science research is reproducible, as shown in
-Table~\ref{tbl-tablaacum}
+\paragraph{c.~Attidues about ANID's Open Science
+policies}\label{c.-attidues-about-anids-open-science-policies}
 
-Reproducible
+In the first instance, ANID's Open Science Policy is well received by
+the respondents. For example, 89.7\% agree or strongly agree that ANID
+should continue to develop its Open Science Policy, as show in
+Table~\ref{tbl-anid}. Similarly, 83.5\% consider the implementation of
+Open Access policies to be quite or very necessary.
 
-\hypertarget{tbl-tablaacum}{}
-\begin{longtable}[]{@{}rrr@{}}
-\caption{\label{tbl-tablaacum}Perception of the percentage of
-reproducible research in Social Sciences}\tabularnewline
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4019}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3084}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1963}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0935}}@{}}
+\caption{Attidues about ANID's Open Science
+policies}\label{tbl-anid}\tabularnewline
 \toprule\noalign{}
-Researches & Frequency & Acum (\%) \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Stats / Values
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Freqs (\% of Valid)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Valid
+\end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
-Researches & Frequency & Acum (\%) \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Stats / Values
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Freqs (\% of Valid)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Valid
+\end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-0 & 1 & 1.02 \\
-10 & 16 & 17.35 \\
-20 & 13 & 30.61 \\
-30 & 23 & 54.08 \\
-40 & 3 & 57.14 \\
-50 & 25 & 82.65 \\
-60 & 4 & 86.73 \\
-70 & 4 & 90.82 \\
-80 & 4 & 94.90 \\
-90 & 5 & 100.00 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+How much do you agree with ANID continuing to develop and implement open
+access policies for scientific production?\\
+{[}factor{]}\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+1. Strongly Disagree\\
+2. Disagree\\
+3. Neither Agree nor Disagre\\
+4. Agree\\
+5. Strongly Agree\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+2 ( 2.1\%)\\
+2 ( 2.1\%)\\
+6 ( 6.2\%)\\
+32 (33.0\%)\\
+55 (56.7\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+97\\
+(99.0\%)\strut
+\end{minipage} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+How necessary is the implementation of mandatory open access policies
+for publicly funded research?\\
+{[}factor{]}\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+1. Not necessary at all\\
+2. Slightly necessary\\
+3. Moderately necessary\\
+4. Quite necessary\\
+5. Very necessary\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+2 ( 2.1\%)\\
+4 ( 4.1\%)\\
+10 (10.3\%)\\
+40 (41.2\%)\\
+41 (42.3\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+97\\
+(99.0\%)\strut
+\end{minipage} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+How neccesary is it for ANID to incorporate pre-registration of research
+design within its Open Access Policy?\\
+{[}factor{]}\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+1. Not necessary at all\\
+2. Slightly necessary\\
+3. Moderately necessary\\
+4. Quite necessary\\
+5. Very necessary\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+5 (10.2\%)\\
+6 (12.2\%)\\
+14 (28.6\%)\\
+18 (36.7\%)\\
+6 (12.2\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+49\\
+(50.0\%)\strut
+\end{minipage} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+How neccesary is it for ANID to incorporate reproducibility of research
+within its Open Access Policy\\
+{[}factor{]}\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+1. Not necessary at all\\
+2. Slightly necessary\\
+3. Moderately necessary\\
+4. Quite necessary\\
+5. Very necessary\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+1 ( 2.0\%)\\
+8 (16.3\%)\\
+16 (32.7\%)\\
+14 (28.6\%)\\
+10 (20.4\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+49\\
+(50.0\%)\strut
+\end{minipage} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+How do you evaluate the dissemination of the Open Access to Scientific
+Information and Research Data Policy\\
+{[}factor{]}\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+1. Bad\\
+2. Fair\\
+3. Neutral\\
+4. Good\\
+5. Very Good\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+9 (18.4\%)\\
+21 (42.9\%)\\
+8 (16.3\%)\\
+10 (20.4\%)\\
+1 ( 2.0\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+49\\
+(50.0\%)\strut
+\end{minipage} \\
 \end{longtable}
 
-This is consistent with the 40\% of respondents having attempted to
-reproduce the results of other researchers (Figure~\ref{fig-reprod-1}).
-Of this percentage, only 20\% of the attempts were complete
-reproductions, while 69\% were only partial (Figure~\ref{fig-reprod-2})
-
-\begin{figure}
-
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-reprod-1.png}
-
-}
-
-}
-
-\subcaption{\label{fig-reprod-1}Have you tried to reproduce someone
-else's results?}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-reprod-2.png}
-
-}
-
-}
-
-\subcaption{\label{fig-reprod-2}If you have tried, which of these stages
-did you fall into?}
-\end{minipage}%
-
-\caption{\label{fig-reprod}Practices associated with reproducibility}
-
-\end{figure}
-
-\hypertarget{c.-attidues-about-anids-open-science-policies}{%
-\paragraph{c.~Attidues about ANID's Open Science
-policies}\label{c.-attidues-about-anids-open-science-policies}}
-
-In the first instance, ANID's Open Science Policy is well received by
-the respondents. For example, 90\% agree or strongly agree that ANID
-should continue to develop its Open Science Policy, as show in
-Figure~\ref{fig-vanid-grid-2}. Similarly, 84\% consider the
-implementation of Open Access policies to be quite or very necessary, as
-shown in Figure~\ref{fig-vanid-grid-1}
-
-\begin{figure}
-
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-vanid-grid-1.png}
-
-}
-
-}
-
-\subcaption{\label{fig-vanid-grid-1}How necessary is the implementation
-of mandatory open access policies for publicly funded research?}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-vanid-grid-2.png}
-
-}
-
-}
-
-\subcaption{\label{fig-vanid-grid-2}How much do you agree with ANID
-continuing to develop and implement open access policies for scientific
-production?}
-\end{minipage}%
-
-\caption{\label{fig-vanid-grid}Assessment of ANID's open science
-policies}
-
-\end{figure}
-
 However, there are other practices that are less well received. Thus,
-both mandatory pre-registration, as shown in
-Figure~\ref{fig-vanid-grid-b-1}, and reproducibility
-(Figure~\ref{fig-vanid-grid-b-2}), are supported only by half of the
-respondents.
+both mandatory pre-registration, as shown in Table~\ref{tbl-anid}, and
+reproducibility, are supported only by half of the respondents. Finally,
+the dissemination of ANID's Open Access policy is negatively evaluated
+by the majority of respondents. Only 24\% consider it to be good or very
+good.
 
-\begin{figure}
+\section{Discussion}\label{discussion}
 
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-vanid-grid-b-1.png}
-
-}
-
-}
-
-\subcaption{\label{fig-vanid-grid-b-1}How neccesary is it for ANID to
-incorporate pre-registration of research design within its Open Access
-Policy?}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{paper_files/figure-pdf/fig-vanid-grid-b-2.png}
-
-}
-
-}
-
-\subcaption{\label{fig-vanid-grid-b-2}How neccesary is it for ANID to
-incorporate reproducibility of research within its Open Access Policy}
-\end{minipage}%
-
-\caption{\label{fig-vanid-grid-b}Assessment inclusion of practices in
-ANID's Open Access Policy}
-
-\end{figure}
-
-Finally, the dissemination of ANID's Open Access policy is negatively
-evaluated by the majority of respondents. Only 24\% consider it to be
-good or very good, as seen in Figure~\ref{fig-vanid-2}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{paper_files/figure-pdf/fig-vanid-2-1.png}
-
-}
-
-\caption{\label{fig-vanid-2}How do you evaluate the dissemination of the
-Open Access to Scientific Information and Research Data Policy}
-
-\end{figure}
-
-\hypertarget{discussion}{%
-\section{Discussion}\label{discussion}}
-
-\hypertarget{low-knowledge-few-practices}{%
 \subsection{Low knowledge, few
-practices}\label{low-knowledge-few-practices}}
+practices}\label{low-knowledge-few-practices}
 
 Both studies indicate a medium or low level of knowledge about the
 concepts of open science and an even lower lever of practices. The
@@ -1586,9 +1585,8 @@ public or sharing them with other researchers), or analysis transparency
 (such as sharing analysis codes) encounter many more barriers and
 reluctance on the part of researchers, as discussed below.
 
-\hypertarget{positive-general-attitudes-particular-concerns}{%
 \subsection{Positive general attitudes, particular
-concerns}\label{positive-general-attitudes-particular-concerns}}
+concerns}\label{positive-general-attitudes-particular-concerns}
 
 As a general concept, open science is viewed positively. It is
 emphasized that its principles would allow better dissemination of
@@ -1644,9 +1642,8 @@ motivations of those researchers, it would be interesting to investigate
 why there are specific groups that would be more inclined to adopt open
 sciences practices for extrinsic motivations.
 
-\hypertarget{critical-assessment-of-anids-policies}{%
 \subsection{Critical assessment of ANID's
-policies}\label{critical-assessment-of-anids-policies}}
+policies}\label{critical-assessment-of-anids-policies}
 
 Both the qualitative and quantitative studies revealed a critical
 perception of ANID's open access policies. In particular, we observed a
@@ -1661,8 +1658,7 @@ other hand, it is pointed out that this system results in the use of
 large amount of public funds to finance the business of large
 first-world scientific publishers.
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{Conclusion}\label{conclusion}
 
 The studies presented here show that for the social science community in
 Chile, open science is fundamentally associated with open access to
@@ -1703,61 +1699,74 @@ methodological and epistemological debate to overcome the reluctance
 observed among some groups of researchers, particularly those with a
 predominantly qualitative approach.
 
-\hypertarget{references}{%
-\section*{References}\label{references}}
+\section*{References}\label{references}
 \addcontentsline{toc}{section}{References}
 
-\hypertarget{refs}{}
+\phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-arslan_chain_2025}{}}%
+\bibitem[\citeproctext]{ref-arslan_chain_2025}
 Arslan, Ruben C., and Cyril Tata. 2025. {``Chain Simple Forms / Surveys
 into Longer Runs Using the Power of {R} to Generate Pretty Feedback and
 Complex Designs {https://formr.org}.''} Zenodo.
 \url{https://doi.org/10.5281/zenodo.14832648}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-arslan_formr_2020}{}}%
+\bibitem[\citeproctext]{ref-arslan_formr_2020}
 Arslan, Ruben C., Matthias P. Walther, and Cyril S. Tata. 2020.
 {``Formr: {A} Study Framework Allowing for Automated Feedback Generation
 and Complex Longitudinal Experience-Sampling Studies Using {R}.''}
 \emph{Behavior Research Methods} 52 (1): 376--87.
 \url{https://doi.org/10.3758/s13428-019-01236-y}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-baker_1500_2016}{}}%
+\bibitem[\citeproctext]{ref-baker_1500_2016}
 Baker, Monya. 2016. {``1,500 Scientists Lift the Lid on
 Reproducibility.''} \emph{Nature} 533 (7604): 452--54.
 \url{https://doi.org/10.1038/533452a}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-boyatzis_transforming_2010}{}}%
+\bibitem[\citeproctext]{ref-banks_answers_2019}
+Banks, George C., James G. Field, Frederick L. Oswald, Ernest H.
+O'Boyle, Ronald S. Landis, Deborah E. Rupp, and Steven G. Rogelberg.
+2019. {``Answers to 18 {Questions About Open Science Practices}.''}
+\emph{Journal of Business and Psychology} 34 (3): 257--70.
+\url{https://doi.org/10.1007/s10869-018-9547-8}.
+
+\bibitem[\citeproctext]{ref-boyatzis_transforming_2010}
 Boyatzis, Richard E. 2010. \emph{Transforming Qualitative Information:
 Thematic Analysis and Code Development}. Thousand Oaks, Calif.: Sage.
 
-\leavevmode\vadjust pre{\hypertarget{ref-braun_using_2006}{}}%
+\bibitem[\citeproctext]{ref-braun_using_2006}
 Braun, Virginia, and Victoria Clarke. 2006. {``Using Thematic Analysis
 in Psychology.''} \emph{Qualitative Research in Psychology} 3 (2):
 77--101. \url{https://doi.org/10.1191/1478088706qp063oa}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-breznau_does_2021}{}}%
+\bibitem[\citeproctext]{ref-breznau_does_2021}
 Breznau, Nate. 2021. {``Does {Sociology Need Open Science}?''}
 \emph{Societies} 11 (1): 9. \url{https://doi.org/10.3390/soc11010009}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-chopik_relationship_2020}{}}%
+\bibitem[\citeproctext]{ref-chopik_relationship_2020}
 Chopik, William J., Christopher R. Chartier, Lorne Campbell, and M.
 Brent Donnellan. 2020. {``Relationship Science and the Credibility
 Revolution: {An} Introduction to the First Part of the Special Issue.''}
 \emph{Personal Relationships} 27 (1): 132--37.
 \url{https://doi.org/10.1111/pere.12312}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-creswell_designing_2018}{}}%
+\bibitem[\citeproctext]{ref-creswell_designing_2018}
 Creswell, John W, and Vicki L Plano Clark. 2018. \emph{Designing and
 {Conducting Mixed Methods Research}}. SAGE Publications.
 
-\leavevmode\vadjust pre{\hypertarget{ref-delikoura_open_2021}{}}%
+\bibitem[\citeproctext]{ref-dallmeier-tiessen_highlights_2011}
+Dallmeier-Tiessen, Suenje, Robert Darby, Bettina Goerner, Jenni
+Hyppoelae, Peter Igo-Kemenes, Deborah Kahn, Simon Lambert, et al. 2011.
+{``Highlights from the {SOAP} Project Survey. {What Scientists Think}
+about {Open Access Publishing}.''} arXiv.
+\url{https://doi.org/10.48550/arXiv.1101.5260}.
+
+\bibitem[\citeproctext]{ref-delikoura_open_2021}
 Delikoura, Eirini, and Dimitrios Kouis. 2021. {``Open {Research Data}
 and {Open Peer Review}: {Perceptions} of a {Medical} and {Health
 Sciences Community} in {Greece}.''} \emph{Publications} 9 (2): 14.
 \url{https://doi.org/10.3390/publications9020014}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-enke_user_2012}{}}%
+\bibitem[\citeproctext]{ref-enke_user_2012}
 Enke, Neela, Anne Thessen, Kerstin Bach, Jörg Bendix, Bernhard Seeger,
 and Birgit Gemeinholzer. 2012. {``The User's View on Biodiversity Data
 Sharing --- {Investigating} Facts of Acceptance and Requirements to
@@ -1765,62 +1774,69 @@ Realize a Sustainable Use of Research Data ---.''} \emph{Ecological
 Informatics} 11 (September): 25--33.
 \url{https://doi.org/10.1016/j.ecoinf.2012.03.004}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-gross_landscapes_2015}{}}%
+\bibitem[\citeproctext]{ref-fecher_open_2014}
+Fecher, Benedikt, and Sascha Friesike. 2014. {``Open {Science}: {One
+Term}, {Five Schools} of {Thought}.''} In \emph{Opening {Science}},
+edited by Sönke Bartling and Sascha Friesike, 17--47. Cham: Springer
+International Publishing.
+\url{https://doi.org/10.1007/978-3-319-00026-8_2}.
+
+\bibitem[\citeproctext]{ref-gross_landscapes_2015}
 Gross, Julia, and John Ryan. 2015. {``Landscapes of {Research}:
 {Perceptions} of {Open Access} ({OA}) {Publishing} in the {Arts} and
 {Humanities}.''} \emph{Publications} 3 (2): 65--88.
 \url{https://doi.org/10.3390/publications3020065}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-hail_reproducibility_2020}{}}%
+\bibitem[\citeproctext]{ref-hail_reproducibility_2020}
 Hail, Luzi, Mark Lang, and Christian Leuz. 2020. {``Reproducibility in
 {Accounting Research}: {Views} of the {Research Community}.''}
 \emph{Journal of Accounting Research} 58 (2): 519--43.
 \url{https://doi.org/10.1111/1475-679X.12305}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-head_extent_2015}{}}%
+\bibitem[\citeproctext]{ref-head_extent_2015}
 Head, Megan L., Luke Holman, Rob Lanfear, Andrew T. Kahn, and Michael D.
 Jennions. 2015. {``The {Extent} and {Consequences} of {P-Hacking} in
 {Science}.''} \emph{Plos Biology} 13 (3): e1002106.
 \url{https://doi.org/10.1371/journal.pbio.1002106}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-hodonu-wusu_malasyan_2020}{}}%
+\bibitem[\citeproctext]{ref-hodonu-wusu_malasyan_2020}
 Hodonu-wusu, Noorhidawati, and Abrizah. 2020. {``Malasyan Researches on
 Open Data. {The} First National Surven on Awareness, Practices and
 Attitudes.''} \emph{Malaysian Journal of Library \& Information Science}
 25 (2): 1--20. \url{https://doi.org/10.22452/mjlis.vol25no2.1}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-hollenbeck_harking_2017}{}}%
+\bibitem[\citeproctext]{ref-hollenbeck_harking_2017}
 Hollenbeck, John R., and Patrick M. Wright. 2017. {``Harking,
 {Sharking}, and {Tharking}: {Making} the {Case} for {Post Hoc Analysis}
 of {Scientific Data}.''} \emph{Journal of Management} 43 (1): 5--18.
 \url{https://doi.org/10.1177/0149206316679487}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-kerr_harking_1998}{}}%
+\bibitem[\citeproctext]{ref-kerr_harking_1998}
 Kerr, Norbert L. 1998. {``{HARKing}: {Hypothesizing After} the {Results}
 Are {Known}.''} \emph{Personality and Social Psychology Review} 2 (3):
 196--217. \url{https://doi.org/10.1207/s15327957pspr0203_4}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-knudtson_survey_2019}{}}%
+\bibitem[\citeproctext]{ref-knudtson_survey_2019}
 Knudtson, Kevin L., Robert H. Carnahan, Rebecca L. Hegstad-Davies, Nancy
 C. Fisher, Belynda Hicks, Peter A. Lopez, Susan M. Meyn, et al. 2019.
 {``Survey on {Scientific Shared Resource Rigor} and
 {Reproducibility}.''} \emph{Journal of Biomolecular Techniques : JBT} 30
 (3): 36--44. \url{https://doi.org/10.7171/jbt.19-3003-001}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-lacey_open_2020}{}}%
+\bibitem[\citeproctext]{ref-lacey_open_2020}
 Lacey, Justine, Rebecca Coates, and Matthew Herington. 2020. {``Open
 Science for Responsible Innovation in {Australia}: {Understanding} the
 Expectations and Priorities of Scientists and Researchers.''}
 \emph{Journal of Responsible Innovation} 7 (3): 427--49.
 \url{https://doi.org/10.1080/23299460.2020.1800969}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-lewins_using_2007}{}}%
+\bibitem[\citeproctext]{ref-lewins_using_2007}
 Lewins, Ann, and Christina Silver. 2007. \emph{Using {Software} in
 {Qualitative Research}}. 1 Oliver's Yard,~55 City
 Road,~London~England~EC1Y 1SP~United Kingdom: SAGE Publications, Ltd.
 \url{https://doi.org/10.4135/9780857025012}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-ljubenkovic_survey_2021}{}}%
+\bibitem[\citeproctext]{ref-ljubenkovic_survey_2021}
 Ljubenković, Ana Marija, Ana Borovečki, Marko Ćurković, Bjørn Hofmann,
 and Søren Holm. 2021. {``Survey on the {Research Misconduct} and
 {Questionable Research Practices} of {Medical Students}, {PhD Students},
@@ -1828,68 +1844,83 @@ and {Supervisors} at the {Zagreb School} of {Medicine} in {Croatia}.''}
 \emph{Journal of Empirical Research on Human Research Ethics} 16 (4):
 435--49. \url{https://doi.org/10.1177/15562646211033727}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-lopezcardenas_percepciones_2021}{}}%
+\bibitem[\citeproctext]{ref-lopezcardenas_percepciones_2021}
 Lopez Cardenas, Maria, and Enrique Cubero-Castillo. 2021.
 {``Percepciones y Pr{á}cticas de La Ciencia Abierta En {Venezuela}. {Un}
 Acercamiento a La Cuesti{ó}n.''} \emph{Observador Del Conocimiento} 5 (4
 -diciemb).
 
-\leavevmode\vadjust pre{\hypertarget{ref-nosek_promoting_2015}{}}%
+\bibitem[\citeproctext]{ref-narayan_scholarly_2018}
+Narayan, Bhuva, Edward J. Luca, Belinda Tiffen, Ashley England, Mal
+Booth, and Henry Boateng. 2018. {``Scholarly {Communication Practices}
+in {Humanities} and {Social Sciences}: {A Study} of {Researchers}'
+{Attitudes} and {Awareness} of {Open Access}.''} \emph{Open Information
+Science} 2 (1): 168--80. \url{https://doi.org/10.1515/opis-2018-0013}.
+
+\bibitem[\citeproctext]{ref-nosek_promoting_2015}
 Nosek, B. A., G. Alter, G. C. Banks, D. Borsboom, S. D. Bowman, S. J.
 Breckler, S. Buck, et al. 2015. {``Promoting an Open Research
 Culture.''} \emph{Science} 348 (6242): 1422--25.
 \url{https://doi.org/10.1126/science.aab2374}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-nowell_thematic_2017}{}}%
+\bibitem[\citeproctext]{ref-nosek_preregistration_2019}
+Nosek, Brian A., Emorie D. Beck, Lorne Campbell, Jessica K. Flake, Tom
+E. Hardwicke, David T. Mellor, Anna E. Van 'T Veer, and Simine Vazire.
+2019. {``Preregistration {Is Hard}, {And Worthwhile}.''} \emph{Trends in
+Cognitive Sciences} 23 (10): 815--18.
+\url{https://doi.org/10.1016/j.tics.2019.07.009}.
+
+\bibitem[\citeproctext]{ref-nowell_thematic_2017}
 Nowell, Lorelli S., Jill M. Norris, Deborah E. White, and Nancy J.
 Moules. 2017. {``Thematic {Analysis}: {Striving} to {Meet} the
 {Trustworthiness Criteria}.''} \emph{International Journal of
 Qualitative Methods} 16 (1): 1609406917733847.
 \url{https://doi.org/10.1177/1609406917733847}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-pardomartinez_knowledge_2018}{}}%
+\bibitem[\citeproctext]{ref-pardomartinez_knowledge_2018}
 Pardo Martínez, Clara, and Alexander Poveda. 2018. {``Knowledge and
 {Perceptions} of {Open Science} Among {Researchers}---{A Case Study} for
 {Colombia}.''} \emph{Information-an International Interdisciplinary
 Journal} 9 (11): 292. \url{https://doi.org/10.3390/info9110292}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-peng_reproducibility_2015}{}}%
+\bibitem[\citeproctext]{ref-peng_reproducibility_2015}
 Peng, Roger. 2015. {``The Reproducibility Crisis in Science: {A}
 Statistical Counterattack.''} \emph{Significance} 12 (3): 30--32.
 \url{https://doi.org/10.1111/j.1740-9713.2015.00827.x}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-ramos_campo_2008}{}}%
+\bibitem[\citeproctext]{ref-ramos_campo_2008}
 Ramos, C., A. Canales, and S. Palestini. 2008. {``El {Campo} de Las
 {Ciencias Sociales} En {Chile}: {\textquestiondown}{Convergencia}
 Disciplinar En La Construcci{ó}n Del Objeto de Estudio?''} \emph{Cinta
 de Moebio}, no. 33.
 
-\leavevmode\vadjust pre{\hypertarget{ref-rodriguez_awareness_2014}{}}%
+\bibitem[\citeproctext]{ref-rodriguez_awareness_2014}
 Rodriguez, Julia E. 2014. {``Awareness and {Attitudes} about {Open
 Access Publishing}: {A Glance} at {Generational Differences}.''}
 \emph{The Journal of Academic Librarianship} 40 (6): 604--10.
 \url{https://doi.org/10.1016/j.acalib.2014.07.013}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-rowley_academics_2017}{}}%
+\bibitem[\citeproctext]{ref-rowley_academics_2017}
 Rowley, Jennifer, Frances Johnson, Laura Sbaffi, Will Frass, and Elaine
 Devine. 2017. {``Academics' Behaviors and Attitudes Towards Open Access
 Publishing in Scholarly Journals.''} \emph{Journal of the Association
 for Information Science and Technology} 68 (5): 1201--11.
 \url{https://doi.org/10.1002/asi.23710}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-sturmer_earlycareer_2017}{}}%
+\bibitem[\citeproctext]{ref-sturmer_earlycareer_2017}
 Stürmer, Stefan, Aileen Oeberst, Roman Trötschel, and Oliver Decker.
 2017. {``Early-{Career Researchers}' {Perceptions} of the {Prevalence}
 of {Questionable Research Practices}, {Potential Causes}, and {Open
 Science}.''} \emph{Social Psychology} 48 (6): 365--71.
 \url{https://doi.org/10.1027/1864-9335/a000324}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-zhu_openaccess_2020}{}}%
+\bibitem[\citeproctext]{ref-zhu_openaccess_2020}
 Zhu, Yimei. 2020. {``Open-Access Policy and Data-Sharing Practice in
 {UK} Academia.''} \emph{Journal of Information Science} 46 (1): 41--52.
 \url{https://doi.org/10.1177/0165551518823174}.
 
 \end{CSLReferences}
+
 
 
 

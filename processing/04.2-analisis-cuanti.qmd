@@ -308,13 +308,15 @@ colnames(table_combined) <- c(
   "Qualitative", "Mixed", "Quantitative"
 )
 
+if (knitr::is_latex_output()) {
+  library(kableExtra)
+  options(kableExtra.latex.load_packages = FALSE)
+}
 
-kbl(table_combined, 
-    align = "l") %>% 
-    add_header_above(c(" " = 1, "Age group" = 3, "Research strategy" = 3),
-                   bold = T)%>%  
-  kable_paper("hover",full_width = F) %>%
-     column_spec(1, bold = T)
+kbl(table_combined, align = "l", booktabs = TRUE) %>% 
+  add_header_above(c(" " = 1, "Age group" = 3, "Research strategy" = 3), bold = TRUE) %>%
+  kable_styling(latex_options = c("scale_down"), font_size = 9) %>%
+  column_spec(1, bold = TRUE)
 
 ```
 
@@ -673,14 +675,15 @@ colnames(tabla_final)[1] <- "Research Practice"
 
 # Crear filas separadoras con HTML bold
 own_header <- tibble(
-  `Research Practice` = "<b>Own practices</b>",
-  Women = "", Men = "", Qualitative = "", `Mixed-Methods` = "", Quantitative = ""
+  `Research Practice` = "Own practices",
+  Women = NA, Men = NA, Qualitative = NA, `Mixed-Methods` = NA, Quantitative = NA
 )
 
 comu_header <- tibble(
-  `Research Practice` = "<b>Community's practices</b>",
-  Women = "", Men = "", Qualitative = "", `Mixed-Methods` = "", Quantitative = ""
+  `Research Practice` = "Community's practices",
+  Women = NA, Men = NA, Qualitative = NA, `Mixed-Methods` = NA, Quantitative = NA
 )
+
 
 # Unir tabla final
 tabla_final <- bind_rows(
@@ -698,11 +701,11 @@ tabla_final <- tabla_final %>%
   )
 
 # Renderizar tabla
-kbl(tabla_final, align = "l", escape = FALSE) %>%
+kbl(tabla_final, align = "l", booktabs = TRUE, escape = TRUE) %>%
   add_header_above(c(" " = 1, "Sex" = 2, "Research Strategy" = 3), bold = TRUE) %>%
-  kable_paper("hover", full_width = FALSE)
-
-
+  kable_styling(latex_options = "scale_down", font_size = 9) %>%
+  row_spec(1, bold = TRUE, background = "#F0F0F0") %>%  # Own practices
+  row_spec(nrow(table_own) + 2, bold = TRUE, background = "#F0F0F0") # Community's practices
 
 ```
 

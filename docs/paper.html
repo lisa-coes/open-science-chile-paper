@@ -55,6 +55,10 @@ div.csl-indent {
 <script src="paper_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="paper_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="paper_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="paper_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="paper_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 
 
 </head>
@@ -110,7 +114,7 @@ div.csl-indent {
 <div>
   <div class="abstract">
     <div class="block-title">Abstract</div>
-    <p>In a context of growing concern for replicability, transparency, and access to science, we proposed to describe the levels of knowledge, belief, and practices of open science in the academic community of the social sciences in Chile. We conducted an exploratorty mixed-method design. The qualitative study consisted of semi-structured interviews with 14 academics, which were analyzed by performing a thematic analysis. The quantitative research consisted of a descriptive analysis (N=98). The questionnaire addressed issues about Open Science, transparent design, open data, and reproducible research. Overall, both studies pointed to low levels of knowledge and practices related to open science. In addition, despite generally positive attitudes, we noted particular concerns associated with the possibility of applying these principles in qualitative research, their perceived contradiction with the imperatives of academic productivity, and suspicions regarding researchers’ motivations. Thus, we identified important challenges for the implementation of open science initiatives in the social sciences in Chile, mainly their tension with public funding policies for social research and with the traditional principles of qualitative research.</p>
+    <p>In a context of growing concern for replicability, transparency, and access to science, in the present paper we aim to describe and analyze the factors associated to practices, beliefs and knowledge of open science in the social sciences’ academic community in Chile. We conducted an exploratory mixed-method design, starting with a qualitative study where we performed a thematic analysis of semi-structured interviews with 14 academics. Next, for the quantitative study we analyzed data from an online survey (N=98) completed by social scientists in Chile. The questionnaire addressed issues about Open Science, transparent design, open data, and reproducible research. Overall, both studies pointed to low levels of knowledge and practices related to open science. In addition, despite generally positive attitudes, we noted particular concerns regarding the applicability of open science principles in social research in Chile, such as the limitations of opening qualitative research, the possible contradiction between open science demands and the imperatives of academic productivity, and fear of other’s researchers taking advantage of open information.</p>
   </div>
 </div>
 
@@ -126,24 +130,21 @@ div.csl-indent {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Over the past few years, academia has experienced a number of challenges related to the concept of openness, which can be described in two main aspects. The first one refers to the so-called <em>replication crisis</em> <span class="citation" data-cites="baker_1500_2016 nosek_promoting_2015 peng_reproducibility_2015">(<a href="#ref-baker_1500_2016" role="doc-biblioref">Baker 2016</a>; <a href="#ref-nosek_promoting_2015" role="doc-biblioref">B. A. Nosek et al. 2015</a>; <a href="#ref-peng_reproducibility_2015" role="doc-biblioref">Peng 2015</a>)</span>, referring to the difficulties in replicating research results due the lack of transparency in the research process, evidencing important variations in results in studies with identical data <span class="citation" data-cites="breznau_does_2021">(<a href="#ref-breznau_does_2021" role="doc-biblioref">Breznau 2021</a>)</span>. This has resulted not only in the failure to replicate many published findings, but also in the discovery and reporting of false data and results <span class="citation" data-cites="chopik_relationship_2020">(<a href="#ref-chopik_relationship_2020" role="doc-biblioref">Chopik et al. 2020</a>)</span> in order to publishing in high impact journals.</p>
-<p>The second main aspect comes from openness in terms of access, whereby several academic communities have reacted against the high payment barriers and the business model imposed by publishing houses to access the products of scientific research: universities pay a subscription to access the work even of their own researchers and the general public must pay again to obtains products funded by their taxes. One of the most commented reactions has been the cancellation of subscriptions to Elsevier’s journals by prestige universities such as UCLA, which was subsequently resolved through an agreement based on the adoption and promotion of open-access practices.</p>
-<p>Barriers to transparency and access are symptoms of an academic culture driven by the publication of indicators that are biased towards statistically significant results (p-hacking), leading to a tendency to force results, even going as far as manipulating and falsifying data to confirm proposed hypotheses <span class="citation" data-cites="head_extent_2015">(<a href="#ref-head_extent_2015" role="doc-biblioref">Head et al. 2015</a>)</span>, establishing ad hoc hyphotesis after knowing the results of a study (HARKing) <span class="citation" data-cites="hollenbeck_harking_2017 kerr_harking_1998">(<a href="#ref-hollenbeck_harking_2017" role="doc-biblioref">Hollenbeck and Wright 2017</a>; <a href="#ref-kerr_harking_1998" role="doc-biblioref">Kerr 1998</a>)</span>. As a result, the main audience for science is ultimately the editors of high-impact journals, while other audiences – such as civil society, decision-makers and citizens — are left out.</p>
-<p>A growing number of initiatives around the world are addressing issues of reproducibility, transparency, and access in science, such as the Center for Open Science (COS), the Berkeley Initiative for Transparency in Social Sciences (BITSS), and the Teaching Integrity in Empirical Research (TIER) project. These initiatives promote openness at various stages of the research process, such as transparency of research designs through preregistration of studies, reproducibilty of analyses and data manipulation, and publication of preprints without paywalls. Many of these practices have been adopted by journals as recommendations or even requirements for publication, as well as promoted by governmental scientific institutions. All of this implies a major change in the way science is conceived, practiced, and taught. Moreover, it seems to be a necessary step to make science more relevant and closer to those outside of academia. In other words, it would be difficult to improve openness and exchange with local communities if the work within academia is mostly closed and non-collaborative.</p>
-<p>Like many others developments in science, the open science movement has arrived slowly to Latin America, especially in social sciences. Although there have been some initiatives in recent years (such as the Open Science and Citizen Congress in Argentina 2018 or the OpenCon Latam in Colombia 2019), most of them are driven mainly by the natural sciences. In this line, Chile’s National Agency for Research and Development (ANID) has implemented since 2021 and <strong>Open Access Policy for scientific information and research data</strong>, which aims to establish a standard of public access to research products that have been funded by ANID — including social sciences projects. Therefore it is of strategic nature to develop initiatives that aim to contribute to the openness of sciences.</p>
-<p>Based on this diagnosis, we aimed to identify the knowledge, attitudes and practices of open science among social science academics in Chile. From this analysis, we expect to generate debate and proposal for both academic work and science policies.</p>
+<p>In recent years, academia has faced significant challenges and barriers regarding openness, which can be broadly categorized into two main areas. The first concerns the so-called <em>replication crisis</em> <span class="citation" data-cites="baker_1500_2016 nosek_promoting_2015 peng_reproducibility_2015">(<a href="#ref-baker_1500_2016" role="doc-biblioref">Baker 2016</a>; <a href="#ref-nosek_promoting_2015" role="doc-biblioref">B. A. Nosek et al. 2015</a>; <a href="#ref-peng_reproducibility_2015" role="doc-biblioref">Peng 2015</a>)</span>, characterized by difficulties in replicating research findings due to insufficient transparency in research processes. This lack of transparency has led to substantial variations in results, even when studies use identical data <span class="citation" data-cites="breznau_does_2021">(<a href="#ref-breznau_does_2021" role="doc-biblioref">Breznau 2021</a>)</span>. Consequently, many published findings have failed to be replicated, and instances of data fabrication or falsification have been reported in the pursuit of publication in high-impact journals <span class="citation" data-cites="chopik_relationship_2020">(<a href="#ref-chopik_relationship_2020" role="doc-biblioref">Chopik et al. 2020</a>)</span>. The second challenging area relates to access. Many academic communities have pushed back against the high costs and restrictive business models imposed by publishing houses, which limit access to scientific research outputs. Universities often pay substantial subscription fees to access the work of their own researchers, while the general public must pay again to access research funded by their taxes. Notably, some prestigious universities, such as UCLA, have responded by canceling subscriptions to publishers like Elsevier, prompting negotiations that have led to agreements promoting open-access practices.</p>
+<p>The barriers to transparency and access are symptoms of a “publish or perish” academic culture. Such culture has been related to a tendency to force results (p-hacking), even going as far as manipulating and falsifying data to confirm proposed hypotheses <span class="citation" data-cites="head_extent_2015">(<a href="#ref-head_extent_2015" role="doc-biblioref">Head et al. 2015</a>)</span> as well as establishing ad hoc hypotheses after knowing the results of a study (so called HARKing - Hypothesis After Results are Known) <span class="citation" data-cites="hollenbeck_harking_2017 kerr_harking_1998">(<a href="#ref-hollenbeck_harking_2017" role="doc-biblioref">Hollenbeck and Wright 2017</a>; <a href="#ref-kerr_harking_1998" role="doc-biblioref">Kerr 1998</a>)</span>. As a result, the main audience for science ultimately becomes the editors of high-impact journals, while other audiences – such as civil society, decision-makers and citizens — are left out. In order to address these issues, the open science movement has emerged as a response to the challenges of replicability, transparency, and access in science. Open science encompasses a set of practices that promote openness and collaboration throughout the research process, from the initial design of studies to the sharing of data and findings. It aims to make scientific research more accessible, transparent, and reproducible, thereby enhancing the credibility and reliability of scientific knowledge.</p>
+<p>The open science movement has gained momentum in recent years, with various initiatives and policies being implemented to promote transparency and accessibility in research. These efforts have been particularly prominent in the natural sciences, where open data repositories, preprint servers, and collaborative platforms have become increasingly common. However, the adoption of open science practices has been slower in the social sciences, where concerns about privacy, ethics, and the complexities of qualitative research have posed challenges to openness <span class="citation" data-cites="boulton_open_2018 miller_open_2019">(<a href="#ref-boulton_open_2018" role="doc-biblioref"><strong>boulton_open_2018?</strong></a>; <a href="#ref-miller_open_2019" role="doc-biblioref"><strong>miller_open_2019?</strong></a>)</span>. However, like many others developments in science, the open science movement has arrived slowly to Latin America, especially in social sciences. Although there have been some initiatives in recent years, most of them are driven mainly by the natural sciences.</p>
+<p>In Chile, the open science movement has been gaining traction, with various initiatives and policies being implemented to promote transparency and accessibility in research. However, the adoption of open science practices in the social sciences has been slower compared to the natural sciences. This is due to several factors, including concerns about privacy, ethics, and the complexities of qualitative research <span class="citation" data-cites="boulton_open_2018 miller_open_2019">(<a href="#ref-boulton_open_2018" role="doc-biblioref"><strong>boulton_open_2018?</strong></a>; <a href="#ref-miller_open_2019" role="doc-biblioref"><strong>miller_open_2019?</strong></a>)</span>. Based on this diagnosis, we aimed to identify the knowledge, attitudes and practices of open science among social science academics in Chile. From this analysis, we expect to generate debate and proposal for both academic work and science policies.</p>
 </section>
 <section id="background" class="level1">
 <h1>Background</h1>
-<ol type="a">
-<li>Revisión ciencia abierta en general (Kevin, práctica)</li>
-</ol>
-<p>Open science has emerged as one of the most significant developments in the contemporary transformation of scientific practice, proposing a set of practices aimed at increasing the transparency, accessibility, collaboration, and reproducibility of scientific knowledge <span class="citation" data-cites="fecher_open_2014">(<a href="#ref-fecher_open_2014" role="doc-biblioref">Fecher and Friesike 2014</a>)</span>. This paradigm promotes open access to publications, data, methods, and codes, as well as open peer review, in an effort to democratize the production and circulation of knowledge. In response to crises of reproducibility and credibility in various disciplines, open science represents not only a technical agenda but also a normative one, challenging traditional models of scientific organization and its connection with society <span class="citation" data-cites="bezjak_open_2018">(<a href="#ref-bezjak_open_2018" role="doc-biblioref">Bezjak et al. 2018</a>)</span> (UNESCO, 2021). Thus, beyond institutional policies, open science implies a cultural shift in the global scientific community.</p>
-<p>In the social sciences, the implementation of open science practices has posed specific challenges and opportunities, given the types of data handled, the ethical commitments to participant confidentiality, and the interpretive methodologies characteristic of some subdisciplines. Although initially lagging behind the natural sciences, in the last decade the social sciences have experienced increasing adoption of data repositories, pre-registration of studies, and publication of analytical codes, especially in areas such as psychology, experimental economics, and quantitative sociology <span class="citation" data-cites="nosek_preregistration_2018 hardwicke_empirical_2020">(<a href="#ref-nosek_preregistration_2018" role="doc-biblioref">Brian A. Nosek et al. 2018</a>; <a href="#ref-hardwicke_empirical_2020" role="doc-biblioref">Hardwicke et al. 2020</a>)</span>. At the same time, debates have emerged about how to adapt open science practices to qualitative and collaborative methods, highlighting tensions between openness and the protection of situated or sensitive knowledge <span class="citation" data-cites="mauthner_open_2013">(<a href="#ref-mauthner_open_2013" role="doc-biblioref">Mauthner and Parry 2013</a>)</span>.</p>
-<p>The current state of open science in social science research is heterogeneous, both across disciplines and regions. Several empirical studies have documented a growing awareness of the importance of openness, albeit with varying degrees of effective implementation. For example, <span class="citation" data-cites="vandeneynden_sowing_2014">Van den Eynden and Bishop (<a href="#ref-vandeneynden_sowing_2014" role="doc-biblioref">2014</a>)</span> found that while social science researchers recognize the value of data sharing, institutional and cultural barriers limit its practice. More recently, <span class="citation" data-cites="christensen_study_2019">Christensen et al. (<a href="#ref-christensen_study_2019" role="doc-biblioref">2019</a>)</span> analyzed over 3,000 articles in the social sciences and reported low but increasing rates of preregistration and data availability. Initiatives such as the Open Science Framework (OSF), Dataverse, and the European Open Science Cloud have contributed to facilitating the necessary technical infrastructure, but challenges related to academic incentives, technical capabilities, and regulatory frameworks remain.</p>
-<ol start="2" type="a">
-<li>Principales componentes de la ciencia abierta (JC - modelo LISA)</li>
-</ol>
+<section id="a-open-science-in-the-social-sciences" class="level2">
+<h2 class="anchored" data-anchor-id="a-open-science-in-the-social-sciences">a) Open science in the social sciences</h2>
+<p>In the social sciences, the implementation of open science practices has posed specific challenges and opportunities, given the types of data handled, the ethical commitments to participant confidentiality, and the interpretive methodologies characteristic of some subdisciplines. Initiatives such as the Open Science Framework (OSF), Dataverse, and the European Open Science Cloud have contributed to facilitating the necessary technical infrastructure, but challenges related to academic incentives, technical capabilities, and regulatory frameworks remain.</p>
+<p>The current state of open science in social science research is heterogeneous, both across disciplines and regions. Several empirical studies have documented a growing awareness of the importance of openness, albeit with varying degrees of effective implementation. For example, colombo_sowing_2024 found that while social science researchers recognize the value of data sharing, institutional and cultural barriers limit its practice. More recently, <span class="citation" data-cites="ferguson_survey_2023">(<a href="#ref-ferguson_survey_2023" role="doc-biblioref"><strong>ferguson_survey_2023?</strong></a>)</span> analyzed over 3,000 articles in the social sciences and reported low but increasing rates of preregistration and data availability. Similarly, <span class="citation" data-cites="polonen_open_2022">(<a href="#ref-polonen_open_2022" role="doc-biblioref"><strong>polonen_open_2022?</strong></a>)</span> highlights that although open access publishing is on the rise in the social sciences, uptake is uneven and often hindered by funding and policy gaps. Studies such as <span class="citation" data-cites="ferguson_survey_2023">(<a href="#ref-ferguson_survey_2023" role="doc-biblioref"><strong>ferguson_survey_2023?</strong></a>)</span> and <span class="citation" data-cites="fecher_open_2014">Fecher and Friesike (<a href="#ref-fecher_open_2014" role="doc-biblioref">2014</a>)</span> emphasize that researchers’ attitudes toward open science are generally positive, but practical adoption is constrained by concerns over data misuse, lack of recognition, and insufficient training. Furthermore, <span class="citation" data-cites="basak_open_2023">(<a href="#ref-basak_open_2023" role="doc-biblioref"><strong>basak_open_2023?</strong></a>)</span> and <span class="citation" data-cites="campbell_openscience_2023">(<a href="#ref-campbell_openscience_2023" role="doc-biblioref"><strong>campbell_openscience_2023?</strong></a>)</span> point out that the development of discipline-specific guidelines and support networks is crucial for advancing open science in the social sciences, especially in areas involving sensitive or qualitative data.</p>
+</section>
+<section id="b-main-components-of-open-science-in-the-research-process" class="level2">
+<h2 class="anchored" data-anchor-id="b-main-components-of-open-science-in-the-research-process">b) Main components of open science in the research process</h2>
+<p>The open science movement is structured around several core components that collectively aim to enhance the transparency, accessibility, and reliability of scientific research. In the context of the social sciences, these components—transparent design, open data, reproducible analysis, and open publications—form the foundation for fostering a more collaborative and trustworthy research environment. Each element addresses specific challenges and opportunities, from ensuring that research methodologies are openly documented, to making data and analytical procedures accessible for verification and reuse, and promoting the dissemination of findings through open access channels. Together, these pillars support the advancement of open science practices and help address the unique ethical, technical, and cultural considerations present in social science research.</p>
 <p><strong>Transparent design</strong></p>
 <p>Transparency in research design constitutes one of the fundamental pillars of open science, proposing that methodological decisions made in research be accessible, justified, and documented from the initial stages of the scientific process. This practice is embodied in strategies such as pre-registration of hypotheses, open registration of protocols, and the publication of analysis plans prior to data collection. As recent research highlights <span class="citation" data-cites="banks_answers_2019 nosek_preregistration_2019">(<a href="#ref-banks_answers_2019" role="doc-biblioref">Banks et al. 2019</a>; <a href="#ref-nosek_preregistration_2019" role="doc-biblioref">Brian A. Nosek et al. 2019</a>)</span>, transparency in design not only strengthens the credibility of the knowledge produced but also acts as a deterrent to questionable research practices. However, the social sciences face particular challenges in this area, especially in qualitative or emerging approaches, where designs are adaptive and context-sensitive.</p>
 <p><strong>Open data</strong></p>
@@ -152,9 +153,14 @@ div.csl-indent {
 <p>Reproducibility refers to the ability to exactly replicate the results of a study using the same data and code used in the original analysis. This principle has been central to the discussion about the “reproducibility crisis” that has affected multiple disciplines, including the social sciences. Research such as that by <span class="citation" data-cites="baker_1500_2016">Baker (<a href="#ref-baker_1500_2016" role="doc-biblioref">2016</a>)</span> and <span class="citation" data-cites="hail_reproducibility_2020">Hail, Lang, and Leuz (<a href="#ref-hail_reproducibility_2020" role="doc-biblioref">2020</a>)</span> has documented widespread concerns about the lack of reproducibility, identifying causes such as lack of access to code scripts, opacity in the presentation of results, and the use of weak statistical procedures. In response, the use of platforms such as GitHub, OSF, or Dataverse has been promoted, where researchers can host their codes and workflows. However, as <span class="citation" data-cites="knudtson_survey_2019">Knudtson et al. (<a href="#ref-knudtson_survey_2019" role="doc-biblioref">2019</a>)</span> point out, achieving reproducible social science requires not only technical infrastructure but also a transformation in the cultural norms of the academic community that values reproducibility as a criterion of scientific quality.</p>
 <p><strong>Open publications</strong></p>
 <p>Open access to scientific publications has been one of the most established dimensions of open science, with multiple policies and mandates from funding agencies requiring the public availability of research results. In the context of the social sciences, although numerous institutional repositories and open access journals exist, barriers related to publication costs (article processing charges) and the editorial prestige associated with fee-paying journals still prevail. <span class="citation" data-cites="narayan_scholarly_2018">Narayan et al. (<a href="#ref-narayan_scholarly_2018" role="doc-biblioref">2018</a>)</span> shows that there is a significant gap between the stated knowledge about open access and its effective implementation, particularly with regard to the different existing models (green, gold, hybrid). Likewise, recent studies in Latin America, show a high level of favorable disposition toward open access, but also a lack of institutional incentives and technical support mechanisms to facilitate its widespread adoption <span class="citation" data-cites="pardomartinez_knowledge_2018">(<a href="#ref-pardomartinez_knowledge_2018" role="doc-biblioref">Pardo Martínez and Poveda 2018</a>)</span>.</p>
-<ol start="3" type="a">
-<li>Antecedentes políticas de ciencia abierta Chile</li>
-</ol>
+</section>
+<section id="c-antecedents-of-open-science-policies-in-chile" class="level2">
+<h2 class="anchored" data-anchor-id="c-antecedents-of-open-science-policies-in-chile">c) Antecedents of open science policies in Chile</h2>
+<p>In Chile, the development of open science policies has gained momentum in recent years, reflecting global trends and responding to local needs for greater transparency and collaboration in research. The first significant step was the adoption of open access mandates by major research funding agencies, such as the National Agency for Research and Development (ANID), which since 2013 has required that publications resulting from publicly funded projects be deposited in institutional or national repositories.</p>
+<p>In 2021, ANID published the “National Policy for Open Science,” establishing guidelines to promote open access to publications, data, and other research outputs. This policy emphasizes the importance of data management plans, the use of interoperable repositories, and the adoption of FAIR principles. Additionally, the policy encourages the development of training programs and support structures to facilitate the transition toward open science practices.</p>
+<p>A notable initiative in this context is the INES Ciencia Abierta program, launched by ANID in 2020 to strengthen institutional capacities for open science. Through competitive funding, the INES Ciencia Abierta projects support universities and research centers in developing infrastructure, policies, and training for open access, data management, and reproducibility. These projects have enabled the creation and enhancement of institutional repositories, the implementation of data stewardship services, and the promotion of open science culture within participating institutions. The program also fosters collaboration and knowledge exchange among institutions, contributing to the consolidation of a national open science ecosystem.</p>
+<p>Several universities and research centers in Chile have also implemented their own open access and data sharing policies, creating institutional repositories and providing guidance for researchers. Despite these advances, challenges remain, including the need for greater awareness, technical infrastructure, and clear regulatory frameworks to address issues such as data privacy and intellectual property. Overall, the Chilean experience demonstrates a growing institutional commitment to open science, with ongoing efforts to align national practices with international standards and to foster a culture of openness and collaboration in the scientific community.</p>
+</section>
 </section>
 <section id="design" class="level1">
 <h1>Design</h1>
@@ -302,23 +308,20 @@ Table&nbsp;1: Qualitative Study Sample Description
 <li><strong>ANID Open Access Policy</strong>: 10 items exploring researchers’ knowledge of ANID’s Open Access Policy for publicly funded scientific information and research data.</li>
 <li><strong>Sociodemographic Characterization</strong>: 5 item on the socio-demographic characteristic of the participants.</li>
 </ol>
-<p>We used FormR for the implementation of the questionnaire. FormR is an open source software that allows the design of complex questionnaires with a high degree of customization <span class="citation" data-cites="arslan_chain_2025 arslan_formr_2020">(<a href="#ref-arslan_chain_2025" role="doc-biblioref">Arslan and Tata 2025</a>; <a href="#ref-arslan_formr_2020" role="doc-biblioref">Arslan, Walther, and Tata 2020</a>)</span> . Since it is integrated with RStudio (R + RMarkdown), it facilitates collaborative work regardless of the length of the questionnaire. The platform allows the questionnaire to be self-administered, either by personal computers or by smartphones.</p>
-<p>To construct the sample, mass mailings were sent to researchers who had received state research funding, to faculties and departments of various social science disciplines, and to research centers and nuclei. In addition, the survey was distributed through social media and at academic events. In the end, 98 complete responses were received. The description of the sample is presented in <a href="#tbl-resumen" class="quarto-xref">Table&nbsp;2</a>.</p>
-<div class="cell">
+<p>We used FormR for the implementation of the questionnaire. FormR is an open source software that allows the design of complex questionnaires with a high degree of customization <span class="citation" data-cites="arslan_chain_2025 arslan_formr_2020">(<a href="#ref-arslan_chain_2025" role="doc-biblioref">Arslan and Tata 2025</a>; <a href="#ref-arslan_formr_2020" role="doc-biblioref">Arslan, Walther, and Tata 2020</a>)</span>. Since it is integrated with R and RMarkdown, it facilitates collaborative work regardless of the length of the questionnaire. The platform allows the questionnaire to be self-administered, either by personal computers or by smartphones.</p>
+<p>To construct the sample, mass emails were sent to researchers who had received state funding for research, as well as to faculties and departments across various social science disciplines, and to research centers and institutes in the field of social sciences. In addition, the survey was distributed through social media and at academic events of social sciences. In the end, 98 complete responses were received. The description of the sample is presented in <a href="#tbl-resumen" class="quarto-xref">Table&nbsp;2</a>.</p>
 <div id="tbl-resumen" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resumen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Quantitative Sample Description
 </figcaption>
 <div aria-describedby="tbl-resumen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 48%">
-<col style="width: 22%">
-<col style="width: 7%">
-<col style="width: 5%">
+<col style="width: 24%">
+<col style="width: 38%">
+<col style="width: 24%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -326,7 +329,6 @@ Table&nbsp;2: Quantitative Sample Description
 <th style="text-align: left;">Stats / Values</th>
 <th style="text-align: left;">Freqs (% of Valid)</th>
 <th style="text-align: left;">Valid</th>
-<th style="text-align: left;">Missing</th>
 </tr>
 </thead>
 <tbody>
@@ -335,12 +337,10 @@ Table&nbsp;2: Quantitative Sample Description
 [factor]</td>
 <td style="text-align: left;">1. Women<br>
 2. Men</td>
-<td style="text-align: left;">\37 (37.8%)<br>
-\61 (62.2%)</td>
+<td style="text-align: left;">37 (37.8%)<br>
+61 (62.2%)</td>
 <td style="text-align: left;">98<br>
 (100.0%)</td>
-<td style="text-align: left;">0<br>
-(0.0%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Age<br>
@@ -348,25 +348,21 @@ Table&nbsp;2: Quantitative Sample Description
 <td style="text-align: left;">1. 28-34<br>
 2. 35-49<br>
 3. 50+</td>
-<td style="text-align: left;">\12 (12.2%)<br>
-\55 (56.1%)<br>
-\31 (31.6%)</td>
+<td style="text-align: left;">12 (12.2%)<br>
+55 (56.1%)<br>
+31 (31.6%)</td>
 <td style="text-align: left;">98<br>
 (100.0%)</td>
-<td style="text-align: left;">0<br>
-(0.0%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Degree<br>
 [factor]</td>
 <td style="text-align: left;">1. Master<br>
 2. PhD</td>
-<td style="text-align: left;">\17 (17.3%)<br>
-\81 (82.7%)</td>
+<td style="text-align: left;">17 (17.3%)<br>
+81 (82.7%)</td>
 <td style="text-align: left;">98<br>
 (100.0%)</td>
-<td style="text-align: left;">0<br>
-(0.0%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Career stage<br>
@@ -374,13 +370,11 @@ Table&nbsp;2: Quantitative Sample Description
 <td style="text-align: left;">1. Early (0 to 5 years)<br>
 2. Intermediate (6 to 15 yea<br>
 3. Avanced (&gt;15 years)</td>
-<td style="text-align: left;">\12 (12.2%)<br>
-\47 (48.0%)<br>
-\39 (39.8%)</td>
+<td style="text-align: left;">12 (12.2%)<br>
+47 (48.0%)<br>
+39 (39.8%)</td>
 <td style="text-align: left;">98<br>
 (100.0%)</td>
-<td style="text-align: left;">0<br>
-(0.0%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Research strategy<br>
@@ -388,20 +382,16 @@ Table&nbsp;2: Quantitative Sample Description
 <td style="text-align: left;">1. Qualitative<br>
 2. Mixed-Methods<br>
 3. Quantitative</td>
-<td style="text-align: left;">\28 (29.2%)<br>
-\36 (37.5%)<br>
-\32 (33.3%)</td>
+<td style="text-align: left;">28 (29.2%)<br>
+36 (37.5%)<br>
+32 (33.3%)</td>
 <td style="text-align: left;">96<br>
 (98.0%)</td>
-<td style="text-align: left;">2<br>
-(2.0%)</td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
 </figure>
-</div>
 </div>
 <p>We conducted a descriptive uni- and bivariate analysis of the key indicators of the questionnaire. We aimed to describe the respondents’ knowledge, practices and attitudes about open science and the constructs described above. These variable were crossed by age group, research focus, academic career stage, academic degree, and gender to detect possible differences between groups.</p>
 </section>
@@ -424,49 +414,133 @@ Figure&nbsp;1: Familiarity with Open Science concepts
 </div>
 </div>
 </div>
-<p>In general, knowledge levels seem to be higher among young researchers and with a predominantly quantitative focus, as shown in the <a href="#fig-cca-grid" class="quarto-xref">Figure&nbsp;2</a>. Respondents between 28 and 34 years of age, thus, show higher levels of knowledge about free software, and the concepts of reproducible research and open science (<a href="#fig-cca-grid-1" class="quarto-xref">Figure&nbsp;2 (a)</a>). However, researchers between 35 and 49 years of age show higher levels of knowledge of hypotheses preregistration and open access to data. Quantitative researchers, meanwhile, show higher levels of knowledge of all concepts except open access to publications (<a href="#fig-cca-grid-2" class="quarto-xref">Figure&nbsp;2 (b)</a>).</p>
-<div id="fig-cca-grid" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-cca-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-cca-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-cca-grid-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-cca-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-cca-grid-1.png" class="img-fluid figure-img" data-ref-parent="fig-cca-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cca-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Familiarity with open science concepts by age
+<p>In general, knowledge levels seem to be higher among young researchers and with a predominantly quantitative focus, as shown in the <a href="#tbl-cca-grid" class="quarto-xref">Table&nbsp;3</a>. Respondents between 28 and 34 years of age, thus, show higher levels of knowledge about open software, and the concepts of reproducible research and open science. However, researchers between 35 and 49 years of age show higher levels of knowledge of hypotheses preregistration and open access to data. Quantitative researchers, meanwhile, show higher levels of knowledge of all concepts except open access to publications.</p>
+<div class="cell">
+<div id="tbl-cca-grid" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cca-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Familiarity with Open Science concepts by age and research strategy
 </figcaption>
+<div aria-describedby="tbl-cca-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px; font-weight: bold;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Age group
+</div></th>
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px; font-weight: bold;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Research strategy
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Open Science Concept</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">28–34</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">35–49</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">50+</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Qualitative</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mixed</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Quantitative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Open Science</td>
+<td style="text-align: left;">66.7%</td>
+<td style="text-align: left;">50.9%</td>
+<td style="text-align: left;">29.0%</td>
+<td style="text-align: left;">39.3%</td>
+<td style="text-align: left;">36.1%</td>
+<td style="text-align: left;">62.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Publications in open access</td>
+<td style="text-align: left;">83.3%</td>
+<td style="text-align: left;">76.4%</td>
+<td style="text-align: left;">80.6%</td>
+<td style="text-align: left;">78.6%</td>
+<td style="text-align: left;">83.3%</td>
+<td style="text-align: left;">71.9%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Hypotheses pre-registration</td>
+<td style="text-align: left;">16.7%</td>
+<td style="text-align: left;">32.7%</td>
+<td style="text-align: left;">16.1%</td>
+<td style="text-align: left;">3.6%</td>
+<td style="text-align: left;">16.7%</td>
+<td style="text-align: left;">50.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Open Data</td>
+<td style="text-align: left;">66.7%</td>
+<td style="text-align: left;">63.6%</td>
+<td style="text-align: left;">48.4%</td>
+<td style="text-align: left;">53.6%</td>
+<td style="text-align: left;">44.4%</td>
+<td style="text-align: left;">78.1%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Reproducible research</td>
+<td style="text-align: left;">58.3%</td>
+<td style="text-align: left;">38.2%</td>
+<td style="text-align: left;">32.3%</td>
+<td style="text-align: left;">25.0%</td>
+<td style="text-align: left;">30.6%</td>
+<td style="text-align: left;">59.4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Open repositories</td>
+<td style="text-align: left;">58.3%</td>
+<td style="text-align: left;">60.0%</td>
+<td style="text-align: left;">54.8%</td>
+<td style="text-align: left;">57.1%</td>
+<td style="text-align: left;">52.8%</td>
+<td style="text-align: left;">62.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Open software</td>
+<td style="text-align: left;">75.0%</td>
+<td style="text-align: left;">54.5%</td>
+<td style="text-align: left;">41.9%</td>
+<td style="text-align: left;">42.9%</td>
+<td style="text-align: left;">38.9%</td>
+<td style="text-align: left;">75.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Open data access</td>
+<td style="text-align: left;">41.7%</td>
+<td style="text-align: left;">50.9%</td>
+<td style="text-align: left;">45.2%</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: left;">27.8%</td>
+<td style="text-align: left;">65.6%</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-cca-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-cca-grid-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-cca-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-cca-grid-2.png" class="img-fluid figure-img" data-ref-parent="fig-cca-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cca-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Familiarity with open science concepts by research strategy
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cca-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Familiarity with Open Science concepts by age and reseaarch strategy
-</figcaption>
-</figure>
-</div>
-<p>Similarly, ANID’s Open Access to Scientific Information and Research Data Policy shows a medium to low level of awareness. Specifically, only half of the respondents have heard of ANID’s policy. On the other hand, only 26% are aware of ANID’s data management plan for the open access policy.</p>
 </section>
 <section id="practices" class="level3">
 <h3 class="anchored" data-anchor-id="practices">Practices</h3>
 <section id="a.-own-practices-and-communitys-practices" class="level4">
 <h4 class="anchored" data-anchor-id="a.-own-practices-and-communitys-practices">a. Own practices and Community’s practices</h4>
-<p>In general, the frequency of practices related to open science is low, as seen in <a href="#fig-prac" class="quarto-xref">Figure&nbsp;3</a>. 32% of respondents always or almost always use online repositories to upload information related to their research, and 16% report sharing code among researchers (<a href="#fig-prac-2" class="quarto-xref">Figure&nbsp;3 (b)</a>). These types of practices are more common among male researchers, those whose primary research strategy is quantitative, and those who are in an early stage in their academic careers.</p>
+<p>In general, the frequency of practices related to open science is low, as seen in <a href="#fig-prac" class="quarto-xref">Figure&nbsp;2</a>. 32% of respondents always or almost always use online repositories to upload information related to their research, and 16% report sharing code among researchers (<a href="#fig-prac-2" class="quarto-xref">Figure&nbsp;2 (b)</a>). These types of practices are more common among male researchers, those whose primary research strategy is quantitative, and those who are in an early stage in their academic careers.</p>
 <div id="fig-prac" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-prac-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -498,68 +572,151 @@ Figure&nbsp;2: Familiarity with Open Science concepts by age and reseaarch strat
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prac-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: How often are the following practices performed?
+Figure&nbsp;2: How often are the following practices performed?
 </figcaption>
 </figure>
 </div>
-<p>Interestingly, researchers generally report better practices for themselves than for the community. For example, only 14% believe that the community always or almost always uses online repositories to upload information related to their research, and 5% believe that researchers share code with that frequency (<a href="#fig-prac-1" class="quarto-xref">Figure&nbsp;3 (a)</a>).</p>
+<p>Interestingly, researchers generally report better practices for themselves than for the community. For example, only 14% believe that the community always or almost always uses online repositories to upload information related to their research, and 5% believe that researchers share code with that frequency (<a href="#fig-prac-1" class="quarto-xref">Figure&nbsp;2 (a)</a>).</p>
 <p>This gap also exits in the case of malpractice. 9% of the respondents say they almost always or always fail to report studies or variables that do not reach statistical significance, while 45% believe this practices are that common in the community. On the other hand, while 7% say they selectively report results, 40% believe it is always or almost always done in the community. Finally, while no one admits to having manipulated data to validate a hypothesis, 4% say this always or almost always happens in the community.</p>
-<p>It is curious that when the analysis is broken down into different groups, certain trends are repeated. Male, quantitative-oriented, early-career researchers are at the same time those who declare the highest frequency of own practices, both negative and positive, as well as those perceive the highest number of negative practices in the community. These differences can be seen in detail in the <a href="#fig-prac-grid" class="quarto-xref">Figure&nbsp;4</a></p>
-<div id="fig-prac-grid" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-prac-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-prac-grid" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-prac-grid-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-prac-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-prac-grid-1.png" class="img-fluid figure-img" data-ref-parent="fig-prac-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-prac-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) By sex
+<p>It is curious that when the analysis is broken down into different groups, certain trends are repeated. Male and quantitative-oriented, researchers are at the same time those who declare the highest frequency of own practices, both negative and positive, as well as those perceive the highest number of negative practices in the community. These differences can be seen in detail in the <a href="#tbl-prac-grid" class="quarto-xref">Table&nbsp;4</a></p>
+<div class="cell">
+<div id="tbl-prac-grid" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-prac-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: How often are the following practices performed?
 </figcaption>
+<div aria-describedby="tbl-prac-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px; font-weight: bold;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Sex
+</div></th>
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px; font-weight: bold;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Research Strategy
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Research Practices</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Women</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Men</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Qualitative</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mixed</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Quantitative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;">Own practices</td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Share codes between researchers</td>
+<td style="text-align: left;">8.1%</td>
+<td style="text-align: left;">21.3%</td>
+<td style="text-align: left;">NA%</td>
+<td style="text-align: left;">8.3%</td>
+<td style="text-align: left;">37.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Use online open repositories</td>
+<td style="text-align: left;">24.3%</td>
+<td style="text-align: left;">37.7%</td>
+<td style="text-align: left;">21.4%</td>
+<td style="text-align: left;">25.0%</td>
+<td style="text-align: left;">46.9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Selective report of results</td>
+<td style="text-align: left;">2.7%</td>
+<td style="text-align: left;">9.8%</td>
+<td style="text-align: left;">3.6%</td>
+<td style="text-align: left;">5.6%</td>
+<td style="text-align: left;">12.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Do not report studies or variables that did not reached statistical signficance</td>
+<td style="text-align: left;">8.1%</td>
+<td style="text-align: left;">9.8%</td>
+<td style="text-align: left;">3.6%</td>
+<td style="text-align: left;">11.1%</td>
+<td style="text-align: left;">12.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;">Community's practices</td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Share codes between researchers</td>
+<td style="text-align: left;">8.1%</td>
+<td style="text-align: left;">3.3%</td>
+<td style="text-align: left;">3.6%</td>
+<td style="text-align: left;">5.6%</td>
+<td style="text-align: left;">6.2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Use online open repositories</td>
+<td style="text-align: left;">18.9%</td>
+<td style="text-align: left;">11.5%</td>
+<td style="text-align: left;">14.3%</td>
+<td style="text-align: left;">13.9%</td>
+<td style="text-align: left;">12.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Selective report of results</td>
+<td style="text-align: left;">27.0%</td>
+<td style="text-align: left;">49.2%</td>
+<td style="text-align: left;">17.9%</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: left;">50.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Do not report studies or variables that did not reached statistical signficance</td>
+<td style="text-align: left;">29.7%</td>
+<td style="text-align: left;">55.7%</td>
+<td style="text-align: left;">25.0%</td>
+<td style="text-align: left;">55.6%</td>
+<td style="text-align: left;">50.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Manipulating data to validate hypothesis</td>
+<td style="text-align: left;">2.7%</td>
+<td style="text-align: left;">4.9%</td>
+<td style="text-align: left;">7.1%</td>
+<td style="text-align: left;">2.8%</td>
+<td style="text-align: left;">3.1%</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
 </figure>
 </div>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-prac-grid" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-prac-grid-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-prac-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-prac-grid-2.png" class="img-fluid figure-img" data-ref-parent="fig-prac-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-prac-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) By academic career stage
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-prac-grid" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-prac-grid-3" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-prac-grid-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-prac-grid-3.png" class="img-fluid figure-img" data-ref-parent="fig-prac-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-prac-grid-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(c) By research strategy
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prac-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: How often are the following practices performed?
-</figcaption>
-</figure>
 </div>
 </section>
 <section id="b.-open-science-barriers" class="level4">
 <h4 class="anchored" data-anchor-id="b.-open-science-barriers">b. Open Science Barriers</h4>
-<p>There is a high perception of barriers to the development of Open Science in all its dimensions. Lack of policy is perceived as the main barrier in all dimensions, as can be seen in the <a href="#fig-barreras" class="quarto-xref">Figure&nbsp;5</a>. Lacks of knowledge also appears as a major barrier especially for transparent design, open data and reproducible research. Finally, lack of incentives is recognized as another aspect that hinders data openness.</p>
+<p>There is a high perception of barriers to the development of Open Science in all its dimensions. Lack of policy is perceived as the main barrier in all dimensions, as can be seen in the <a href="#fig-barreras" class="quarto-xref">Figure&nbsp;3</a>. Lacks of knowledge also appears as a major barrier especially for transparent design, open data and reproducible research. Finally, lack of incentives is recognized as another aspect that hinders data openness.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-barreras" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -568,13 +725,13 @@ Figure&nbsp;4: How often are the following practices performed?
 <img src="paper_files/figure-html/fig-barreras-1.png" class="img-fluid figure-img" width="3600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barreras-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: ¿To what extent do you consider that the following factors limit Open Science?
+Figure&nbsp;3: ¿To what extent do you consider that the following factors limit Open Science?
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Regarding this last point, the incentives that researchers might have to open their data were analyzed. As can be seen in the <a href="#fig-motivaciones" class="quarto-xref">Figure&nbsp;6</a>, networking, the dissemination of publicly funded data to the community, and the increase of one’s own visibility are highly valued as incentives for open data.</p>
+<p>Regarding this last point, the incentives that researchers might have to open their data were analyzed. As can be seen in the <a href="#fig-motivaciones" class="quarto-xref">Figure&nbsp;4</a>, networking, the dissemination of publicly funded data to the community, and the increase of one’s own visibility are highly valued as incentives for open data.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-motivaciones" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -583,47 +740,11 @@ Figure&nbsp;5: ¿To what extent do you consider that the following factors limit
 <img src="paper_files/figure-html/fig-motivaciones-1.png" class="img-fluid figure-img" width="3600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-motivaciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Open data motivations
+Figure&nbsp;4: Open data motivations
 </figcaption>
 </figure>
 </div>
 </div>
-</div>
-<p>It is interesting to note that, as can be seen in the <a href="#fig-motivaciones-grid" class="quarto-xref">Figure&nbsp;7</a>, while the dissemination of results is valued transversally, there are groups where the valuation of extrinsic motivations has a greater preponderance. In particular, networking and increasing one’s own visibility are incentives more highly valued by women (<a href="#fig-motivaciones-grid-1" class="quarto-xref">Figure&nbsp;7 (a)</a>) and researchers between 35 and 49 years of age (<a href="#fig-motivaciones-grid-2" class="quarto-xref">Figure&nbsp;7 (b)</a>)</p>
-<div id="fig-motivaciones-grid" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-motivaciones-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-motivaciones-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-motivaciones-grid-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-motivaciones-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-motivaciones-grid-1.png" class="img-fluid figure-img" data-ref-parent="fig-motivaciones-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-motivaciones-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) By sex
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-motivaciones-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-motivaciones-grid-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-motivaciones-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-motivaciones-grid-2.png" class="img-fluid figure-img" data-ref-parent="fig-motivaciones-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-motivaciones-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) By age
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-motivaciones-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Open data motivations
-</figcaption>
-</figure>
 </div>
 </section>
 </section>
@@ -631,7 +752,7 @@ Figure&nbsp;7: Open data motivations
 <h3 class="anchored" data-anchor-id="attitudes">Attitudes</h3>
 <section id="a.-attitudes-on-open-science-measures" class="level4">
 <h4 class="anchored" data-anchor-id="a.-attitudes-on-open-science-measures">a. Attitudes on Open Science Measures</h4>
-<p>In general, the possibility of adopting Open Science measures in the social sciences is assessed positively, as can be see in <a href="#fig-val" class="quarto-xref">Figure&nbsp;8</a>. Open access (92%), replication of results (67%), reporting of non-statistically significant results (76%), and online availability of data and analysis materials (72%) all show a high level of acceptance among respondents. The only exception is the pre-registration of hypothesis, which received a positive evaluation of only 42%. This is explained by a higher level of unfamiliarity (17% say they are not aware of the measure), in addition to the reluctance already observed in the qualitative study.</p>
+<p>In general, the possibility of adopting Open Science measures in the social sciences is assessed positively, as can be see in <a href="#fig-val" class="quarto-xref">Figure&nbsp;5</a>. Open access (92%), replication of results (67%), reporting of non-statistically significant results (76%), and online availability of data and analysis materials (72%) all show a high level of acceptance among respondents. The only exception is the pre-registration of hypothesis, which received a positive evaluation of only 42%. This is explained by a higher level of unfamiliarity (17% say they are not aware of the measure), in addition to the reluctance already observed in the qualitative study.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-val" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -640,52 +761,16 @@ Figure&nbsp;7: Open data motivations
 <img src="paper_files/figure-html/fig-val-1.png" class="img-fluid figure-img" width="3600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-val-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: How necessary do you think the following Open Science measure are for social science research?
+Figure&nbsp;5: How necessary do you think the following Open Science measure are for social science research?
 </figcaption>
 </figure>
 </div>
 </div>
-</div>
-<p>With the exception of open access to publications, which is valued transversally by all groups, these measures are more strongly supported by females researchers and by researchers with a quantitative approach, as can be seen in the <a href="#fig-vca-grid" class="quarto-xref">Figure&nbsp;9</a></p>
-<div id="fig-vca-grid" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-vca-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-vca-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-vca-grid-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-vca-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-vca-grid-1.png" class="img-fluid figure-img" data-ref-parent="fig-vca-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-vca-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) By research strategy
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-vca-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-vca-grid-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-vca-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-vca-grid-2.png" class="img-fluid figure-img" data-ref-parent="fig-vca-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-vca-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) By sex
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vca-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: How necessary do you think the following Open Science measure are for social science research? – porcentage responding a lot or quite a lot
-</figcaption>
-</figure>
 </div>
 </section>
 <section id="b.-attitudes-about-the-replication-crisis" class="level4">
 <h4 class="anchored" data-anchor-id="b.-attitudes-about-the-replication-crisis">b. Attitudes about the Replication Crisis</h4>
-<p>As shown in the <a href="#fig-dona" class="quarto-xref">Figure&nbsp;10</a>, 39% of respondents believe there is a major replication crisis, while 40% do not know if there is one. Concern is greater among quantitative researchers, as seen in <a href="#fig-dona-grid" class="quarto-xref">Figure&nbsp;11</a>, with 70% believing that the crisis is important. While there is no denial of the crisis among qualitative researchers, 60% do not know if there is a crisis or not.</p>
+<p>As shown in the <a href="#fig-dona" class="quarto-xref">Figure&nbsp;6</a>, 39% of respondents believe there is a major replication crisis, while 40% do not know if there is one. Concern is greater among quantitative researchers, as seen in <a href="#fig-dona-grid" class="quarto-xref">Figure&nbsp;7</a>, with 70% believing that the crisis is important. While there is no denial of the crisis among qualitative researchers, 60% do not know if there is a crisis or not.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-dona" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -694,7 +779,7 @@ Figure&nbsp;9: How necessary do you think the following Open Science measure are
 <img src="paper_files/figure-html/fig-dona-1.png" class="img-fluid figure-img" width="3600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dona-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10: With which of the following statement regarding the replication crisis do you agree?
+Figure&nbsp;6: With which of the following statement regarding the replication crisis do you agree?
 </figcaption>
 </figure>
 </div>
@@ -708,214 +793,124 @@ Figure&nbsp;10: With which of the following statement regarding the replication 
 <img src="paper_files/figure-html/fig-dona-grid-1.png" class="img-fluid figure-img" width="3600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dona-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11: Perception of the reproducibility crisis by research strategy.
+Figure&nbsp;7: Perception of the reproducibility crisis by research strategy.
 </figcaption>
 </figure>
 </div>
 </div>
-</div>
-<p>On the other hand, 59% believe that 30% or less of social science research is reproducible, while 83% believe that less than half of social science research is reproducible, as shown in <a href="#tbl-tablaacum" class="quarto-xref">Table&nbsp;3</a></p>
-<div class="cell">
-<div id="tbl-tablaacum" class="cell quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tablaacum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3: Perception of the percentage of reproducible research in Social Sciences
-</figcaption>
-<div aria-describedby="tbl-tablaacum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<div class="line-block">Reproducible</div>
-<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: right;">Researches</th>
-<th style="text-align: right;">Frequency</th>
-<th style="text-align: right;">Acum (%)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1.02</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">17.35</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">30.61</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">54.08</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">40</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">57.14</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">50</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">82.65</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">60</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">86.73</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">70</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">90.82</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">80</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">94.90</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">90</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">100.00</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</figure>
-</div>
-</div>
-<p>This is consistent with the 40% of respondents having attempted to reproduce the results of other researchers (<a href="#fig-reprod-1" class="quarto-xref">Figure&nbsp;12 (a)</a>). Of this percentage, only 20% of the attempts were complete reproductions, while 69% were only partial (<a href="#fig-reprod-2" class="quarto-xref">Figure&nbsp;12 (b)</a>)</p>
-<div id="fig-reprod" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-reprod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-reprod" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-reprod-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-reprod-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-reprod-1.png" class="img-fluid figure-img" data-ref-parent="fig-reprod" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-reprod-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Have you tried to reproduce someone else’s results?
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-reprod" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-reprod-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-reprod-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-reprod-2.png" class="img-fluid figure-img" data-ref-parent="fig-reprod" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-reprod-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) If you have tried, which of these stages did you fall into?
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;12: Practices associated with reproducibility
-</figcaption>
-</figure>
 </div>
 </section>
 <section id="c.-attidues-about-anids-open-science-policies" class="level4">
 <h4 class="anchored" data-anchor-id="c.-attidues-about-anids-open-science-policies">c.&nbsp;Attidues about ANID’s Open Science policies</h4>
-<p>In the first instance, ANID’s Open Science Policy is well received by the respondents. For example, 90% agree or strongly agree that ANID should continue to develop its Open Science Policy, as show in <a href="#fig-vanid-grid-2" class="quarto-xref">Figure&nbsp;13 (b)</a>. Similarly, 84% consider the implementation of Open Access policies to be quite or very necessary, as shown in <a href="#fig-vanid-grid-1" class="quarto-xref">Figure&nbsp;13 (a)</a></p>
-<div id="fig-vanid-grid" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-vanid-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-vanid-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-vanid-grid-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-vanid-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-vanid-grid-1.png" class="img-fluid figure-img" data-ref-parent="fig-vanid-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-vanid-grid-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) How necessary is the implementation of mandatory open access policies for publicly funded research?
+<p>In the first instance, ANID’s Open Science Policy is well received by the respondents. For example, 89.7% agree or strongly agree that ANID should continue to develop its Open Science Policy, as show in <a href="#tbl-anid" class="quarto-xref">Table&nbsp;5</a>. Similarly, 83.5% consider the implementation of Open Access policies to be quite or very necessary.</p>
+<div id="tbl-anid" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-anid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5: Attidues about ANID’s Open Science policies
 </figcaption>
+<div aria-describedby="tbl-anid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 30%">
+<col style="width: 19%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Stats / Values</th>
+<th style="text-align: left;">Freqs (% of Valid)</th>
+<th style="text-align: left;">Valid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">How much do you agree with ANID continuing to develop and implement open access policies for scientific production?<br>
+[factor]</td>
+<td style="text-align: left;">1. Strongly Disagree<br>
+2. Disagree<br>
+3. Neither Agree nor Disagre<br>
+4. Agree<br>
+5. Strongly Agree</td>
+<td style="text-align: left;">2 ( 2.1%)<br>
+2 ( 2.1%)<br>
+6 ( 6.2%)<br>
+32 (33.0%)<br>
+55 (56.7%)</td>
+<td style="text-align: left;">97<br>
+(99.0%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">How necessary is the implementation of mandatory open access policies for publicly funded research?<br>
+[factor]</td>
+<td style="text-align: left;">1. Not necessary at all<br>
+2. Slightly necessary<br>
+3. Moderately necessary<br>
+4. Quite necessary<br>
+5. Very necessary</td>
+<td style="text-align: left;">2 ( 2.1%)<br>
+4 ( 4.1%)<br>
+10 (10.3%)<br>
+40 (41.2%)<br>
+41 (42.3%)</td>
+<td style="text-align: left;">97<br>
+(99.0%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">How neccesary is it for ANID to incorporate pre-registration of research design within its Open Access Policy?<br>
+[factor]</td>
+<td style="text-align: left;">1. Not necessary at all<br>
+2. Slightly necessary<br>
+3. Moderately necessary<br>
+4. Quite necessary<br>
+5. Very necessary</td>
+<td style="text-align: left;">5 (10.2%)<br>
+6 (12.2%)<br>
+14 (28.6%)<br>
+18 (36.7%)<br>
+6 (12.2%)</td>
+<td style="text-align: left;">49<br>
+(50.0%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">How neccesary is it for ANID to incorporate reproducibility of research within its Open Access Policy<br>
+[factor]</td>
+<td style="text-align: left;">1. Not necessary at all<br>
+2. Slightly necessary<br>
+3. Moderately necessary<br>
+4. Quite necessary<br>
+5. Very necessary</td>
+<td style="text-align: left;">1 ( 2.0%)<br>
+8 (16.3%)<br>
+16 (32.7%)<br>
+14 (28.6%)<br>
+10 (20.4%)</td>
+<td style="text-align: left;">49<br>
+(50.0%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">How do you evaluate the dissemination of the Open Access to Scientific Information and Research Data Policy<br>
+[factor]</td>
+<td style="text-align: left;">1. Bad<br>
+2. Fair<br>
+3. Neutral<br>
+4. Good<br>
+5. Very Good</td>
+<td style="text-align: left;">9 (18.4%)<br>
+21 (42.9%)<br>
+8 (16.3%)<br>
+10 (20.4%)<br>
+1 ( 2.0%)</td>
+<td style="text-align: left;">49<br>
+(50.0%)</td>
+</tr>
+</tbody>
+</table>
+</div>
 </figure>
 </div>
-</div>
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-vanid-grid" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-vanid-grid-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-vanid-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-vanid-grid-2.png" class="img-fluid figure-img" data-ref-parent="fig-vanid-grid" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-vanid-grid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) How much do you agree with ANID continuing to develop and implement open access policies for scientific production?
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vanid-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13: Assessment of ANID’s open science policies
-</figcaption>
-</figure>
-</div>
-<p>However, there are other practices that are less well received. Thus, both mandatory pre-registration, as shown in <a href="#fig-vanid-grid-b-1" class="quarto-xref">Figure&nbsp;14 (a)</a>, and reproducibility (<a href="#fig-vanid-grid-b-2" class="quarto-xref">Figure&nbsp;14 (b)</a>), are supported only by half of the respondents.</p>
-<div id="fig-vanid-grid-b" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-vanid-grid-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-vanid-grid-b" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-vanid-grid-b-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-vanid-grid-b-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-vanid-grid-b-1.png" class="img-fluid figure-img" data-ref-parent="fig-vanid-grid-b" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-vanid-grid-b-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) How neccesary is it for ANID to incorporate pre-registration of research design within its Open Access Policy?
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-vanid-grid-b" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-vanid-grid-b-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-vanid-grid-b-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-vanid-grid-b-2.png" class="img-fluid figure-img" data-ref-parent="fig-vanid-grid-b" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-vanid-grid-b-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) How neccesary is it for ANID to incorporate reproducibility of research within its Open Access Policy
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vanid-grid-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14: Assessment inclusion of practices in ANID’s Open Access Policy
-</figcaption>
-</figure>
-</div>
-<p>Finally, the dissemination of ANID’s Open Access policy is negatively evaluated by the majority of respondents. Only 24% consider it to be good or very good, as seen in <a href="#fig-vanid-2" class="quarto-xref">Figure&nbsp;15</a></p>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-vanid-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-vanid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="paper_files/figure-html/fig-vanid-2-1.png" class="img-fluid figure-img" width="3600">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vanid-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;15: How do you evaluate the dissemination of the Open Access to Scientific Information and Research Data Policy
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
+<p>However, there are other practices that are less well received. Thus, both mandatory pre-registration, as shown in <a href="#tbl-anid" class="quarto-xref">Table&nbsp;5</a>, and reproducibility, are supported only by half of the respondents. Finally, the dissemination of ANID’s Open Access policy is negatively evaluated by the majority of respondents. Only 24% consider it to be good or very good.</p>
 </section>
 </section>
 </section>
@@ -970,9 +965,6 @@ Baker, Monya. 2016. <span>“1,500 Scientists Lift the Lid on Reproducibility.�
 <div id="ref-banks_answers_2019" class="csl-entry" role="listitem">
 Banks, George C., James G. Field, Frederick L. Oswald, Ernest H. O’Boyle, Ronald S. Landis, Deborah E. Rupp, and Steven G. Rogelberg. 2019. <span>“Answers to 18 <span>Questions About Open Science Practices</span>.”</span> <em>Journal of Business and Psychology</em> 34 (3): 257–70. <a href="https://doi.org/10.1007/s10869-018-9547-8">https://doi.org/10.1007/s10869-018-9547-8</a>.
 </div>
-<div id="ref-bezjak_open_2018" class="csl-entry" role="listitem">
-Bezjak, Sonja, April Clyburne-Sherin, Philipp Conzett, Pedro Fernandes, Edit Görögh, Kerstin Helbig, Bianca Kramer, et al. 2018. <em>Open <span>Science Training Handbook</span></em>. Zenodo. <a href="https://doi.org/10.5281/ZENODO.1212496">https://doi.org/10.5281/ZENODO.1212496</a>.
-</div>
 <div id="ref-boyatzis_transforming_2010" class="csl-entry" role="listitem">
 Boyatzis, Richard E. 2010. <em>Transforming Qualitative Information: Thematic Analysis and Code Development</em>. Thousand Oaks, Calif.: Sage.
 </div>
@@ -984,9 +976,6 @@ Breznau, Nate. 2021. <span>“Does <span>Sociology Need Open Science</span>?”<
 </div>
 <div id="ref-chopik_relationship_2020" class="csl-entry" role="listitem">
 Chopik, William J., Christopher R. Chartier, Lorne Campbell, and M. Brent Donnellan. 2020. <span>“Relationship Science and the Credibility Revolution: <span>An</span> Introduction to the First Part of the Special Issue.”</span> <em>Personal Relationships</em> 27 (1): 132–37. <a href="https://doi.org/10.1111/pere.12312">https://doi.org/10.1111/pere.12312</a>.
-</div>
-<div id="ref-christensen_study_2019" class="csl-entry" role="listitem">
-Christensen, Garret, Allan Dafoe, Edward Miguel, Don A. Moore, and Andrew K. Rose. 2019. <span>“A Study of the Impact of Data Sharing on Article Citations Using Journal Policies as a Natural Experiment.”</span> Edited by Florian Naudet. <em>PLOS ONE</em> 14 (12): e0225883. <a href="https://doi.org/10.1371/journal.pone.0225883">https://doi.org/10.1371/journal.pone.0225883</a>.
 </div>
 <div id="ref-creswell_designing_2018" class="csl-entry" role="listitem">
 Creswell, John W, and Vicki L Plano Clark. 2018. <em>Designing and <span>Conducting Mixed Methods Research</span></em>. SAGE Publications.
@@ -1008,9 +997,6 @@ Gross, Julia, and John Ryan. 2015. <span>“Landscapes of <span>Research</span>:
 </div>
 <div id="ref-hail_reproducibility_2020" class="csl-entry" role="listitem">
 Hail, Luzi, Mark Lang, and Christian Leuz. 2020. <span>“Reproducibility in <span>Accounting Research</span>: <span>Views</span> of the <span>Research Community</span>.”</span> <em>Journal of Accounting Research</em> 58 (2): 519–43. <a href="https://doi.org/10.1111/1475-679X.12305">https://doi.org/10.1111/1475-679X.12305</a>.
-</div>
-<div id="ref-hardwicke_empirical_2020" class="csl-entry" role="listitem">
-Hardwicke, Tom E., Joshua D. Wallach, Mallory C. Kidwell, Theiss Bendixen, Sophia Crüwell, and John P. A. Ioannidis. 2020. <span>“An Empirical Assessment of Transparency and Reproducibility-Related Research Practices in the Social Sciences (2014–2017).”</span> <em>Royal Society Open Science</em> 7 (2): 190806. <a href="https://doi.org/10.1098/rsos.190806">https://doi.org/10.1098/rsos.190806</a>.
 </div>
 <div id="ref-head_extent_2015" class="csl-entry" role="listitem">
 Head, Megan L., Luke Holman, Rob Lanfear, Andrew T. Kahn, and Michael D. Jennions. 2015. <span>“The <span>Extent</span> and <span>Consequences</span> of <span>P-Hacking</span> in <span>Science</span>.”</span> <em>Plos Biology</em> 13 (3): e1002106. <a href="https://doi.org/10.1371/journal.pbio.1002106">https://doi.org/10.1371/journal.pbio.1002106</a>.
@@ -1039,9 +1025,6 @@ Ljubenković, Ana Marija, Ana Borovečki, Marko Ćurković, Bjørn Hofmann, and 
 <div id="ref-lopezcardenas_percepciones_2021" class="csl-entry" role="listitem">
 Lopez Cardenas, Maria, and Enrique Cubero-Castillo. 2021. <span>“Percepciones y Pr<span>á</span>cticas de La Ciencia Abierta En <span>Venezuela</span>. <span>Un</span> Acercamiento a La Cuesti<span>ó</span>n.”</span> <em>Observador Del Conocimiento</em> 5 (4 -diciemb).
 </div>
-<div id="ref-mauthner_open_2013" class="csl-entry" role="listitem">
-Mauthner, Natasha Susan, and Odette Parry. 2013. <span>“Open <span>Access Digital Data Sharing</span>: <span>Principles</span>, <span>Policies</span> and <span>Practices</span>.”</span> <em>Social Epistemology</em> 27 (1): 47–67. <a href="https://doi.org/10.1080/02691728.2012.760663">https://doi.org/10.1080/02691728.2012.760663</a>.
-</div>
 <div id="ref-narayan_scholarly_2018" class="csl-entry" role="listitem">
 Narayan, Bhuva, Edward J. Luca, Belinda Tiffen, Ashley England, Mal Booth, and Henry Boateng. 2018. <span>“Scholarly <span>Communication Practices</span> in <span>Humanities</span> and <span>Social Sciences</span>: <span>A Study</span> of <span>Researchers</span>’ <span>Attitudes</span> and <span>Awareness</span> of <span>Open Access</span>.”</span> <em>Open Information Science</em> 2 (1): 168–80. <a href="https://doi.org/10.1515/opis-2018-0013">https://doi.org/10.1515/opis-2018-0013</a>.
 </div>
@@ -1050,9 +1033,6 @@ Nosek, B. A., G. Alter, G. C. Banks, D. Borsboom, S. D. Bowman, S. J. Breckler, 
 </div>
 <div id="ref-nosek_preregistration_2019" class="csl-entry" role="listitem">
 Nosek, Brian A., Emorie D. Beck, Lorne Campbell, Jessica K. Flake, Tom E. Hardwicke, David T. Mellor, Anna E. Van ’T Veer, and Simine Vazire. 2019. <span>“Preregistration <span>Is Hard</span>, <span>And Worthwhile</span>.”</span> <em>Trends in Cognitive Sciences</em> 23 (10): 815–18. <a href="https://doi.org/10.1016/j.tics.2019.07.009">https://doi.org/10.1016/j.tics.2019.07.009</a>.
-</div>
-<div id="ref-nosek_preregistration_2018" class="csl-entry" role="listitem">
-Nosek, Brian A., Charles R. Ebersole, Alexander C. DeHaven, and David T. Mellor. 2018. <span>“The Preregistration Revolution.”</span> <em>Proceedings of the National Academy of Sciences</em> 115 (11): 2600–2606. <a href="https://doi.org/10.1073/pnas.1708274114">https://doi.org/10.1073/pnas.1708274114</a>.
 </div>
 <div id="ref-nowell_thematic_2017" class="csl-entry" role="listitem">
 Nowell, Lorelli S., Jill M. Norris, Deborah E. White, and Nancy J. Moules. 2017. <span>“Thematic <span>Analysis</span>: <span>Striving</span> to <span>Meet</span> the <span>Trustworthiness Criteria</span>.”</span> <em>International Journal of Qualitative Methods</em> 16 (1): 1609406917733847. <a href="https://doi.org/10.1177/1609406917733847">https://doi.org/10.1177/1609406917733847</a>.
@@ -1074,9 +1054,6 @@ Rowley, Jennifer, Frances Johnson, Laura Sbaffi, Will Frass, and Elaine Devine. 
 </div>
 <div id="ref-sturmer_earlycareer_2017" class="csl-entry" role="listitem">
 Stürmer, Stefan, Aileen Oeberst, Roman Trötschel, and Oliver Decker. 2017. <span>“Early-<span>Career Researchers</span>’ <span>Perceptions</span> of the <span>Prevalence</span> of <span>Questionable Research Practices</span>, <span>Potential Causes</span>, and <span>Open Science</span>.”</span> <em>Social Psychology</em> 48 (6): 365–71. <a href="https://doi.org/10.1027/1864-9335/a000324">https://doi.org/10.1027/1864-9335/a000324</a>.
-</div>
-<div id="ref-vandeneynden_sowing_2014" class="csl-entry" role="listitem">
-Van den Eynden, Veerle, and Libby Bishop. 2014. <span>“Sowing the Seed: <span>Incentives</span> and Motivations for Sharing Research Data, a Researcher’s Perspective.”</span> <em>Knowledge Exchange Report</em>. https://doi.org/<a href="https://repository.jisc.ac.uk/5662/1/KE_report-incentives-for-sharing-researchdata.pdf">https://repository.jisc.ac.uk/5662/1/KE_report-incentives-for-sharing-researchdata.pdf</a>.
 </div>
 <div id="ref-zhu_openaccess_2020" class="csl-entry" role="listitem">
 Zhu, Yimei. 2020. <span>“Open-Access Policy and Data-Sharing Practice in <span>UK</span> Academia.”</span> <em>Journal of Information Science</em> 46 (1): 41–52. <a href="https://doi.org/10.1177/0165551518823174">https://doi.org/10.1177/0165551518823174</a>.

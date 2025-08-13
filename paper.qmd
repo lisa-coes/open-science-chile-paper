@@ -4,9 +4,12 @@ format:
   html:
     theme: cosmo
   pdf:
-    documentclass: scrartcl
+    documentclass: article
+    toc: true
+    number-sections: true
     keep-tex: true
-    fig-pos: H
+    latex-engine: xelatex # o pdflatex o lualatex
+    df_print: kable
 author:
   - name: Juan Carlos Castillo
     email: juancastillov@uchile.cl
