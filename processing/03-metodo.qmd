@@ -2,10 +2,8 @@
 author: LISA COES
 ---
 
-# Design
+# Reserch methodology
 
-We conducted a mixed sequential-exploratory design. This approach consist of two-stage method, usually starting with a qualitative analysis followed by the development of quantitative instrument [@creswell_designing_2018].
-
-The integration of both techniques is justified by the fact that, although there is international experience in the study of practices and evaluation of Open Science, no previous research was found to address this issue among Chilean social science academics. Thus, we proposed a design that includes a first phase of qualitative exploration that allowed us to have a first impression of the knowledge, practices and attitudes about the concept of Open Science in the Chilean academic community. The result of this first study were integrated in the design of the quantitative instrument that was applied in a second study.
+We conducted a mixed sequential-exploratory design. This approach consist of two-stage method, usually starting with a qualitative analysis followed by the development of quantitative instrument [@creswell_designing_2018]. The integration of both techniques is justified by the fact that, although there is international experience in the study of practices and evaluation of Open Science, no previous research was found to address this issue among Chilean social science academics. Thus, we proposed a design that includes a first phase of qualitative exploration that allowed us to have a first impression of the knowledge, practices and attitudes about the concept of Open Science in the Chilean academic community. The result of this first study were integrated in the design of the quantitative instrument that was applied in a second study.
 
 In addition to informing the construction of the instrument, the integration between the qualitative and quantitative studies was achieved by synthesizing the results of both phases. In this way, we sought to draw coherent conclusions by evaluating how the quantitative data were able to expand or validate the initial findings of the qualitative study, generating a comprehensive understanding of the state of Open Science in the Chilean social sciences.
