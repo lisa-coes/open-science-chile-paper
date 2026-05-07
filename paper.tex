@@ -1,27 +1,30 @@
 % Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
+  english,
   letterpaper,
 ]{article}
-
+\usepackage{xcolor}
+\usepackage[left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
 \usepackage{amsmath,amssymb}
-\usepackage{setspace}
+\setcounter{secnumdepth}{5}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
 \usepackage{lmodern}
-\ifPDFTeX\else  
-    % xetex/luatex font selection
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -29,6 +32,7 @@
   \usepackage[]{microtype}
   \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\usepackage{setspace}
 \makeatletter
 \@ifundefined{KOMAClassName}{% if non-KOMA class
   \IfFileExists{parskip.sty}{%
@@ -39,10 +43,6 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-\usepackage{xcolor}
-\usepackage[left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
 \makeatletter
 \ifx\paragraph\undefined\else
@@ -68,8 +68,7 @@
 \makeatother
 
 
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -81,17 +80,21 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
+
+
 % definitions for citeproc citations
 \NewDocumentCommand\citeproctext{}{}
 \NewDocumentCommand\citeproc{mm}{%
@@ -125,6 +128,29 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
+  \usepackage[english]{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
 
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -197,23 +223,9 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-
-\ifLuaTeX
-\usepackage[bidi=basic]{babel}
-\else
-\usepackage[bidi=default]{babel}
-\fi
-\babelprovide[main,import]{english}
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage{bookmark}
-
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={Open Social Science in Chile: A mixed method research about Openness, Transparency and Reproducibility},
   pdfauthor={LISA COES},
@@ -232,7 +244,6 @@ Data, Transparency, Mixed-methods},
 Openness, Transparency and Reproducibility}
 \author{Juan Carlos Castillo \and Kevin Carrasco}
 \date{}
-
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -515,13 +526,12 @@ open science, with ongoing efforts to align national practices with
 international standards and to foster a culture of openness and
 collaboration in the scientific community.
 
-\section{Design}\label{design}
+\section{Reserch methodology}\label{reserch-methodology}
 
 We conducted a mixed sequential-exploratory design. This approach
 consist of two-stage method, usually starting with a qualitative
 analysis followed by the development of quantitative instrument
 (\citeproc{ref-creswell_designing_2018}{Creswell and Plano Clark 2018}).
-
 The integration of both techniques is justified by the fact that,
 although there is international experience in the study of practices and
 evaluation of Open Science, no previous research was found to address
@@ -740,7 +750,7 @@ applications; others are sent to local open journals in Spanish, which
 are more accessible to the general public. The following quote
 illustrates this practices and its effects:
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, colframe=quarto-callout-color-frame, rightrule=.15mm, colback=white, opacityback=0, arc=.35mm, breakable, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, breakable, leftrule=.75mm, arc=.35mm, rightrule=.15mm, toprule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-color-frame, opacityback=0]
 
 {[}\ldots{]} we published in a journal which is\ldots{} I think it is
 only SciELO {[}\ldots{]} I have published much better things, let's say,
@@ -936,8 +946,8 @@ et al. 2019}; \citeproc{ref-pardomartinez_knowledge_2018}{Pardo Martínez
 and Poveda 2018}; \citeproc{ref-rodriguez_awareness_2014}{Rodriguez
 2014}; \citeproc{ref-rowley_academics_2017}{Rowley et al. 2017};
 \citeproc{ref-sturmer_earlycareer_2017}{Stürmer et al. 2017};
-\citeproc{ref-zhu_openaccess_2020}{Zhu 2020}), as well as findings from
-the qualitative study.
+\citeproc{ref-zhu_openaccess_2020}{Zhu 2020}), as well as on the
+findings from the qualitative study.
 
 The questionnaire consisted of 111 questions divided into the following
 modules:
@@ -982,27 +992,31 @@ We used FormR for the implementation of the questionnaire. FormR is an
 open source software that allows the design of complex questionnaires
 with a high degree of customization
 (\citeproc{ref-arslan_chain_2025}{Arslan and Tata 2025};
-\citeproc{ref-arslan_formr_2020}{Arslan, Walther, and Tata 2020}). Since
-it is integrated with R and RMarkdown, it facilitates collaborative work
-regardless of the length of the questionnaire. The platform allows the
-questionnaire to be self-administered, either by personal computers or
-by smartphones.
+\citeproc{ref-arslan_formr_2020}{Arslan, Walther, and Tata 2020}) .
+Since it is integrated with RStudio (R + RMarkdown), it facilitates
+collaborative work regardless of the length of the questionnaire. The
+platform allows the questionnaire to be self-administered, either by
+personal computers or by smartphones.
 
-To construct the sample, mass emails were sent to researchers who had
-received state funding for research, as well as to faculties and
-departments across various social science disciplines, and to research
-centers and institutes in the field of social sciences. In addition, the
-survey was distributed through social media and at academic events of
-social sciences. In the end, 98 complete responses were received. The
-description of the sample is presented in Table~\ref{tbl-resumen}.
+To construct the sample, mass mailings were sent to researchers who had
+received state research funding, to faculties and departments of various
+social science disciplines, and to research centers and associative
+research projects. In addition, the survey was distributed through
+social media and at academic events. In the end, 98 complete responses
+were received. The description of the sample is presented in
+Table~\ref{tbl-resumen}.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2442}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3837}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2442}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1279}}@{}}
-\caption{Quantitative Sample
-Description}\label{tbl-resumen}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1656}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.4847}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2209}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.0736}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.0552}}@{}}
+
+\caption{\label{tbl-resumen}Quantitative Sample Description}
+
+\tabularnewline
+
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Variable
@@ -1012,18 +1026,8 @@ Stats / Values
 Freqs (\% of Valid)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Valid
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Variable
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Stats / Values
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Freqs (\% of Valid)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Valid
+Missing
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -1036,11 +1040,14 @@ Sex\\
 1. Women\\
 2. Men\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-37 (37.8\%)\\
-61 (62.2\%)\strut
+\textbackslash37 (37.8\%)\\
+\textbackslash61 (62.2\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+0\\
+(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Age\\
@@ -1050,12 +1057,15 @@ Age\\
 2. 35-49\\
 3. 50+\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-12 (12.2\%)\\
-55 (56.1\%)\\
-31 (31.6\%)\strut
+\textbackslash12 (12.2\%)\\
+\textbackslash55 (56.1\%)\\
+\textbackslash31 (31.6\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+0\\
+(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Degree\\
@@ -1064,11 +1074,14 @@ Degree\\
 1. Master\\
 2. PhD\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-17 (17.3\%)\\
-81 (82.7\%)\strut
+\textbackslash17 (17.3\%)\\
+\textbackslash81 (82.7\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+0\\
+(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Career stage\\
@@ -1078,12 +1091,15 @@ Career stage\\
 2. Intermediate (6 to 15 yea\\
 3. Avanced (\textgreater15 years)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-12 (12.2\%)\\
-47 (48.0\%)\\
-39 (39.8\%)\strut
+\textbackslash12 (12.2\%)\\
+\textbackslash47 (48.0\%)\\
+\textbackslash39 (39.8\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 98\\
 (100.0\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+0\\
+(0.0\%)\strut
 \end{minipage} \\
 \begin{minipage}[t]{\linewidth}\raggedright
 Research strategy\\
@@ -1093,13 +1109,17 @@ Research strategy\\
 2. Mixed-Methods\\
 3. Quantitative\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-28 (29.2\%)\\
-36 (37.5\%)\\
-32 (33.3\%)\strut
+\textbackslash28 (29.2\%)\\
+\textbackslash36 (37.5\%)\\
+\textbackslash32 (33.3\%)\strut
 \end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
 96\\
 (98.0\%)\strut
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+2\\
+(2.0\%)\strut
 \end{minipage} \\
+
 \end{longtable}
 
 We conducted a descriptive uni- and bivariate analysis of the key
@@ -1125,7 +1145,7 @@ with the pre-registration of hypotheses.
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-cca-1.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-cca-1.png}}
 
 }
 
@@ -1135,51 +1155,53 @@ with the pre-registration of hypotheses.
 
 In general, knowledge levels seem to be higher among young researchers
 and with a predominantly quantitative focus, as shown in the
-Table~\ref{tbl-cca-grid}. Respondents between 28 and 34 years of age,
-thus, show higher levels of knowledge about open software, and the
-concepts of reproducible research and open science. However, researchers
-between 35 and 49 years of age show higher levels of knowledge of
-hypotheses preregistration and open access to data. Quantitative
-researchers, meanwhile, show higher levels of knowledge of all concepts
-except open access to publications.
+Figure~\ref{fig-cca-grid}. Respondents between 28 and 34 years of age,
+thus, show higher levels of knowledge about free software, and the
+concepts of reproducible research and open science
+(Figure~\ref{fig-cca-grid-1}). However, researchers between 35 and 49
+years of age show higher levels of knowledge of hypotheses
+preregistration and open access to data. Quantitative researchers,
+meanwhile, show higher levels of knowledge of all concepts except open
+access to publications (Figure~\ref{fig-cca-grid-2}).
 
-\begin{table}
+\begin{figure}
 
-\caption{\label{tbl-cca-grid}Familiarity with Open Science concepts by
-age and research strategy}
+\begin{minipage}{0.50\linewidth}
 
 \centering{
 
-\centering\begingroup\fontsize{9}{11}\selectfont
-
-\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\begin{tabular}[t]{>{}lllllll}
-\toprule
-\multicolumn{1}{c}{\textbf{ }} & \multicolumn{3}{c}{\textbf{Age group}} & \multicolumn{3}{c}{\textbf{Research strategy}} \\
-\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-7}
-Open Science Concept & 28–34 & 35–49 & 50+ & Qualitative & Mixed & Quantitative\\
-\midrule
-\textbf{Open Science} & 66.7\% & 50.9\% & 29.0\% & 39.3\% & 36.1\% & 62.5\%\\
-Publications in
-\textbf{open access} & 83.3\% & 76.4\% & 80.6\% & 78.6\% & 83.3\% & 71.9\%\\
-Hypotheses
-\textbf{pre-registration} & 16.7\% & 32.7\% & 16.1\% & 3.6\% & 16.7\% & 50.0\%\\
-\textbf{Open Data} & 66.7\% & 63.6\% & 48.4\% & 53.6\% & 44.4\% & 78.1\%\\
-Reproducible
-\textbf{research} & 58.3\% & 38.2\% & 32.3\% & 25.0\% & 30.6\% & 59.4\%\\
-\addlinespace
-Open
-\textbf{repositories} & 58.3\% & 60.0\% & 54.8\% & 57.1\% & 52.8\% & 62.5\%\\
-\textbf{Open software} & 75.0\% & 54.5\% & 41.9\% & 42.9\% & 38.9\% & 75.0\%\\
-Open data
-\textbf{access} & 41.7\% & 50.9\% & 45.2\% & 50.0\% & 27.8\% & 65.6\%\\
-\bottomrule
-\end{tabular}}
-\endgroup{}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-cca-grid-1.png}}
 
 }
 
-\end{table}%
+\subcaption{\label{fig-cca-grid-1}Familiarity with open science concepts
+by age}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-cca-grid-2.png}}
+
+}
+
+\subcaption{\label{fig-cca-grid-2}Familiarity with open science concepts
+by research strategy}
+
+\end{minipage}%
+
+\caption{\label{fig-cca-grid}Familiarity with Open Science concepts by
+age and reseaarch strategy}
+
+\end{figure}%
+
+Similarly, ANID's Open Access to Scientific Information and Research
+Data Policy shows a medium to low level of awareness. Specifically, only
+half of the respondents have heard of ANID's policy. On the other hand,
+only 26\% are aware of ANID's data management plan for the open access
+policy.
 
 \subsubsection{Practices}\label{practices}
 
@@ -1201,7 +1223,7 @@ careers.
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-prac-1.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-prac-1.png}}
 
 }
 
@@ -1213,7 +1235,7 @@ careers.
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-prac-2.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-prac-2.png}}
 
 }
 
@@ -1241,58 +1263,56 @@ always done in the community. Finally, while no one admits to having
 manipulated data to validate a hypothesis, 4\% say this always or almost
 always happens in the community.
 
-It is curious that when the analysis is broken down into different
-groups, certain trends are repeated. Male and quantitative-oriented,
-researchers are at the same time those who declare the highest frequency
-of own practices, both negative and positive, as well as those perceive
-the highest number of negative practices in the community. These
-differences can be seen in detail in the Table~\ref{tbl-prac-grid}
+It is noteworthy that when the analysis is broken down into different
+groups, certain trends are repeated. Male, quantitative-oriented,
+early-career researchers are at the same time those who declare the
+highest frequency of own practices, both negative and positive, as well
+as those perceive the highest number of negative practices in the
+community. These differences can be seen in detail in the
+Figure~\ref{fig-prac-grid}
 
-\begin{table}
+\begin{figure}
 
-\caption{\label{tbl-prac-grid}How often are the following practices
-performed?}
+\begin{minipage}{\linewidth}
 
 \centering{
 
-\centering\begingroup\fontsize{9}{11}\selectfont
-
-\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\begin{tabular}[t]{llllll}
-\toprule
-\multicolumn{1}{c}{\textbf{ }} & \multicolumn{2}{c}{\textbf{Sex}} & \multicolumn{3}{c}{\textbf{Research Strategy}} \\
-\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-6}
-Research Practices & Women & Men & Qualitative & Mixed & Quantitative\\
-\midrule
-\cellcolor[HTML]{F0F0F0}{\textbf{Own practices}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}}\\
-Share codes between 
-researchers & 8.1\% & 21.3\% & NA\% & 8.3\% & 37.5\%\\
-Use online open repositories & 24.3\% & 37.7\% & 21.4\% & 25.0\% & 46.9\%\\
-Selective report of results & 2.7\% & 9.8\% & 3.6\% & 5.6\% & 12.5\%\\
-Do not report 
-studies or variables 
- that did not reached 
-statistical signficance & 8.1\% & 9.8\% & 3.6\% & 11.1\% & 12.5\%\\
-\addlinespace
-\cellcolor[HTML]{F0F0F0}{\textbf{Community's practices}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}} & \cellcolor[HTML]{F0F0F0}{\textbf{}}\\
-Share codes between 
-researchers & 8.1\% & 3.3\% & 3.6\% & 5.6\% & 6.2\%\\
-Use online open repositories & 18.9\% & 11.5\% & 14.3\% & 13.9\% & 12.5\%\\
-Selective report of results & 27.0\% & 49.2\% & 17.9\% & 50.0\% & 50.0\%\\
-Do not report 
-studies or variables 
- that did not reached 
-statistical signficance & 29.7\% & 55.7\% & 25.0\% & 55.6\% & 50.0\%\\
-\addlinespace
-Manipulating data to validate 
-hypothesis & 2.7\% & 4.9\% & 7.1\% & 2.8\% & 3.1\%\\
-\bottomrule
-\end{tabular}}
-\endgroup{}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-prac-grid-1.png}}
 
 }
 
-\end{table}%
+\subcaption{\label{fig-prac-grid-1}By sex}
+
+\end{minipage}%
+\newline
+\begin{minipage}{\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-prac-grid-2.png}}
+
+}
+
+\subcaption{\label{fig-prac-grid-2}By academic career stage}
+
+\end{minipage}%
+\newline
+\begin{minipage}{\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-prac-grid-3.png}}
+
+}
+
+\subcaption{\label{fig-prac-grid-3}By research strategy}
+
+\end{minipage}%
+
+\caption{\label{fig-prac-grid}How often are the following practices
+performed?}
+
+\end{figure}%
 
 \paragraph{b. Open Science Barriers}\label{b.-open-science-barriers}
 
@@ -1308,26 +1328,25 @@ that hinders data openness.
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-barreras-1.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-barreras-1.png}}
 
 }
 
-\caption{\label{fig-barreras}¿To what extent do you consider that the
+\caption{\label{fig-barreras}To what extent do you consider that the
 following factors limit Open Science?}
 
 \end{figure}%
 
-Regarding this last point, the incentives that researchers might have to
-open their data were analyzed. As can be seen in the
-Figure~\ref{fig-motivaciones}, networking, the dissemination of publicly
-funded data to the community, and the increase of one's own visibility
-are highly valued as incentives for open data.
+Figure~\ref{fig-motivaciones} depicts the incentives that researchers
+might have to open their data, whereby the most valuable are networking,
+the dissemination of publicly funded data to the community, and the
+increase of one's work visibility.
 
 \begin{figure}
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-motivaciones-1.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-motivaciones-1.png}}
 
 }
 
@@ -1335,10 +1354,48 @@ are highly valued as incentives for open data.
 
 \end{figure}%
 
+Figure~\ref{fig-motivaciones-grid} shows that, while the dissemination
+of results is valued transversally, there are groups where the valuation
+of extrinsic motivations has a greater preponderance. In particular,
+networking and increasing one's own visibility are incentives more
+highly valued by women (Figure~\ref{fig-motivaciones-grid-1}) and
+researchers between 35 and 49 years of age
+(Figure~\ref{fig-motivaciones-grid-2})
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-motivaciones-grid-1.png}}
+
+}
+
+\subcaption{\label{fig-motivaciones-grid-1}By sex}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-motivaciones-grid-2.png}}
+
+}
+
+\subcaption{\label{fig-motivaciones-grid-2}By age}
+
+\end{minipage}%
+
+\caption{\label{fig-motivaciones-grid}Open data motivations}
+
+\end{figure}%
+
 \subsubsection{Attitudes}\label{attitudes}
 
-\paragraph{a. Attitudes on Open Science
-Measures}\label{a.-attitudes-on-open-science-measures}
+\paragraph{a. Attitudes towards Open Science
+Measures}\label{a.-attitudes-towards-open-science-measures}
 
 In general, the possibility of adopting Open Science measures in the
 social sciences is assessed positively, as can be see in
@@ -1355,12 +1412,49 @@ already observed in the qualitative study.
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-val-1.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-val-1.png}}
 
 }
 
 \caption{\label{fig-val}How necessary do you think the following Open
 Science measure are for social science research?}
+
+\end{figure}%
+
+With the exception of open access to publications, which is valued
+transversally by all groups, these measures are more strongly supported
+by females researchers and by researchers with a quantitative approach,
+as can be seen in the Figure~\ref{fig-vca-grid}
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-vca-grid-1.png}}
+
+}
+
+\subcaption{\label{fig-vca-grid-1}By research strategy}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-vca-grid-2.png}}
+
+}
+
+\subcaption{\label{fig-vca-grid-2}By sex}
+
+\end{minipage}%
+
+\caption{\label{fig-vca-grid}How necessary do you think the following
+Open Science measure are for social science research? -- porcentage
+responding a lot or quite a lot}
 
 \end{figure}%
 
@@ -1378,7 +1472,7 @@ researchers, 60\% do not know if there is a crisis or not.
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-dona-1.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-dona-1.png}}
 
 }
 
@@ -1391,7 +1485,7 @@ the replication crisis do you agree?}
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-dona-grid-1.png}
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-dona-grid-1.png}}
 
 }
 
@@ -1400,156 +1494,176 @@ by research strategy.}
 
 \end{figure}%
 
-\paragraph{c.~Attidues about ANID's Open Science
-policies}\label{c.-attidues-about-anids-open-science-policies}
+On the other hand, 59\% believe that 30\% or less of social science
+research is reproducible, while 83\% believe that less than half of
+social science research is reproducible, as shown in
+Table~\ref{tbl-tablaacum}
 
-In the first instance, ANID's Open Science Policy is well received by
-the respondents. For example, 89.7\% agree or strongly agree that ANID
-should continue to develop its Open Science Policy, as show in
-Table~\ref{tbl-anid}. Similarly, 83.5\% consider the implementation of
-Open Access policies to be quite or very necessary.
+Reproducible
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4019}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3084}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1963}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0935}}@{}}
-\caption{Attidues about ANID's Open Science
-policies}\label{tbl-anid}\tabularnewline
+\begin{longtable}[]{@{}rrr@{}}
+
+\caption{\label{tbl-tablaacum}Perception of the percentage of
+reproducible research in Social Sciences}
+
+\tabularnewline
+
 \toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Variable
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Stats / Values
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Freqs (\% of Valid)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Valid
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Variable
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Stats / Values
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Freqs (\% of Valid)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Valid
-\end{minipage} \\
+Researches & Frequency & Acum (\%) \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\begin{minipage}[t]{\linewidth}\raggedright
-How much do you agree with ANID continuing to develop and implement open
-access policies for scientific production?\\
-{[}factor{]}\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-1. Strongly Disagree\\
-2. Disagree\\
-3. Neither Agree nor Disagre\\
-4. Agree\\
-5. Strongly Agree\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-2 ( 2.1\%)\\
-2 ( 2.1\%)\\
-6 ( 6.2\%)\\
-32 (33.0\%)\\
-55 (56.7\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-97\\
-(99.0\%)\strut
-\end{minipage} \\
-\begin{minipage}[t]{\linewidth}\raggedright
-How necessary is the implementation of mandatory open access policies
-for publicly funded research?\\
-{[}factor{]}\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-1. Not necessary at all\\
-2. Slightly necessary\\
-3. Moderately necessary\\
-4. Quite necessary\\
-5. Very necessary\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-2 ( 2.1\%)\\
-4 ( 4.1\%)\\
-10 (10.3\%)\\
-40 (41.2\%)\\
-41 (42.3\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-97\\
-(99.0\%)\strut
-\end{minipage} \\
-\begin{minipage}[t]{\linewidth}\raggedright
-How neccesary is it for ANID to incorporate pre-registration of research
-design within its Open Access Policy?\\
-{[}factor{]}\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-1. Not necessary at all\\
-2. Slightly necessary\\
-3. Moderately necessary\\
-4. Quite necessary\\
-5. Very necessary\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-5 (10.2\%)\\
-6 (12.2\%)\\
-14 (28.6\%)\\
-18 (36.7\%)\\
-6 (12.2\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-49\\
-(50.0\%)\strut
-\end{minipage} \\
-\begin{minipage}[t]{\linewidth}\raggedright
-How neccesary is it for ANID to incorporate reproducibility of research
-within its Open Access Policy\\
-{[}factor{]}\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-1. Not necessary at all\\
-2. Slightly necessary\\
-3. Moderately necessary\\
-4. Quite necessary\\
-5. Very necessary\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-1 ( 2.0\%)\\
-8 (16.3\%)\\
-16 (32.7\%)\\
-14 (28.6\%)\\
-10 (20.4\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-49\\
-(50.0\%)\strut
-\end{minipage} \\
-\begin{minipage}[t]{\linewidth}\raggedright
-How do you evaluate the dissemination of the Open Access to Scientific
-Information and Research Data Policy\\
-{[}factor{]}\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-1. Bad\\
-2. Fair\\
-3. Neutral\\
-4. Good\\
-5. Very Good\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-9 (18.4\%)\\
-21 (42.9\%)\\
-8 (16.3\%)\\
-10 (20.4\%)\\
-1 ( 2.0\%)\strut
-\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
-49\\
-(50.0\%)\strut
-\end{minipage} \\
+0 & 1 & 1.02 \\
+10 & 16 & 17.35 \\
+20 & 13 & 30.61 \\
+30 & 23 & 54.08 \\
+40 & 3 & 57.14 \\
+50 & 25 & 82.65 \\
+60 & 4 & 86.73 \\
+70 & 4 & 90.82 \\
+80 & 4 & 94.90 \\
+90 & 5 & 100.00 \\
+
 \end{longtable}
 
+This is consistent with the 40\% of respondents having attempted to
+reproduce the results of other researchers (Figure~\ref{fig-reprod-1}).
+Of this percentage, only 20\% of the attempts were complete
+reproductions, while 69\% were only partial (Figure~\ref{fig-reprod-2})
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-reprod-1.png}}
+
+}
+
+\subcaption{\label{fig-reprod-1}Have you tried to reproduce someone
+else's results?}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-reprod-2.png}}
+
+}
+
+\subcaption{\label{fig-reprod-2}If you have tried, which of these stages
+did you fall into?}
+
+\end{minipage}%
+
+\caption{\label{fig-reprod}Practices associated with reproducibility}
+
+\end{figure}%
+
+\paragraph{c.~Attidues about ANID's Open Science
+policies}\label{c.-attidues-about-anids-open-science-policies}
+
+In the first instance, ANID's Open Science Policy is well received by
+the respondents. For example, 90\% agree or strongly agree that ANID
+should continue to develop its Open Science Policy, as show in
+Figure~\ref{fig-vanid-grid-2}. Similarly, 84\% consider the
+implementation of Open Access policies to be quite or very necessary, as
+shown in Figure~\ref{fig-vanid-grid-1}
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-vanid-grid-1.png}}
+
+}
+
+\subcaption{\label{fig-vanid-grid-1}How necessary is the implementation
+of mandatory open access policies for publicly funded research?}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-vanid-grid-2.png}}
+
+}
+
+\subcaption{\label{fig-vanid-grid-2}How much do you agree with ANID
+continuing to develop and implement open access policies for scientific
+production?}
+
+\end{minipage}%
+
+\caption{\label{fig-vanid-grid}Assessment of ANID's open science
+policies}
+
+\end{figure}%
+
 However, there are other practices that are less well received. Thus,
-both mandatory pre-registration, as shown in Table~\ref{tbl-anid}, and
-reproducibility, are supported only by half of the respondents. Finally,
-the dissemination of ANID's Open Access policy is negatively evaluated
-by the majority of respondents. Only 24\% consider it to be good or very
-good.
+both mandatory pre-registration, as shown in
+Figure~\ref{fig-vanid-grid-b-1}, and reproducibility
+(Figure~\ref{fig-vanid-grid-b-2}), are supported only by half of the
+respondents.
+
+\begin{figure}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-vanid-grid-b-1.png}}
+
+}
+
+\subcaption{\label{fig-vanid-grid-b-1}How neccesary is it for ANID to
+incorporate pre-registration of research design within its Open Access
+Policy?}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-vanid-grid-b-2.png}}
+
+}
+
+\subcaption{\label{fig-vanid-grid-b-2}How neccesary is it for ANID to
+incorporate reproducibility of research within its Open Access Policy}
+
+\end{minipage}%
+
+\caption{\label{fig-vanid-grid-b}Assessment inclusion of practices in
+ANID's Open Access Policy}
+
+\end{figure}%
+
+Finally, the dissemination of ANID's Open Access policy is negatively
+evaluated by the majority of respondents. Only 24\% consider it to be
+good or very good, as seen in Figure~\ref{fig-vanid-2}
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-vanid-2-1.png}}
+
+}
+
+\caption{\label{fig-vanid-2}How do you evaluate the dissemination of the
+Open Access to Scientific Information and Research Data Policy}
+
+\end{figure}%
 
 \section{Discussion}\label{discussion}
 
