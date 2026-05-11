@@ -30,7 +30,7 @@ Two research team members conducted primarily the analysis, with support from AT
 
 Throughout the results report, we will reference specific participants in parentheses, indicating their discipline and their predominant methodological approach. For example, we will use tags such as *Sociology, mixed-methods* or *Economics, quantitative*.
 
-# Results
+## Results
 
 ### **Open Science: A fuzzy concept**
 
@@ -44,7 +44,7 @@ Despite the difficulties in defining it, we observed mostly positive attitudes a
 
 ### **Open Science attitudes and practices**
 
-#### a. Open Results
+#### Open Results
 
 In the interviews, the idea of openness is fundamentally linked to the openness of results. There is a consensus to prioritize this practices, either through open access journals, policies such as the Gold Route (Pyshcology, quantitative; Anthropology; qualitative), or by sharing preprints and final versions in academic or personal social media.
 
@@ -72,7 +72,7 @@ In line with the previous quote, is is noted that the idea of openness is not li
 
 Finally, with regard to access to scientific publications, the interviewees emphasized the role played by the universities where they work, specially through their libraries. For this reason, respondents indicated that they had not experienced difficulties in accessing publications. On the other hand, others recognize that in Latin America the practice of accessing scientific products such as preprints or working papers though informal mechanisms or even piracy is widespread among researchers and provides yet another mean of dealing with access problems without major consequences.
 
-#### b. Design Transparency
+#### Design Transparency
 
 Only a few respondents reported having pre-registered their research on the Open Science Framework website (Psychology, quantitative; Political Science, mixed-methods) or though journal initiatives (Political Science, mixed-methods; Economics, quantitative). In the case of economics, it is noted that pre-registration is a widespread practice given the protocols of the American Economics Association. These have been evaluated positively, but in some cases they are considered as an excessive standard due to its obligatory nature in many journals. All this experiences seem to point to the importance of editorial initiative in promoting transparency practices in the research process.
 
@@ -86,7 +86,7 @@ However, the vast majority of respondents were not really familiar with the conc
 
 In sum, despite highlighting the fact that the pre-registration of hypotheses make it possible to ensure that a research does not involve practices such as HARKing, the low knowledge and training in this practice, its association with certain types of research, the methodological limitations raised, and the concerns related to intellectual property are the bases of the suspicion and consequent low extent of this practice.
 
-#### c. Open Data
+#### Open Data
 
 Positive attitudes towards open data are mainly based on the belief that it is useful for the development of science. This is because it is understood to enhance the scientific impact of publications associated with the data, to save human and financial resources allocated to data production, and to reduce the impact on marginalized communities or social groups that are more often studied.
 
@@ -104,7 +104,7 @@ On the other hand, the opening of qualitative data faces significant challenges 
 
 It is noteworthy that despite the perceived differences in the ease and relevance of openness between qualitative and quantitative data, only two of the researchers interviewed --- one qualitative and one quantitative --- had ever practiced open data publication beyond editorial requirements and sharing data directly with other researchers.
 
-#### d. Analysis Transparency
+#### Analysis Transparency
 
 Analysis transparency is valued for its contribution to scientific progress and to the methodological learning of new researchers. In addition, a growing demand from high-impact journals for more detailed methodological sections in qualitative research and for the disclosure of analysis codes in quantitative studies is perceived and appreciated. This increased transparency is associated with greater analytical rigor and validity of results.
 

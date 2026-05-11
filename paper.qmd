@@ -3,13 +3,25 @@ title: "Open Social Science in Chile: A mixed method research about Openness, Tr
 format:
   html:
     theme: cosmo
+    number-sections: true
+    number-depth: 3
+    css: styles.css
   pdf:
     documentclass: article
-    toc: true
+    toc: false
     number-sections: true
+    number-depth: 3
     keep-tex: true
     latex-engine: xelatex # o pdflatex o lualatex
     df_print: kable
+    paper: letter
+    fontfamily: times
+    fontsizes: 13pt
+    include-in-header:
+      text: |
+        \usepackage{titlesec}
+        \titleformat{\paragraph}[block]{\normalfont\normalsize\bfseries\itshape}{}{0pt}{}
+        \titleformat{\subparagraph}[block]{\normalfont\normalsize\bfseries\itshape}{}{0pt}{}
 author:
   - name: Juan Carlos Castillo
     email: juancastillov@uchile.cl
@@ -25,6 +37,11 @@ author:
     orcid: 0000-0002-9348-8361
     affiliations:
       - ref: 2
+  - name: Gabriel Cortés
+    email: gabriel.cortes@ug.uchile.cl
+    orcid: 0009-0003-4064-2737
+    affiliations:
+      - ref: 1
 affiliations: 
   - id: 1
     name: Universidad de Chile

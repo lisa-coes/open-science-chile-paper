@@ -11,7 +11,7 @@
 \usepackage{xcolor}
 \usepackage[left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
 \usepackage{amsmath,amssymb}
-\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{3}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -22,7 +22,7 @@
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-\usepackage{lmodern}
+\usepackage[]{times}
 \ifPDFTeX\else
   % xetex/luatex font selection
 \fi
@@ -152,20 +152,9 @@
  
 
 
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{wrapfig}
-\usepackage{float}
-\usepackage{colortbl}
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage{threeparttablex}
-\usepackage[normalem]{ulem}
-\usepackage{makecell}
-\usepackage{xcolor}
+\usepackage{titlesec}
+\titleformat{\paragraph}[block]{\normalfont\normalsize\bfseries\itshape}{}{0pt}{}
+\titleformat{\subparagraph}[block]{\normalfont\normalsize\bfseries\itshape}{}{0pt}{}
 \makeatletter
 \@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
 \@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
@@ -242,7 +231,7 @@ Data, Transparency, Mixed-methods},
 
 \title{Open Social Science in Chile: A mixed method research about
 Openness, Transparency and Reproducibility}
-\author{Juan Carlos Castillo \and Kevin Carrasco}
+\author{Juan Carlos Castillo \and Kevin Carrasco \and Gabriel Cortés}
 \date{}
 \begin{document}
 \maketitle
@@ -267,12 +256,6 @@ productivity, and fear of other's researchers taking advantage of open
 information.
 \end{abstract}
 
-\renewcommand*\contentsname{Table of contents}
-{
-\hypersetup{linkcolor=}
-\setcounter{tocdepth}{3}
-\tableofcontents
-}
 
 \setstretch{1.15}
 \section{Introduction}\label{introduction}
@@ -354,8 +337,8 @@ academic work and science policies.
 
 \section{Background}\label{background}
 
-\subsection{a) Open science in the social
-sciences}\label{a-open-science-in-the-social-sciences}
+\subsection{Open science in the social
+sciences}\label{open-science-in-the-social-sciences}
 
 In the social sciences, the implementation of open science practices has
 posed specific challenges and opportunities, given the types of data
@@ -391,8 +374,8 @@ point out that the development of discipline-specific guidelines and
 support networks is crucial for advancing open science in the social
 sciences, especially in areas involving sensitive or qualitative data.
 
-\subsection{b) Main components of open science in the research
-process}\label{b-main-components-of-open-science-in-the-research-process}
+\subsection{Main components of open science in the research
+process}\label{main-components-of-open-science-in-the-research-process}
 
 The open science movement is structured around several core components
 that collectively aim to enhance the transparency, accessibility, and
@@ -483,8 +466,8 @@ technical support mechanisms to facilitate its widespread adoption
 (\citeproc{ref-pardomartinez_knowledge_2018}{Pardo Martínez and Poveda
 2018}).
 
-\subsection{c) Antecedents of open science policies in
-Chile}\label{c-antecedents-of-open-science-policies-in-chile}
+\subsection{Antecedents of open science policies in
+Chile}\label{antecedents-of-open-science-policies-in-chile}
 
 In Chile, the development of open science policies has gained momentum
 in recent years, reflecting global trends and responding to local needs
@@ -638,7 +621,7 @@ in parentheses, indicating their discipline and their predominant
 methodological approach. For example, we will use tags such as
 \emph{Sociology, mixed-methods} or \emph{Economics, quantitative}.
 
-\section{Results}\label{results}
+\subsection{Results}\label{results}
 
 \subsubsection{\texorpdfstring{\textbf{Open Science: A fuzzy
 concept}}{Open Science: A fuzzy concept}}\label{open-science-a-fuzzy-concept}
@@ -676,7 +659,7 @@ as an ``overly ambitions project''.
 \subsubsection{\texorpdfstring{\textbf{Open Science attitudes and
 practices}}{Open Science attitudes and practices}}\label{open-science-attitudes-and-practices}
 
-\paragraph{a. Open Results}\label{a.-open-results}
+\paragraph{Open Results}\label{open-results}
 
 In the interviews, the idea of openness is fundamentally linked to the
 openness of results. There is a consensus to prioritize this practices,
@@ -750,7 +733,7 @@ applications; others are sent to local open journals in Spanish, which
 are more accessible to the general public. The following quote
 illustrates this practices and its effects:
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, breakable, leftrule=.75mm, arc=.35mm, rightrule=.15mm, toprule=.15mm, bottomrule=.15mm, left=2mm, colframe=quarto-callout-color-frame, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, left=2mm, colframe=quarto-callout-color-frame, toprule=.15mm, breakable, opacityback=0, rightrule=.15mm, arc=.35mm, colback=white, leftrule=.75mm]
 
 {[}\ldots{]} we published in a journal which is\ldots{} I think it is
 only SciELO {[}\ldots{]} I have published much better things, let's say,
@@ -785,7 +768,7 @@ working papers though informal mechanisms or even piracy is widespread
 among researchers and provides yet another mean of dealing with access
 problems without major consequences.
 
-\paragraph{b. Design Transparency}\label{b.-design-transparency}
+\paragraph{Design Transparency}\label{design-transparency}
 
 Only a few respondents reported having pre-registered their research on
 the Open Science Framework website (Psychology, quantitative; Political
@@ -829,7 +812,7 @@ methodological limitations raised, and the concerns related to
 intellectual property are the bases of the suspicion and consequent low
 extent of this practice.
 
-\paragraph{c.~Open Data}\label{c.-open-data}
+\paragraph{Open Data}\label{open-data}
 
 Positive attitudes towards open data are mainly based on the belief that
 it is useful for the development of science. This is because it is
@@ -886,7 +869,7 @@ two of the researchers interviewed --- one qualitative and one
 quantitative --- had ever practiced open data publication beyond
 editorial requirements and sharing data directly with other researchers.
 
-\paragraph{d.~Analysis Transparency}\label{d.-analysis-transparency}
+\paragraph{Analysis Transparency}\label{analysis-transparency}
 
 Analysis transparency is valued for its contribution to scientific
 progress and to the methodological learning of new researchers. In
