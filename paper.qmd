@@ -38,7 +38,7 @@ author:
     affiliations:
       - ref: 2
   - name: Gabriel Cortés
-    email: gabriel.cortes@ug.uchile.cl
+    email: gabriel.cortes@uchile.cl
     orcid: 0009-0003-4064-2737
     affiliations:
       - ref: 1

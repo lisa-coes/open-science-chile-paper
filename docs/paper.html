@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -48,14 +48,15 @@ div.csl-indent {
 <script src="paper_files/libs/clipboard/clipboard.min.js"></script>
 <script src="paper_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="paper_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="paper_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="paper_files/libs/quarto-html/popper.min.js"></script>
 <script src="paper_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="paper_files/libs/quarto-html/anchor.min.js"></script>
 <link href="paper_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="paper_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="paper_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="paper_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="paper_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="paper_files/libs/bootstrap/bootstrap-0a2a8b4270f6c941f0b3b2745117c9b8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="paper_files/libs/bootstrap/bootstrap-03a97cfc3f9cab91d7b6ceea12b77e9e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -101,7 +102,7 @@ div.csl-indent {
           </p>
       </div>
     <div class="quarto-title-meta-contents">
-    <p class="author">Gabriel Cortés <a href="mailto:gabriel.cortes@ug.uchile.cl" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0009-0003-4064-2737" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    <p class="author">Gabriel Cortés <a href="mailto:gabriel.cortes@uchile.cl" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0009-0003-4064-2737" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -177,8 +178,7 @@ div.csl-indent {
 <h1 data-number="4"><span class="header-section-number">4</span> Qualitative Study</h1>
 <section id="methods" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="methods"><span class="header-section-number">4.1</span> Methods</h2>
-<p>We conducted a total of 13 semi-structured interviews with empirical social science researchers, who were selected through a simple random sampling method based on predetermined criteria. The sampling frame considered all academics who had been granted with a Regular Fondecyt (National Fund for Scientific and Technological Development) Project between 2018 and 2019 in the following study groups: Anthropology and Archaeology, Economic and Administrative Sciences, Legal and Political Sciences, Psychology, and Sociology.</p>
-<p>To ensure a diverse sample, we allocated quotas based on sex and study group, randomly selecting one or two informants per sex for each study group. Researchers primarily engaged in theoretical research, those specializing in philosophical research within Legal and Political Science study group, those not dedicated to social anthropology within the Anthropology and Archaeology study group, and those focused on neuroscience within the Psychology study group, were excluded from the sample. Finally, given the multidisciplinary composition of the sociology study group — which includes researchers from related fields, such as social psychology and social work — we employed a randomization process to ensure the inclusion of at least one sociologist. The final composition of the sample is presented in <a href="#tbl-qual-sample" class="quarto-xref">Table&nbsp;1</a></p>
+<p>We conducted 13 semi-structured interviews with empirical social science researchers selected through simple random sampling based on predetermined criteria. The sampling frame comprised all academics awarded a Regular Fondecyt (National Fund for Scientific and Technological Development) Project between 2018 and 2019 in the following study groups: Anthropology and Archaeology, Economic and Administrative Sciences, Legal and Political Sciences, Psychology, and Sociology. To ensure sample diversity, we allocated quotas by sex and study group, randomly selecting one or two participants per sex within each group. Researchers were excluded if they were primarily engaged in theoretical or philosophical research, biological anthropology, archaeology, or neuroscience. Additionally, given the multidisciplinary composition of the Sociology study group — which includes researchers from related fields such as social psychology and social work — we applied a randomization procedure to guarantee the inclusion of at least one sociologist. The final sample composition is presented in <a href="#tbl-qual-sample" class="quarto-xref">Table&nbsp;1</a>.</p>
 <div id="tbl-qual-sample" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-qual-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -186,6 +186,11 @@ Table&nbsp;1: Qualitative Study Sample Description
 </figcaption>
 <div aria-describedby="tbl-qual-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
+<colgroup>
+<col style="width: 81%">
+<col style="width: 7%">
+<col style="width: 10%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Study Groups</th>
@@ -219,13 +224,18 @@ Table&nbsp;1: Qualitative Study Sample Description
 <td>1</td>
 <td>2</td>
 </tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><strong>5</strong></td>
+<td><strong>8</strong></td>
+</tr>
 </tbody>
 </table>
 </div>
 </figure>
 </div>
 <p>Despite it was not considered as a sample inclusion criterion, the participants mirror the methodological diversity observed in the social sciences in Chile <span class="citation" data-cites="ramos_campo_2008">(<a href="#ref-ramos_campo_2008" role="doc-biblioref">Ramos, Canales, and Palestini 2008</a>)</span>. Specifically, six researchers predominantly utilize qualitative methods, five predominantly work with quantitative methods, and two use mixed methods.</p>
-<p>The interviews were conducted via video call, with a duration ranging from forty minutes to one hour. We addressed topics such as researchers’ familiarity and knowledge about open science, their engagement in open science practice, their attitudes of openness and transparency practices, and the potential compulsory use of these practices in the future.</p>
+<p>All participants provided written informed consent prior their involvement in the study. The project was reviewed and approved by the Ethics Committee of the Faculty of Social Sciences at University of Chile. The interviews were conducted via video call, with a duration ranging from forty minutes to one hour. We addressed topics such as researchers’ familiarity and knowledge about open science, their engagement in open science practice, their attitudes of openness and transparency practices, and the potential compulsory use of these practices in the future.</p>
 <p>We employed a qualitative thematic analysis, as is a method that facilitates the identification and description of patterns of meanings <span class="citation" data-cites="braun_using_2006">(<a href="#ref-braun_using_2006" role="doc-biblioref">Braun and Clarke 2006</a>)</span>, as well as the set of relationships and hierarchies that are generated between them, organized around the concept of open science and the ideas associated with it, based on both semantic and latent codes <span class="citation" data-cites="boyatzis_transforming_2010">(<a href="#ref-boyatzis_transforming_2010" role="doc-biblioref">Boyatzis 2010</a>)</span>. In this sense, this method is particularly useful for understanding participants’ views, knowledge, experiences, and values regarding open science.</p>
 <p>Two research team members conducted primarily the analysis, with support from ATLAS.ti qualitative analysis software version 9.0.5. The coding process was carried out simultaneously by both researchers and discussed in regular team meetings. This approach ensured triangulation throughout the analysis process <span class="citation" data-cites="nowell_thematic_2017">(<a href="#ref-nowell_thematic_2017" role="doc-biblioref">Nowell et al. 2017</a>)</span>. In addition, versions of the project and its products were systematically archived, and the researchers’ personal reflection and team discussions about the analysis were recorded in a reflective diary, in order to safeguard the auditability of the research process <span class="citation" data-cites="lewins_using_2007">(<a href="#ref-lewins_using_2007" role="doc-biblioref">Lewins and Silver 2007</a>)</span>.</p>
 <p>Throughout the results report, we will reference specific participants in parentheses, indicating their discipline and their predominant methodological approach. For example, we will use tags such as <em>Sociology, mixed-methods</em> or <em>Economics, quantitative</em>.</p>
@@ -235,23 +245,40 @@ Table&nbsp;1: Qualitative Study Sample Description
 <section id="open-science-a-fuzzy-concept" class="level3" data-number="4.2.1">
 <h3 data-number="4.2.1" class="anchored" data-anchor-id="open-science-a-fuzzy-concept"><span class="header-section-number">4.2.1</span> <strong>Open Science: A fuzzy concept</strong></h3>
 <p>Initially, the concept of open science seems to be a difficult idea to define, seemingly distant to the participants. Most interviewees indicated that they were unfamiliar with the idea of open science and did not associate it with concrete practices or initiatives. However, this coexist with varying degrees of awareness of the problems faced, common practices of openness and transparency, and even experiences of researchers who have been directly involved in a number of institutional or international open science initiatives.</p>
-<p>Rather than referring to concrete open science practices, the concept is mainly associated with a variety of research initiatives and policy orientations. It is strongly associated with community engagement or scientific dissemination, as well as with access of the general population or “communities” to research results.</p>
-<p>Some interviewees also associate the concept with knowledge production, referring to the involvement of participants, communities and stakeholders in the research process; the use mixed (Sociology, qualitative); or interdisciplinary (Anthropology, qualitative; Sociology, qualitative) methods. Few refer to practices such as open data or publication in open access journals.</p>
-<p>Despite the difficulties in defining it, we observed mostly positive attitudes about open science, at least in the first instance. These range from it direct association with democratic values and knowledge democratization, to more vague and doubtful assessments. However, some negative perceptions have also been observed, with some researchers referring to open science as a “fever” — i.e.&nbsp;a passing trend — or as an “overly ambitions project”.</p>
+<p>Rather than referring to concrete open science practices, the concept is mainly associated with a variety of research initiatives and policy orientations. It is strongly associated with community engagement or scientific dissemination, as well as with access of the general population or “communities” to research results. Some interviewees also associate the concept with knowledge production, referring to the involvement of participants, communities and stakeholders in the research process; the use mixed (Sociology, qualitative); or interdisciplinary (Anthropology, qualitative; Sociology, qualitative) methods. Few refer to practices such as open data or publication in open access journals.</p>
+<p>Despite the difficulties in defining it, we observed mostly positive attitudes about open science, at least in the first instance. These range from it direct association with democratic values and knowledge democratization, to more vague and doubtful assessments. However, some negative perceptions have also been observed, with some researchers referring to open science as a “fever” (Economics, quantitative) or as an “overly ambitions project” (Political Science, Qualitative).</p>
 </section>
 <section id="open-science-attitudes-and-practices" class="level3" data-number="4.2.2">
 <h3 data-number="4.2.2" class="anchored" data-anchor-id="open-science-attitudes-and-practices"><span class="header-section-number">4.2.2</span> <strong>Open Science attitudes and practices</strong></h3>
 <section id="open-results" class="level4">
 <h4 class="anchored" data-anchor-id="open-results">Open Results</h4>
 <p>In the interviews, the idea of openness is fundamentally linked to the openness of results. There is a consensus to prioritize this practices, either through open access journals, policies such as the Gold Route (Pyshcology, quantitative; Anthropology; qualitative), or by sharing preprints and final versions in academic or personal social media.</p>
-<p>Regarding the initiative of sharing and requesting articles or previous versions in academic social media, two main attitudes stand out among researchers. On the one hand, there is an attitude of suspicion towards this type of practices, considering it a mixture of altruism and personal interest (Psychology, quantitative). Although scientific collaboration is valued and desirable, it is recognized that it benefits the researcher by increasing the number of citations. This suspicion of an instrumental motivation, linked to funding policies, leads some researchers to refrain from these practices.</p>
-<p>On the other hand, we found that the existence of non-dissemination clauses in many journals discourage the sharing of results, although no researcher reported being sanctioned or audited for sharing their publications. Beyond any concern, the high value placed on the openness of results encourage researchers to share their publications in academics social media or other platforms.</p>
-<p>To facilitate access to the results of their projects, some researchers have resorted to legal means such as the Gold Route. This alternative allows free access to publications against payment by the authors. However, this option is viewed negatively by some respondents, who have expressed their refusal to pay for this service again in the future due recent increases in fees (Psychology, quantitative; Anthropology, qualitative).</p>
-<p>In light of this, it is questioned whether these initiative truly reflect the principles of open science, criticizing the role and market power of large publishers. It is argued that these practices are based on shifting the cost of access from users to researchers (Psychology, quantitative). However, these views coexist with a more pragmatic perspective that recognize that, given the model is based on free peer preview and sale of access, someone must assume the cost of openness (Political Science, mixed-methods).</p>
-<p>On the other hand, it is possible to identify a generally negative attitude towards ANID’s dissemination policy, as it is perceived as inadequate for the dissemination of knowledge produced with public funds. Interviewees report the rigidity of the policy to the extent that it makes it difficult to carry out certain dissemination initiatives aimed at non-academic audiences, such as the publications of podcasts.</p>
-<p>In addition, it is highlighted that ANID’s funding structure places a greater emphasis in WoS and Scopus indexed journals, to detriment of Spanish-language OA journals. Although the latter have less academic impact, it is recognized that they are more accessible to the general public and decision-makers.</p>
-<p>On the contrary, the prioritization of English-language paywalled journals is perceived as a “transfer of capital from the global South to the global North” (anthropology, qualitative). In this way, research funded with public resources is published in paywalled journals to which national researchers or their universities must pay — usually with public funds — in order to gain access.</p>
-<p>Thus, interviewees identify tensions between the need to open and disseminate the results of publicly funded research, the rigidity of ANID’s dissemination policy, and its funding and incentive scheme. In order to balance the pressure to publish in high-impact journals with the principles of openness, researchers have adopted strategies such as diversifying their research outputs. On of them is the “sacrifice of publications”, which implies deferring results: some are sent to high impact journals in order to maximize scores in future funding applications; others are sent to local open journals in Spanish, which are more accessible to the general public. The following quote illustrates this practices and its effects:</p>
+<p>Regarding the initiative of sharing and requesting articles or previous versions in academic social media, two main attitudes stand out among researchers. First, there is an attitude of suspicion towards this type of practices, considering it a mixture of altruism and personal interest (Psychology, quantitative). Although scientific collaboration is valued and desirable, it is recognized that it benefits the researcher by increasing the number of citations. This suspicion of an instrumental motivation, linked to funding policies, leads some researchers to refrain from these practices. We also found that the existence of non-dissemination clauses in many journals discourage the sharing of results, although no researcher reported being sanctioned or audited for sharing their publications. Beyond any concern, the high value placed on the openness of results encourage researchers to share their publications in academics social media or other platforms.</p>
+<p>To facilitate access to the results of their projects, some researchers have resorted to legal means such as the Gold Route. This alternative allows free access to publications against payment by the authors. However, this option is viewed negatively by some respondents, who have expressed their refusal to pay for this service again in the future due to what they describe as prohibitive fees. One participant captured the structural dimension of this disparity:</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>“[…] the prices are absurd, very absurd. They are set for someone who lives in Chicago or in Switzerland, and who earns accordingly […] It is exclusionary; for us, it is absurd.” (Psychology, quantitative)</p>
+</div>
+</div>
+</div>
+<p>In light of this, it is questioned whether these initiatives truly reflect the principles of open science, criticizing the role and market power of large publishers. It is argued that these practices shift the cost of access from users to researchers, and that they channel public funds from a Global South country — such as Chile — to large Global North publishers. This concern was expressed in particularly sharp terms by one respondent:</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>“What we are experiencing now is a shameful mechanism of capital transfer from Global South states to the Global North […] Using Chilean taxpayers’ money to finance the publication of scientific articles by companies that then sell these articles back to Chilean universities, at the far-from-cheap price of 65 dollars per text.” (Anthropology, qualitative)</p>
+</div>
+</div>
+</div>
+<p>However, these views coexist with a more pragmatic perspective that recognizes that, given the model is based on free peer review and sale of access, someone must assume the cost of openness (Political Science, mixed-methods).</p>
+<p>Also, it was possible to identify a generally negative attitude towards ANID’s dissemination policy, as it is perceived as inadequate for the dissemination of knowledge produced with public funds. Interviewees report the rigidity of the policy to the extent that it makes it difficult to carry out certain dissemination initiatives aimed at non-academic audiences, such as the publications of podcasts. In addition, it was highlighted that ANID’s funding structure places a greater emphasis in WoS and Scopus indexed journals, to detriment of Spanish-language OA journals. Although the latter have less academic impact, it is recognized that they are more accessible to the general public and decision-makers. On the contrary, the prioritization of English-language paywalled journals is perceived as a “transfer of capital from the global South to the global North” (anthropology, qualitative). In this way, research funded with public resources is published in paywalled journals to which national researchers or their universities must pay — usually with public funds — in order to gain access.</p>
+<p>Thus, interviewees identify tensions between the need to open and disseminate the results of publicly funded research, the rigidity of ANID’s dissemination policy, and its funding and incentive scheme. In order to balance the pressure to publish in high-impact journals with the principles of openness, researchers have adopted strategies such as diversifying their research outputs. One of them is the “sacrifice of publications”, which implies deferring results: some are sent to high impact journals in order to maximize scores in future funding applications; others are sent to local open journals in Spanish, which are more accessible to the general public. The following quote illustrates this practices and its effects:</p>
 <div class="callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -263,7 +290,7 @@ Table&nbsp;1: Qualitative Study Sample Description
 </div>
 </div>
 <p>In line with the previous quote, is is noted that the idea of openness is not limited to access to academic publications, but that the results must have “social impact”. With this in mind, practices such as the publications of columns and editorial in written press (Psychology, quantitative), the creation of documentaries (Sociology, qualitative), and instances of feedback with the communities that participated in the study (Anthropology, qualitative; Psychology, quantitative) are adopted.</p>
-<p>Finally, with regard to access to scientific publications, the interviewees emphasized the role played by the universities where they work, specially through their libraries. For this reason, respondents indicated that they had not experienced difficulties in accessing publications. On the other hand, others recognize that in Latin America the practice of accessing scientific products such as preprints or working papers though informal mechanisms or even piracy is widespread among researchers and provides yet another mean of dealing with access problems without major consequences.</p>
+<p>Finally, with regard to access to scientific publications, the interviewees emphasized the role played by their universities, specially through their libraries. For this reason, respondents indicated that they had not experienced difficulties in accessing publications. Others recognize that in Latin America the practice of accessing scientific products such as preprints or working papers though informal mechanisms or even piracy is widespread among researchers and provides yet another mean of dealing with access problems without major consequences.</p>
 </section>
 <section id="design-transparency" class="level4">
 <h4 class="anchored" data-anchor-id="design-transparency">Design Transparency</h4>
@@ -278,21 +305,47 @@ Table&nbsp;1: Qualitative Study Sample Description
 </section>
 <section id="open-data" class="level4">
 <h4 class="anchored" data-anchor-id="open-data">Open Data</h4>
-<p>Positive attitudes towards open data are mainly based on the belief that it is useful for the development of science. This is because it is understood to enhance the scientific impact of publications associated with the data, to save human and financial resources allocated to data production, and to reduce the impact on marginalized communities or social groups that are more often studied.</p>
-<p>Particularly in the case of publicly funded research, most researchers showed a very positive attitude towards data openness, and several pointed out that it should be a stronger or mandatory requirement. Some researchers even argued that data in this type of research are public goods, and non-availability of data was perceived as illegitimate hoarding.</p>
-<p>On the other hand, some researchers question the obligation of data openness, highlighting the personal investment and additional cost involved. They argue that data are research property, at least temporarily, since their production requires innovation, creativity, and the building of relationship with subjects or institutions. For these researchers, data production is therefore an intellectual production, not a simple investment of public resources executed by the researcher.</p>
-<p>In addition, there is a tension between open data and the pressure to publish, not only because of the time the researcher must devote to opening data, but also because of the pressure for scientific products with original and novel questions and designs. Thus some researchers question the value of open data, arguing that it is difficult to use public data in new ways because it has already been used.</p>
-<p>Along with this suspicion about the usefulness of open data, we observed doubts about whether this practice is suited to the specificity of social science research. Thus, respondents pointed to the methodological costs and ethical risk that researchers perceive in practice, drawing a distinction between quantitative and qualitative research.</p>
-<p>On the one hand, all researchers agreed that most quantitative data should not require special ethical protocols or conditions of use, except for data generated in special populations or in economics studies where the data belong to private companies.</p>
-<p>On the other hand, the opening of qualitative data faces significant challenges from the perspective of respondents, such as protecting the identity of participants. It is mentioned that even if it were possible to mobilize human resources for data anonymization, the risk of harm to many communities exceed their anonymity. In addition, the decontextualization of the data due the loss of the relationship between the researcher and the communities limits the analysis and discourages its use.</p>
-<p>It is noteworthy that despite the perceived differences in the ease and relevance of openness between qualitative and quantitative data, only two of the researchers interviewed — one qualitative and one quantitative — had ever practiced open data publication beyond editorial requirements and sharing data directly with other researchers.</p>
+<p>Positive attitudes towards open data are mainly based on the belief that it is useful for the development of science. This is because it is understood to enhance the scientific impact of publications associated with the data, to save human and financial resources allocated to data production, and to reduce the impact on marginalized communities or social groups that are more often studied. Particularly in the case of publicly funded research, most researchers showed a very positive attitude towards data openness, and several pointed out that it should be a stronger or mandatory requirement. Some even argued that data in this type of research are public goods, and non-availability of data was perceived as illegitimate hoarding.</p>
+<p>However, some researchers question the obligation of data openness, highlighting the personal investment and additional cost involved. They argue that data are research property, at least temporarily, since their production requires innovation, creativity, and the building of relationship with subjects or institutions. For these researchers, data production is therefore an intellectual production, not a simple investment of public resources executed by the researcher. In addition, there is a tension between open data and the pressure to publish, not only because of the time the researcher must devote to opening data, but also because of the pressure for scientific products with original and novel questions and designs. Thus some researchers question the value of open data, arguing that it is difficult to use public data in new ways because it has already been used, as ilustrate the following quote:</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>[…] in social science […] the relationship with data [is] a relationship that has meaning and is significant to the extent that it is produced within the framework of these broader research programs. […] There is a kind of fantasy — that if we release the data, and all the interviews and all the databases are out there, ‘oh yes!’ — I mean, I think that scientific research has a level of complexity, of specificity, that should raise an alert […] about the fantasy that data and interviews are released, and we are going to start producing a great deal of very valuable, very meaningful knowledge.” (Sociology, qualitative)</p>
+</div>
+</div>
+</div>
+<p>Along with this suspicion about the usefulness of open data, we observed doubts about whether this practice is suited to the specificity of social science research. Thus, respondents pointed to the methodological costs and ethical risk that researchers perceive in practice, drawing a distinction between quantitative and qualitative research. On the one hand, all researchers agreed that most quantitative data should not require special ethical protocols or conditions of use, except for data generated in special populations or in economics studies where the data belong to private companies. On the other hand, the opening of qualitative data faces significant challenges from the perspective of respondents, such as protecting the identity of participants. It is mentioned that even if it were possible to mobilize human resources for data anonymization, the risk of harm to many communities exceed their anonymity. In addition, the decontextualization of the data due the loss of the relationship between the researcher and the communities limits the analysis and discourages its use. However, It is noteworthy that despite the perceived differences in the ease and relevance of openness between qualitative and quantitative data, only two of the researchers interviewed — one qualitative and one quantitative — had ever practiced open data publication beyond editorial requirements and sharing data directly with other researchers.</p>
 </section>
 <section id="analysis-transparency" class="level4">
 <h4 class="anchored" data-anchor-id="analysis-transparency">Analysis Transparency</h4>
-<p>Analysis transparency is valued for its contribution to scientific progress and to the methodological learning of new researchers. In addition, a growing demand from high-impact journals for more detailed methodological sections in qualitative research and for the disclosure of analysis codes in quantitative studies is perceived and appreciated. This increased transparency is associated with greater analytical rigor and validity of results.</p>
-<p>Practices and expectations of transparency differ between qualitative and quantitative research. In the former, transparency is mainly associated with methodological clarity in publications, occasionally supplemented by appendices detailing some procedures. However, publication of input such as codebooks or software outputs are not a priority for qualitative researchers, nor are expectation of reproducibility.</p>
-<p>The transparency of quantitative analysis tends to be associated with the public or private availability of analysis codes developed. It is noteworthy that in many cases this availability tends to be requested by academic journals. Although it is not fully addressed, it is possible to conclude that the greater use of software for these procedures, compared to what happens in qualitative research, tends to facilitate the consolidation of a set of practices and attitudes more favorable to the transparency of analyses.</p>
-<p>However, no researcher reported having openly published their analysis code, as these are usually shared privately, through academic networks or personal contacts. It is mentioned that the codes are like “toothbrushes” (Economics, quantitative), highly personal and not designed for public sharing. In addition, ethical and methodological complications, as well as the need for clarity and tidiness in the codes for them in order to be useful, highlight the lack of a standard for their publication. Finally, it is mentioned that in some disciplines, such as economics, researchers have not migrate to open source software due to the persistence of the widespread use of programs with payment barriers.</p>
+<p>Analysis transparency is valued for its contribution to scientific progress and to the methodological learning of new researchers. In addition, a growing demand from high-impact journals for more detailed methodological sections in qualitative research and for the disclosure of analysis codes in quantitative studies is perceived and appreciated.</p>
+<p>Practices and expectations of transparency differ between qualitative and quantitative research. In the former, transparency is mainly associated with methodological clarity in publications, occasionally supplemented by appendices detailing some procedures. However, publication of input such as codebooks or software outputs are not a priority for qualitative researchers, nor are expectation of reproducibility. On the other hand, the transparency of quantitative analysis tends to be associated with the public or private availability of analysis codes developed. It is noteworthy that in many cases this availability tends to be requested by academic journals. Although it is not fully addressed, it is possible to conclude that the greater use of software for these procedures, compared to what happens in qualitative research, tends to facilitate the consolidation of a set of practices and attitudes more favorable to the transparency of analyses.</p>
+<p>However, no researcher reported having openly published their analysis code, as these are usually shared privately, throught academic networks or personal contacts. The codes are described as <em>tootbrushes</em> – highly personal and not designed for public sharing – a metaphor that captures both their idiosyncratic nature and the absence of shared standards for their publication:</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>It is difficult [to understand someone else’s code] […] because a code is really like a toothbrush — every person codes differently.” (Economics, quantitative)</p>
+</div>
+</div>
+</div>
+<p>The perception is compounded by the gap between working code and publishable code. As one researcher acknowledge, analysis scripts developed in the course of a project are rarely conceived with external audiencies in mind:</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>We wrote that code in a certain way […] never thinking about publishing it. That code is […] messy, in quotation marks […] it is not a clean code, ready to be published.” (Psychology, quantitative)</p>
+</div>
+</div>
+</div>
+<p>In addition, ethical and methodological complications, as well as the need for clarity and tidiness in the codes for them to be useful, highlight the lack of a standard for their publication. Finally, it is mentioned that in some disciplines, such as economics, researchers have not migrated to open source software due to the persistence of the widespread use of programs with payment barriers.</p>
 </section>
 </section>
 </section>
@@ -1127,13 +1180,14 @@ Zhu, Yimei. 2020. <span>“Open-Access Policy and Data-Sharing Practice in <span
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
